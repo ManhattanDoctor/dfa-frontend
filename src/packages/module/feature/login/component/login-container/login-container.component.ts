@@ -49,6 +49,7 @@ export class LoginContainerComponent extends IWindowContent implements ISerializ
             this.shake();
         }
     }
+    
 
     //--------------------------------------------------------------------------
     //
