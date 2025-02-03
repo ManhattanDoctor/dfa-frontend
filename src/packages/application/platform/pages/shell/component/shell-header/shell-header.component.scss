@@ -1,0 +1,19 @@
+@use '@ts-core/angular' as vi;
+
+.image-container {
+    &:not(.disabled) {
+        @include vi.mouse-active();
+        &:hover {
+            img {
+                box-shadow: #ffffff 0px 0px 10px, #ffffff 0px 0px 50px;
+            }
+        }
+    }
+    &.hidden {
+        visibility: hidden;
+    }
+    img {
+        width: 46px;
+        height: 46px;
+    }
+}

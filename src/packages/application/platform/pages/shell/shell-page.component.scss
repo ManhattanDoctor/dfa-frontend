@@ -1,0 +1,35 @@
+@use '@angular/material' as mat;
+@use '@ts-core/angular' as vi;
+@use '@ts-core/angular-material' as vi-mat;
+
+mat-sidenav {
+    width: 230px;
+
+    ::ng-deep {
+        .mat-drawer-inner-container {
+            display: flex;
+            flex-direction: column;
+            @include vi.scroll-no();
+        }
+    }
+
+    task-add-button {
+        position: absolute;
+        top: 60px;
+        right: 1rem;
+        z-index: 1;
+    }
+
+    mat-list-item {
+        &.mdc-list-item--activated {
+            .mat-mdc-list-item-icon {
+                color: var(--mat-sys-primary);
+            }
+            ::ng-deep {
+                .mdc-list-item__primary-text {
+                    color: var(--mat-sys-primary);
+                }
+            }
+        }
+    }
+}

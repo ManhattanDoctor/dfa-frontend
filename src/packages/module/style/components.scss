@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+// @use 'shared/component/arrow-highlight/_arrow-highlight.component' as arrow-highlight;
+
+@mixin color($theme) {
+    // @include arrow-highlight.color($theme);
+}
+@mixin typography($theme) {
+    // @include arrow-highlight.typography($theme);
+}
+@mixin theme($theme) {
+    @if mat.theme-has($theme, color) {
+        @include color($theme);
+    }
+    @if mat.theme-has($theme, typography) {
+        @include typography($theme);
+    }
+}

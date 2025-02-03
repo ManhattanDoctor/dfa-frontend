@@ -1,0 +1,86 @@
+{
+    "name": "@dfa/frontend",
+    "version": "1.0.0",
+    "license": "MIT",
+    "author": "Renat Gubaev",
+    "scripts": {
+        "platform:serve": "ng serve platform",
+        "platform:build": "ng build platform --configuration production",
+        "platform:version": "RELEASE=prerelease IDENTIFIER= SOURCE=htdocs/platform/config.json node $(node -e \"console.log(require.resolve('node-version-incrementer'))\") && git add htdocs/platform/config.json",
+        "platform:locale:copy": "FROM=/Users/renat.gubaev/Work/JS/dfa/frontend/htdocs/dfa/assets/language TO=/Users/renat.gubaev/Work/JS/dfa/backend/locale/platform node ./scripts/locale_copy.js && FROM=/Users/renat.gubaev/Work/JS/dfa/frontend/htdocs/platform/assets/language TO=/Users/renat.gubaev/Work/JS/dfa/backend/locale/platform node ./scripts/locale_copy.js",
+        "locale:copy": "npm run platform:locale:copy",
+        "start": "npm run platform:serve",
+        "build": "npm run platform:build",
+        "submodules:update": "git submodule init && git submodule update"
+    },
+    "pre-commit": [
+        "platform:version"
+    ],
+    "private": true,
+    "dependencies": {
+        "@angular/animations": "^19.0.6",
+        "@angular/common": "^19.0.6",
+        "@angular/compiler": "^19.0.6",
+        "@angular/core": "^19.0.6",
+        "@angular/forms": "^19.0.6",
+        "@angular/platform-browser": "^19.0.6",
+        "@angular/service-worker": "^19.0.6",
+        "@angular/platform-browser-dynamic": "^19.0.6",
+        "@angular/router": "^19.0.6",
+        "@ts-core/common": "~3.0.56",
+        "@ts-core/frontend": "~3.0.15",
+        "@types/numeral": "^2.0.5",
+        "interactjs": "1.10.11",
+        "moment": "^2.30.1",
+        "ngx-cookie": "^6.0.1",
+        "numeral": "^2.0.6",
+        "rxjs": "^7.8.1",
+        "tslib": "^2.8.1",
+        "zone.js": "^0.15.0",
+        "@angular/cdk": "^19.0.5",
+        "@angular/material": "^19.0.5",
+        "@angular/material-moment-adapter": "^19.0.5",
+        "bootstrap": "^5.3.3",
+        "csshake": "^1.7.0",
+
+        "@angular/platform-server": "^19.0.6",
+        "@ts-core/angular": "~19.0.0",
+        "@project/common": "file:./src/externals/common/",
+        "@ts-core/angular-file": "~19.0.1",
+        "@ts-core/oauth": "~3.1.15",
+        "@ts-core/angular-material": "~19.0.1",
+        "@ts-core/language": "~3.0.34",
+        "@ts-core/socket-client": "~3.0.15",
+        "classlist.js": "^1.1.20150312",
+        "css-element-queries": "^1.2.3",
+        "express": "^4.18.2",
+        "file-saver": "^2.0.5",
+        "hammerjs": "^2.0.8",
+        "highlight.js": "^11.9.0",
+        "process": "^0.11.10",
+        "util": "^0.12.5"
+    },
+    "overrides": {
+        "ng2-file-upload": {
+            "@angular/common": "^19.0.0",
+            "@angular/core": "^19.0.0"
+        }
+    },
+    "devDependencies": {
+        "@angular-devkit/build-angular": "^19.0.7",
+        "@angular/cli": "^19.0.7",
+        "@angular/compiler-cli": "^19.0.6",
+        "@types/file-saver": "^2.0.7",
+        "cordova-android": "^10.1.2",
+        "node-version-incrementer": "^1.0.10",
+        "pre-commit": "^1.2.2",
+        "replace-in-file": "^6.3.2",
+        "typescript": "^5.4"
+    },
+
+    "cordova": {
+        "platforms": [
+            "android"
+        ]
+    }
+}

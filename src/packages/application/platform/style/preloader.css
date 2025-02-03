@@ -1,0 +1,109 @@
+/*--------------------------------------------------------------------------
+//
+//  Application Loader
+//
+//-------------------------------------------------------------------------*/
+
+.application-preloader-container {
+    width: 100%;
+    height: 100%;
+}
+
+.application-preloader {
+    display: -webkit-box;
+    display: -me-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -me-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -me-flex-align: center;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -me-flex-direction: row;
+    flex-direction: row;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+.application-preloader .cssload-ball {
+    height: 250px;
+    width: 250px;
+    border-radius: 250px;
+
+    /* box-shadow: #ffffff 0px 0px 6px, #ffffff 0px 0px 12px, #ffffff 0px 0px 21px, #ffffff 0px 0px 34px, #ffffff 0px 0px 54px; */
+
+    transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    -me-transform-origin: 50% 50%;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    animation: cssload-ball 5s linear infinite;
+    -o-animation: cssload-ball 5s linear infinite;
+    -me-animation: cssload-ball 5s linear infinite;
+    -webkit-animation: cssload-ball 5s linear infinite;
+    -moz-animation: cssload-ball 5s linear infinite;
+}
+
+.application-preloader .cssload-ball:after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 19px;
+    width: 11px;
+    height: 11px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: #ffffff 0px 0px 6px, #ffffff 0px 0px 12px, #ffffff 0px 0px 21px, #ffffff 0px 0px 34px, #ffffff 0px 0px 54px;
+}
+
+.application-preloader-container .application-preloader-image {
+    /* animation: fa-spin 60s infinite linear reverse; */
+}
+
+@keyframes cssload-ball {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes cssload-ball {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(360deg);
+    }
+}
+
+@-me-keyframes cssload-ball {
+    0% {
+        -me-transform: rotate(0deg);
+    }
+    100% {
+        -me-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes cssload-ball {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes cssload-ball {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}

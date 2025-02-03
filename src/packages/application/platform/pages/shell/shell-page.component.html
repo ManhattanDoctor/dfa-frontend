@@ -1,0 +1,101 @@
+<mat-sidenav-container fullscreen>
+    <mat-sidenav
+        class="sidenav-left no-scroll surface-container-low level-2 z-index-2"
+        position="start"
+        [opened]="isShowMenu"
+        (openedChange)="isShowMenu = $event"
+        [mode]="isNeedSide ? 'side' : 'over'"
+        [class.level-3]="!isNeedSide"
+        [class.border-right]="isNeedSide"
+    >
+        <profile-info class="flex-shrink-0 border-bottom"></profile-info>
+
+        <div class="seo-container" *viIsServer>
+            <a [seo-link]="'/'" [titleId]="'general.header'"></a>
+            <a [seo-link]="'about'" [titleId]="'about.title'"></a>
+            <a [seo-link]="item.data" [title]="item.label" *ngFor="let item of menu?.collection"></a>
+        </div>
+
+        <!--
+        <task-add-button></task-add-button>
+        -->
+        
+        <mat-nav-list class="pt-0 flex-grow-1 scroll-vertical">
+            <ng-container *ngFor="let item of menu?.collection">
+                <mat-list-item [activated]="item.isSelected" *ngIf="item.isEnabled" (click)="menu.actionItem(item)">
+                    <span class="me-2 mt-1" [ngClass]="item.iconId" *ngIf="item.iconId" matListItemIcon></span>
+                    <span [innerHTML]="item.label" matListItemTitle></span>
+                </mat-list-item>
+            </ng-container>
+
+            <mat-expansion-panel *ngIf="user.isAdministrator">
+                <mat-expansion-panel-header class="px-3" tabindex="-1">
+                    <mat-panel-title class="d-flex align-items-center">
+                        <span vi-translate="management.management"></span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ng-container *ngFor="let item of menu?.management.collection">
+                    <mat-list-item [activated]="item.isSelected" *ngIf="item.isEnabled" (click)="menu.actionItem(item)">
+                        <span class="me-2 mt-1" [ngClass]="item.iconId" *ngIf="item.iconId" matListItemIcon></span>
+                        <span [innerHTML]="item.label" matListItemTitle></span>
+                    </mat-list-item>
+                </ng-container>
+            </mat-expansion-panel>
+        </mat-nav-list>
+
+        <shell-about class="flex-shrink-0 border-top p-2 border-top surface-container-low"></shell-about>
+    </mat-sidenav>
+
+    <mat-sidenav-content
+        #container
+        style="overflow-x: hidden"
+        [vi-scroll-check]="300"
+        [offset]="100"
+        (bottom)="bottomHandler($event)"
+        (limitExceed)="isNeedScrollButton = $event"
+    >
+        <div class="container-fluid h-100 g-0 d-flex flex-column">
+            <router-outlet></router-outlet>
+
+            <!--
+            <div class="row mt-3">
+                <div class="col-3 p-3 background">background</div>
+                <div class="col-3 p-3 surface">surface</div>
+                <div class="col-3 p-3 surface-dim">surface-dim</div>
+                <div class="col-3 p-3 surface-bright">surface-bright</div>
+                <div class="col-3 p-3 surface-container">surface-container</div>
+                <div class="col-3 p-3 surface-container-low">surface-container-low</div>
+                <div class="col-3 p-3 surface-container-high">surface-container-high</div>
+                <div class="col-3 p-3 surface-container-highest">surface-container-highest</div>
+                <div class="col-3 p-3 surface-container-lowest">surface-container-lowest</div>
+
+                <div class="col-3 p-3 primary">primary</div>
+                <div class="col-3 p-3 primary-container">primary-container</div>
+                <div class="col-3 p-3 secondary">secondary</div>
+                <div class="col-3 p-3 secondary-container">secondary-container</div>
+                <div class="col-3 p-3 tertiary">tertiary</div>
+                <div class="col-3 p-3 tertiary-tertiary">tertiary-container</div>
+                <div class="col-3 p-3 error">error</div>
+                <div class="col-3 p-3 error-tertiary">error-container</div>
+            </div>
+            -->
+            
+        </div>
+    </mat-sidenav-content>
+
+    <mat-sidenav
+        class="sidenav-right no-scroll border-left"
+        mode="over"
+        position="end"
+        [opened]="isShowNotifications"
+        (openedChange)="isShowNotifications = $event"
+    >
+        <p
+            class="p-2 mat-title-large font-family-brand text-one-line flex-shrink-0 text-center border-bottom mouse-inactive"
+            vi-translate="general.notifications"
+        ></p>
+        <div class="flex-grow-1 scroll-vertical secondary-container">
+            <vi-notification class="border-bottom" *ngFor="let item of notificationItems" [config]="item"></vi-notification>
+        </div>
+    </mat-sidenav>
+</mat-sidenav-container>

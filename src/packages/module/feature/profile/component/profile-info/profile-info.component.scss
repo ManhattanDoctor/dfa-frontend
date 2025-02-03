@@ -1,0 +1,10 @@
+:host {
+    overflow: hidden;
+    &:hover {
+        .text-container {
+            .value {
+                text-decoration: underline;
+            }
+        }
+    }
+}

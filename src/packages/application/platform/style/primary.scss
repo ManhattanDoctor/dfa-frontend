@@ -1,0 +1,216 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '@ts-core/angular' as vi;
+@use '@ts-core/angular-material' as vi-mat;
+
+@use 'style/core' as core;
+
+/*--------------------------------------------------------------------------
+//
+//  Core Theme
+//
+//-------------------------------------------------------------------------*/
+
+@include core.core();
+
+/*--------------------------------------------------------------------------
+//
+//  Mixins
+//
+//-------------------------------------------------------------------------*/
+
+@mixin component-overrides() {
+    @include mat.table-overrides(
+        (
+            row-item-outline-color: var(--mat-sys-outline-variant)
+        )
+    );
+    @include mat.sidenav-overrides(
+        (
+            container-shape: 0
+        )
+    );
+    @include mat.tabs-overrides(
+        (
+            active-label-text-color: var(--mat-sys-primary),
+            active-hover-label-text-color: var(--mat-sys-primary),
+            active-focus-label-text-color: var(--mat-sys-primary)
+        )
+    );
+    @include mat.list-overrides(
+        (
+            active-indicator-shape: 0,
+            list-item-label-text-font: map.get($typography, brand-family),
+            list-item-disabled-state-layer-color: transparent
+        )
+    );
+    @include mat.expansion-overrides(
+        (
+            header-text-font: map.get($typography, brand-family),
+            container-background-color: transparent
+        )
+    );
+}
+
+/*--------------------------------------------------------------------------
+//
+//  Primary Theme
+//
+//-------------------------------------------------------------------------*/
+
+$typography: (
+    brand-family: 'PT Sans Narrow',
+    plain-family: 'Roboto, Microsoft Yahei, Helvetica Neue, sans-serif',
+
+    /*
+    bold-weight: 400,
+    medium-weight: 300,
+    regular-weight: 200
+    */
+);
+
+$theme: mat.define-theme(
+    (
+        typography: $typography
+    )
+);
+
+:root,
+:host {
+    @include mat.theme(
+        (
+            color: mat.$blue-palette,
+            typography: $typography
+        )
+    );
+}
+
+.light-theme {
+    @include mat.theme-overrides(
+        (
+            primary: #075db7,
+            on-primary: #ffffff,
+            primary-container: #d6e3ff,
+            on-primary-container: #001b3e,
+            inverse-primary: #aac7ff,
+            primary-fixed: #d6e3ff,
+            primary-fixed-dim: #aac7ff,
+            on-primary-fixed: #001b3e,
+            on-primary-fixed-variant: #00458d,
+            secondary: #4b5f83,
+            on-secondary: #ffffff,
+            secondary-container: #d6e3ff,
+            on-secondary-container: #031b3c,
+            secondary-fixed: #d6e3ff,
+            secondary-fixed-dim: #b3c7f0,
+            on-secondary-fixed: #031b3c,
+            on-secondary-fixed-variant: #33476a,
+            tertiary: #845400,
+            on-tertiary: #ffffff,
+            tertiary-container: #ffddb6,
+            on-tertiary-container: #2a1800,
+            tertiary-fixed: #ffddb6,
+            tertiary-fixed-dim: #feb95d,
+            on-tertiary-fixed: #2a1800,
+            on-tertiary-fixed-variant: #643f00,
+            background: #fcf8f8,
+            on-background: #1c1b1c,
+            surface: #fcf8f8,
+            surface-dim: #dcd9d9,
+            surface-bright: #fcf8f8,
+            surface-container-lowest: #ffffff,
+            surface-container-low: #f6f3f3,
+            surface-container: #f1eded,
+            surface-container-high: #ebe7e7,
+            surface-container-highest: #e5e2e2,
+            on-surface: #1c1b1c,
+            shadow: #000000,
+            scrim: #000000,
+            surface-tint: #5c5e65,
+            inverse-surface: #313031,
+            inverse-on-surface: #f3f0f0,
+            outline: #76777b,
+            outline-variant: #c6c6cc,
+            neutral: #797777,
+            neutral10: #1c1b1c,
+            error: #ba1a1a,
+            error-container: #ffdad6,
+            on-error: #ffffff,
+            on-error-container: #410002,
+            surface-variant: #e2e2e8,
+            on-surface-variant: #45474b,
+            neutral-variant: #76777c,
+            neutral-variant20: #2f3035,
+            inverse-secondary: #b3c7f0,
+            inverse-tertiary: #feb95d
+        )
+    );
+    @include component-overrides();
+}
+
+.dark-theme {
+    @include mat.theme-overrides(
+        (
+            primary: #aac7ff,
+            on-primary: #002f64,
+            primary-container: #00458d,
+            on-primary-container: #d6e3ff,
+            inverse-primary: #075db7,
+            primary-fixed: #d6e3ff,
+            primary-fixed-dim: #aac7ff,
+            on-primary-fixed: #001b3e,
+            on-primary-fixed-variant: #00458d,
+            secondary: #b3c7f0,
+            on-secondary: #1b3052,
+            secondary-container: #33476a,
+            on-secondary-container: #d6e3ff,
+            secondary-fixed: #d6e3ff,
+            secondary-fixed-dim: #b3c7f0,
+            on-secondary-fixed: #031b3c,
+            on-secondary-fixed-variant: #33476a,
+            tertiary: #feb95d,
+            on-tertiary: #462a00,
+            tertiary-container: #643f00,
+            on-tertiary-container: #ffddb6,
+            tertiary-fixed: #ffddb6,
+            tertiary-fixed-dim: #feb95d,
+            on-tertiary-fixed: #2a1800,
+            on-tertiary-fixed-variant: #643f00,
+            background: #131314,
+            on-background: #e5e2e2,
+            surface: #131314,
+            surface-dim: #131314,
+            surface-bright: #3a3939,
+            surface-container-lowest: #0e0e0e,
+            surface-container-low: #1c1b1c,
+            surface-container: #201f20,
+            surface-container-high: #2a2a2a,
+            surface-container-highest: #353435,
+            on-surface: #e5e2e2,
+            shadow: #000000,
+            scrim: #000000,
+            surface-tint: #c5c6ce,
+            inverse-surface: #e5e2e2,
+            inverse-on-surface: #313031,
+            // outline: #909095,
+            // outline-variant: #45474b,
+            neutral: #797777,
+            neutral10: #1c1b1c,
+            error: #ffb4ab,
+            error-container: #93000a,
+            on-error: #690005,
+            on-error-container: #ffdad6,
+            surface-variant: #45474b,
+            on-surface-variant: #c6c6cc,
+            neutral-variant: #76777c,
+            neutral-variant20: #2f3035,
+            inverse-secondary: #4b5f83,
+            inverse-tertiary: #845400,
+
+            outline: rgba(255, 255, 255, 0.15),
+            outline-variant: rgba(255, 255, 255, 0.08)
+        )
+    );
+}
+
+@include core.theme($theme);

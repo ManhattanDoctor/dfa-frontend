@@ -1,0 +1,47 @@
+{
+    "version": "1.1.0-332",
+    "versionDate": "2025-02-03T20:09:07.882Z",
+    "language": "ru",
+    "isProduction": "false",
+    "languages": [
+        { "name": "Русский", "locale": "ru" },
+        { "name": "English", "locale": "en" }
+    ],
+    "assetsUrl": "assets/",
+    "assetsCdnUrl": "assets/",
+    "apiUrl": "http://localhost:3005",
+    "keycloak": {
+        "url": "http://localhost:8080",
+        "realm": "dfa",
+        "applicationId": "platform"
+    },
+    "theme": "dark",
+    "themes": [
+        {
+            "name": "light",
+            "isDark": false,
+            "styles": {
+                "color-ONE": "#f44336",
+                "color-TWO": "#ef6c00",
+                "color-THREE": "#fbc02d",
+                "color-FOUR": "#4caf50",
+                "color-FIVE": "#40c4ff",
+                "color-SIX": "#2196f3",
+                "color-SEVEN": "#b388ff"
+            }
+        },
+        {
+            "name": "dark",
+            "isDark": true,
+            "styles": {
+                "color-ONE": "#f44336",
+                "color-TWO": "#ef6c00",
+                "color-THREE": "#fbc02d",
+                "color-FOUR": "#4caf50",
+                "color-FIVE": "#40c4ff",
+                "color-SIX": "#2196f3",
+                "color-SEVEN": "#b388ff"
+            }
+        }
+    ]
+}

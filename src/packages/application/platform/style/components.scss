@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+
+@use '../pages/shell/_shell-page.component' as shell-page;
+
+@mixin color($theme) {
+    @include shell-page.color($theme);
+}
+
+@mixin theme() {
+
+        @include color($theme);
+}

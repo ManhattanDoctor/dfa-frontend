@@ -1,0 +1,7 @@
+{
+    "name": "@dfa/platform-frontend",
+    "version": "1.0.0",
+    "license": "MIT",
+    "author": "Renat Gubaev",
+    "private": true
+}
