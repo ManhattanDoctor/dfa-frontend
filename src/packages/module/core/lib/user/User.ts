@@ -1,5 +1,6 @@
 import { IUser } from '@ts-core/angular';
 import { User as UserBase } from '@common/platform/user';
+import { ObjectUtil } from '@ts-core/common';
 import * as _ from 'lodash';
 
 export class User extends UserBase implements IUser<Partial<User>> {
@@ -10,14 +11,12 @@ export class User extends UserBase implements IUser<Partial<User>> {
     //--------------------------------------------------------------------------
 
     public update(data: Partial<User>): void {
-        /*
         if (!_.isNil(data.account)) {
             ObjectUtil.copyPartial(data.account, this.account);
         }
         if (!_.isNil(data.preferences)) {
             ObjectUtil.copyPartial(data.preferences, this.preferences);
         }
-        */
     }
 
     public destroy(): void { }

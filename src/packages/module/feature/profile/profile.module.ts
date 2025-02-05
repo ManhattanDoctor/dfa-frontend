@@ -1,9 +1,7 @@
 import { NgModule, NgModuleRef } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { SharedModule } from '@shared/shared.module';
 import { ProfileInfoComponent } from './component';
 import { ProfileEditHandler } from './transport/handler';
-import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -12,6 +10,7 @@ import { TransportLazyModule } from '@ts-core/angular';
 import { Transport } from '@ts-core/common';
 import { ProfileEditCommand } from './transport';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { VIMatModule } from '@ts-core/angular-material';
 
 //--------------------------------------------------------------------------
 //
@@ -25,14 +24,14 @@ const declarations = [
 
 @NgModule({
     imports: [
-        FormsModule,
         MatInputModule,
         MatSelectModule,
         MatMenuModule,
         MatCheckboxModule,
         MatProgressBarModule,
         MatDatepickerModule,
-        SharedModule,
+
+        VIMatModule
     ],
     exports: declarations,
     declarations

@@ -1,6 +1,16 @@
 <login-container class="border rounded surface-container level-2" style="max-width: 512px"></login-container>
 
-<p class="border variant rounded p-2 mouse-inactive font-family-brand surface-container mt-3">
-    <span class="me-1" service-worker-version></span>
-    <span [innerHTML]="version"></span>
-</p>
+<div class="d-flex border variant rounded mouse-inactive font-family-brand surface-container mt-3 align-items-center">
+    <p class="py-2 ps-2 pe-3">
+        <span class="me-1" service-worker-version></span>
+        <span [innerHTML]="version"></span>
+    </p>
+    <div class="p-1 d-flex align-items-center border-left">
+        <button mat-icon-button vi-theme-toggle>
+            <mat-icon fontSet="fas" fontIcon="fa-circle-half-stroke"></mat-icon>
+        </button>
+        <button mat-icon-button vi-theme-toggle>
+            <mat-icon fontSet="fas" fontIcon="fa-globe"></mat-icon>
+        </button>
+    </div>
+</div>

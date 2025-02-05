@@ -73,7 +73,7 @@ export class ServiceWorkerVersionDirective extends DestroyableContainer {
             this.windows.info(`serviceWorker.update.error`);
             return;
         }
-        this.windows.question('serviceWorker.update.loadedDescription').yesNotPromise.then(this.reload);
+        this.windows.question('serviceWorker.update.loaded').yesNotPromise.then(this.reload);
     };
 
     private reload = (): void => this.nativeWindow.document.location.reload();

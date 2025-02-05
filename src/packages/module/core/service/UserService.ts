@@ -3,10 +3,9 @@ import { UserBaseService } from '@ts-core/angular';
 import { LoginService } from './LoginService';
 import { IInitDtoResponse } from '@common/platform/api/login';
 import { TransformUtil, ExtendedError, Transport } from '@ts-core/common';
-import { UserAttributes } from '@common/platform/user';
-// import { UserSaveCommand } from '@feature/user/transport';
+import { UserPreferences } from '@common/platform/user';
 import { User } from '../lib/user';
-import { LanguageService } from '@ts-core/frontend';
+import { LanguageService, ThemeService } from '@ts-core/frontend';
 import { takeUntil } from 'rxjs';
 import * as _ from 'lodash';
 
@@ -15,22 +14,17 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
 
     //--------------------------------------------------------------------------
     //
-    // 	Properties
-    //
-    //--------------------------------------------------------------------------
-
-    private _isAdministrator: boolean;
-
-    //--------------------------------------------------------------------------
-    //
     // 	Constructor
     //
     //--------------------------------------------------------------------------
 
-    constructor(login: LoginService, private transport: Transport, private language: LanguageService) {
+    constructor(login: LoginService,
+        private transport: Transport,
+        private language: LanguageService,
+        private theme: ThemeService) {
         super(login);
         this.initialize();
-        this.changed.pipe(takeUntil(this.destroyed)).subscribe(this.checkLanguage);
+        this.changed.pipe(takeUntil(this.destroyed)).subscribe(this.checkPreferences);
     }
 
     //--------------------------------------------------------------------------
@@ -46,7 +40,7 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
     protected initializeUser(data: any): void {
         super.initializeUser(data);
         this.commitUserProperties();
-        this.checkLanguage();
+        this.checkPreferences();
     }
 
     protected deinitializeUser(): void {
@@ -58,13 +52,16 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
 
     }
 
-    private checkLanguage = (): void => {
+    private checkPreferences = (): void => {
         if (!this.hasUser) {
             return;
         }
-        let { locale } = this.user.attributes;
-        if (this.language.languages.has(locale)) {
-            this.language.language = this.language.languages.get(locale);
+        let { theme, language } = this.user.preferences;
+        if (this.theme.themes.has(language)) {
+            this.theme.theme = this.theme.themes.get(theme);
+        }
+        if (this.language.languages.has(language)) {
+            this.language.language = this.language.languages.get(language);
         }
     }
 
@@ -74,13 +71,13 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
     //
     //--------------------------------------------------------------------------
 
-    public async save(item: Partial<UserAttributes>): Promise<boolean> {
-        if (_.isNil(this.attributes)) {
+    public async save(item: Partial<UserPreferences>): Promise<boolean> {
+        if (_.isNil(this.preferences)) {
             throw new ExtendedError('Unable to save user preferences: user is not logined');
         }
 
         for (let key of Object.keys(item)) {
-            if (item[key] === this.attributes[key]) {
+            if (item[key] === this.preferences[key]) {
                 delete item[key];
             }
         }
@@ -89,7 +86,7 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
             return false;
         }
 
-       // await this.transport.sendListen(new UserSaveCommand({ uid: this.user.id, preferences: item }));
+        // await this.transport.sendListen(new UserSaveCommand({ uid: this.user.id, preferences: item }));
         return true;
     }
 
@@ -99,12 +96,8 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
     //
     //--------------------------------------------------------------------------
 
-    public get attributes(): UserAttributes {
-        return this.hasUser ? this.user.attributes : null;
-    }
-
-    public get isAdministrator(): boolean {
-        return this._isAdministrator;
+    public get preferences(): UserPreferences {
+        return this.hasUser ? this.user.preferences : null;
     }
 }
 

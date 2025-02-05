@@ -12,7 +12,6 @@ import {
     TransportLazy,
     LazyModuleLoader,
     PipeBaseService,
-    LoginGuard,
     MomentDatePipe,
     ILazyModuleData,
 } from '@ts-core/angular';
@@ -70,7 +69,7 @@ export class CoreModule {
                 {
                     provide: Client,
                     deps: [Logger],
-                    useFactory: (logger: ILogger): Client => new Client(logger, null, LoggerLevel.NONE)
+                    useFactory: (logger: ILogger) => new Client(logger, null, LoggerLevel.NONE)
                 },
                 {
                     provide: Transport,
@@ -88,7 +87,7 @@ export class CoreModule {
                 { provide: LoginBaseService, useExisting: LoginService },
                 { provide: RouterBaseService, useExisting: RouterService },
                 { provide: SettingsBaseService, useExisting: SettingsService },
-                
+
 
                 { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { float: 'auto', appearance: 'outline' } },
                 {

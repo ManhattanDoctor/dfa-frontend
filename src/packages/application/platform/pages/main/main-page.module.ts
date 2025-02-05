@@ -2,12 +2,15 @@
 import { NgModule } from '@angular/core';
 import { MainPageRoutingModule } from './main-page.routing.module';
 import { MainPageComponent } from './main-page.component';
-import { SharedModule } from '@shared/shared.module';
+import { VIMatModule } from '@ts-core/angular-material';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     imports: [
+        MatIconModule,
+        
+        VIMatModule,
         MainPageRoutingModule,
-        SharedModule,
     ],
     declarations: [MainPageComponent]
 })

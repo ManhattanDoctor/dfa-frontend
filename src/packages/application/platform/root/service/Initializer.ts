@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional } from '@angular/core';
 import { IServerInitializeOptions, ApplicationInitializer, SERVER_INITIALIZE_OPTIONS } from '@core/lib';
 import { Client } from '@common/platform/api';
 import { SettingsService, SocketService } from '@core/service';
-import { NotificationService, PlatformService, RouterBaseService } from '@ts-core/angular';
+import { NotificationService, PlatformService, RouterBaseService, WindowService } from '@ts-core/angular';
 import { LanguageService } from '@ts-core/frontend';
 import { LanguageProjects } from '@common/platform/language';
 import { ILanguageProjectSettings } from '@ts-core/language';
@@ -24,10 +24,11 @@ export class Initializer extends ApplicationInitializer {
         language: LanguageService,
         router: RouterBaseService,
         @Optional() @Inject(SERVER_INITIALIZE_OPTIONS) options: IServerInitializeOptions,
+        windows: WindowService,
 
         notifications: NotificationService,
     ) {
-        super(api, socket, router, settings, platform, language, options);
+        super(api, socket, router, settings, platform, language, options, windows);
     }
 
     //--------------------------------------------------------------------------

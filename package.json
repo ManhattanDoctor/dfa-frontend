@@ -7,14 +7,14 @@
         "platform:serve": "ng serve platform",
         "platform:build": "ng build platform --configuration production",
         "platform:version": "RELEASE=prerelease IDENTIFIER= SOURCE=htdocs/platform/config.json node $(node -e \"console.log(require.resolve('node-version-incrementer'))\") && git add htdocs/platform/config.json",
-        "platform:locale:copy": "FROM=/Users/renat.gubaev/Work/JS/dfa/frontend/htdocs/dfa/assets/language TO=/Users/renat.gubaev/Work/JS/dfa/backend/locale/platform node ./scripts/locale_copy.js && FROM=/Users/renat.gubaev/Work/JS/dfa/frontend/htdocs/platform/assets/language TO=/Users/renat.gubaev/Work/JS/dfa/backend/locale/platform node ./scripts/locale_copy.js",
-        "locale:copy": "npm run platform:locale:copy",
+        "platform:language:copy": "FROM=/Users/renat.gubaev/Work/JS/dfa/frontend/htdocs/dfa/assets/language TO=/Users/renat.gubaev/Work/JS/dfa/backend/language/platform node ./scripts/language_copy.js && FROM=/Users/renat.gubaev/Work/JS/dfa/frontend/htdocs/platform/assets/language TO=/Users/renat.gubaev/Work/JS/dfa/backend/language/platform node ./scripts/language_copy.js",
+        "language:copy": "npm run platform:language:copy",
         "start": "npm run platform:serve",
         "build": "npm run platform:build",
         "submodules:update": "git submodule init && git submodule update"
     },
     "pre-commit": [
-
+        "platform:version"
     ],
     "private": true,
     "dependencies": {
@@ -44,10 +44,10 @@
         "csshake": "^1.7.0",
 
         "@angular/platform-server": "^19.0.6",
-        "@ts-core/angular": "~19.0.0",
+        "@ts-core/angular": "~19.0.1",
         "@project/common": "file:./src/externals/common/",
         "@ts-core/angular-file": "~19.0.1",
-        "@ts-core/oauth": "~3.1.15",
+        "@ts-core/oauth": "~3.1.16",
         "@ts-core/angular-material": "~19.0.1",
         "@ts-core/language": "~3.0.34",
         "@ts-core/socket-client": "~3.0.15",

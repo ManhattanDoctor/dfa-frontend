@@ -1,6 +1,6 @@
 {
-    "version": "1.1.0-333",
-    "versionDate": "2025-02-03T20:11:14.688Z",
+    "version": "0.0.0-1",
+    "versionDate": "2025-02-05T16:48:50.831Z",
     "language": "ru",
     "isProduction": "false",
     "languages": [
@@ -10,11 +10,6 @@
     "assetsUrl": "assets/",
     "assetsCdnUrl": "assets/",
     "apiUrl": "http://localhost:3005",
-    "keycloak": {
-        "url": "http://localhost:8080",
-        "realm": "dfa",
-        "applicationId": "platform"
-    },
     "theme": "dark",
     "themes": [
         {

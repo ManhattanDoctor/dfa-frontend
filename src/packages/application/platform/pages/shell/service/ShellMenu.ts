@@ -26,9 +26,8 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
     constructor(language: LanguageService, router: RouterService, login: LoginService, user: UserService) {
         super(language);
 
-        /*
         this.management = new SelectListItems(language);
-
+        /*
         let item: ISelectListItem<string> = null;
         item = this.add(new ShellListItem('profile.file', ShellMenu.FILES, `/${RouterService.FILES_URL}`, 'fas fa-file'));
         item = this.add(new ShellListItem('coin.balance', ShellMenu.COIN_TRANSACTIONS, `/${RouterService.COIN_TRANSACTIONS_URL}`, 'fas fa-coins'));

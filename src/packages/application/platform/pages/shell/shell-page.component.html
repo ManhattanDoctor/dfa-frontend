@@ -8,13 +8,7 @@
         [class.level-3]="!isNeedSide"
         [class.border-right]="isNeedSide"
     >
-        <profile-info class="flex-shrink-0 border-bottom"></profile-info>
-
-        <div class="seo-container" *viIsServer>
-            <a [seo-link]="'/'" [titleId]="'general.header'"></a>
-            <a [seo-link]="'about'" [titleId]="'about.title'"></a>
-            <a [seo-link]="item.data" [title]="item.label" *ngFor="let item of menu?.collection"></a>
-        </div>
+        <!-- <profile-info class="flex-shrink-0 border-bottom"></profile-info> -->
 
         <!--
         <task-add-button></task-add-button>
@@ -28,6 +22,7 @@
                 </mat-list-item>
             </ng-container>
 
+            <!--
             <mat-expansion-panel *ngIf="user.isAdministrator">
                 <mat-expansion-panel-header class="px-3" tabindex="-1">
                     <mat-panel-title class="d-flex align-items-center">
@@ -41,6 +36,7 @@
                     </mat-list-item>
                 </ng-container>
             </mat-expansion-panel>
+            -->
         </mat-nav-list>
 
         <shell-about class="flex-shrink-0 border-top p-2 border-top surface-container-low"></shell-about>
