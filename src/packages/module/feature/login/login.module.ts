@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TransportLazyModule, VIModule } from '@ts-core/angular';
 import { LoginContainerComponent } from './component/login-container/login-container.component';
 import { Transport } from '@ts-core/common';
+import { MatIconModule } from '@angular/material/icon';
 
 //--------------------------------------------------------------------------
 //
@@ -15,7 +16,9 @@ const declarations = [LoginContainerComponent];
 
 @NgModule({
     imports: [
+        MatIconModule,
         MatButtonModule,
+        
         VIModule
     ],
     exports: declarations,

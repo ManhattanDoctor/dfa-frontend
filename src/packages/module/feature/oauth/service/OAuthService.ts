@@ -45,7 +45,7 @@ export class OAuthService extends DestroyableContainer {
             case LoginResource.KEYCLOAK:
                 item = new KeycloakAuth(this.logger, this.settings.keycloak, window);
                 if (_.isNil(scope)) {
-                    scope = 'profile';
+                    scope = 'openid profile';
                 }
                 item.params.set('scope', scope);
                 item.params.set('prompt', 'consent');

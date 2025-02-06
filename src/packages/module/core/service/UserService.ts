@@ -49,7 +49,6 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
     }
 
     protected commitUserProperties(): void {
-
     }
 
     private checkPreferences = (): void => {

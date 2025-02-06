@@ -23,11 +23,11 @@
             },
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:application",
+                    "builder": "@angular-devkit/build-angular:browser",
                     "options": {
                         "outputPath": "build/platform",
                         "index": "src/packages/application/platform/index.html",
-                        "browser": "src/packages/application/platform/main.ts",
+                        "main": "src/packages/application/platform/main.ts",
                         "polyfills": ["polyfills.ts"],
                         "aot": true,
                         "tsConfig": "src/packages/application/platform/tsconfig.json",
@@ -68,11 +68,7 @@
                             "src/packages/application/platform/style/preloader.css",
                             "src/packages/application/platform/style/primary.scss"
                         ],
-                        "scripts": [
-                            "node_modules/interactjs/dist/interact.min.js", 
-                            "node_modules/numeral/numeral.js", 
-                            "node_modules/moment/moment.js"
-                        ],
+                        "scripts": ["node_modules/interactjs/dist/interact.min.js", "node_modules/numeral/numeral.js", "node_modules/moment/moment.js"],
                         "allowedCommonJsDependencies": [
                             "util",
                             "axios",
@@ -90,7 +86,8 @@
                             "@messageformat/core",
                             "css-element-queries"
                         ],
-                        "serviceWorker": "src/packages/application/platform/ngsw-config.json",
+                        "serviceWorker": true,
+                        "ngswConfigPath": "src/packages/application/platform/ngsw-config.json",
                         "stylePreprocessorOptions": {
                             "includePaths": ["./node_modules", "./src/packages/module"]
                         }

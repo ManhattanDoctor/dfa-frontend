@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Client } from '@common/platform/api';
-import { CookieService, JSONValueStorage, LocalStorageService, LoginBaseService, LoginTokenStorage as LoginTokenStorageBase } from '@ts-core/angular';
+import { CookieService, JSONValueStorage, LocalStorageService, LoginBaseService, LoginTokenStorage, ValueStorage } from '@ts-core/angular';
 import { IInitDtoResponse, ILoginDto, ILoginDtoResponse, LoginResource } from '@common/platform/api/login';
-import { ExtendedError, Transport, TransportNoConnectionError, TransportTimeoutError } from '@ts-core/common';
+import { DateUtil, ExtendedError, Transport, TransportNoConnectionError, TransportTimeoutError } from '@ts-core/common';
 import { OAuthLoginCommand } from '@feature/oauth/transport';
-import { IOpenIdToken } from '@ts-core/openid-common';
+import { IOpenIdToken, KeycloakTokenManager } from '@ts-core/openid-common';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -15,8 +15,7 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
     //
     //--------------------------------------------------------------------------
 
-    public isNeedSaveToken: boolean = true;
-    private storage: LoginTokenStorage;
+    private manager: OpenIdTokenManager;
 
     //--------------------------------------------------------------------------
     //
@@ -26,7 +25,7 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
 
     constructor(private transport: Transport, private api: Client, storage: LocalStorageService, cookies: CookieService) {
         super();
-        this.storage = new LoginTokenStorage(storage, cookies);
+        this.manager = api.token = new OpenIdTokenManager(new OpenIdTokenStorage(storage, cookies));
     }
 
     //--------------------------------------------------------------------------
@@ -40,12 +39,10 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
     }
 
     protected parseLoginResponse(data: ILoginDtoResponse): void {
-        this._sid = data.access_token;
-        this.storage.set(this.isNeedSaveToken ? data : null);
+        this.manager.value = data;
     }
 
     protected loginSidRequest(): Promise<IInitDtoResponse> {
-        this.api.sid = this.sid;
         return this.api.init();
     }
 
@@ -53,7 +50,7 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
 
     protected reset(): void {
         super.reset();
-        this.storage.set(null);
+        this.manager.value = null;
     }
 
     //--------------------------------------------------------------------------
@@ -93,8 +90,36 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
         return this.isCanLoginWithSid() ? this.loginBySidIfCan() : false;
     }
 
-    public isCanLoginWithSid(): boolean {
-        return !_.isNil(this.sid) || !_.isNil(this.getSavedSid());
+    //--------------------------------------------------------------------------
+    //
+    // 	Protected Methods
+    //
+    //--------------------------------------------------------------------------
+
+    protected getSavedSid(): string {
+        return this.manager.sid;
+    }
+
+    public get sid(): string {
+        return this.manager.sid;
+    }
+}
+
+class OpenIdTokenStorage extends JSONValueStorage<IOpenIdToken> {
+    constructor(storage: LocalStorageService, cookies: CookieService) {
+        super(LoginTokenStorage.TOKEN_KEY, storage, cookies);
+    }
+}
+
+class OpenIdTokenManager extends KeycloakTokenManager {
+    //--------------------------------------------------------------------------
+    //
+    // 	Constructor
+    //
+    //--------------------------------------------------------------------------
+
+    constructor(private storage: ValueStorage<IOpenIdToken>) {
+        super(storage.get());
     }
 
     //--------------------------------------------------------------------------
@@ -103,8 +128,22 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
     //
     //--------------------------------------------------------------------------
 
-    protected getSavedSid(): string {
-        return this.storage.has() ? this.storage.get().access_token : null;
+    protected commitValueProperties(): void {
+        super.commitValueProperties();
+        if (!_.isNil(this.storage)) {
+            this.storage.set(this.value);
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Public Methods
+    //
+    //--------------------------------------------------------------------------
+
+    public destroy(): void {
+        super.destroy();
+        this.storage = null;
     }
 
     //--------------------------------------------------------------------------
@@ -114,13 +153,6 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
     //--------------------------------------------------------------------------
 
     public get sid(): string {
-        return this._sid;
+        return this.isValid ? this.access.value : null;
     }
 }
-
-class LoginTokenStorage extends JSONValueStorage<IOpenIdToken> {
-    constructor(storage: LocalStorageService, cookies: CookieService) {
-        super(LoginTokenStorageBase.TOKEN_KEY, storage, cookies);
-    }
-}
-
