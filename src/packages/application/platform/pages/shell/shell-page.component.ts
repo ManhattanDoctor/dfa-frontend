@@ -9,6 +9,7 @@ import { MatSidenavContent } from '@angular/material/sidenav';
 import { Transport } from '@ts-core/common';
 import { MenuToggleEvent, ScrollEvent } from '@core/transport';
 import { Client } from '@common/platform/api';
+import { LanguageService } from '@ts-core/frontend';
 
 @Component({
     selector: 'shell-page',
@@ -38,6 +39,7 @@ export class ShellPageComponent extends ShellBaseComponent implements AfterViewI
         element: ElementRef,
         notifications: NotificationService,
         breakpointObserver: BreakpointObserver,
+        language: LanguageService,
         private environment: EnvironmentService,
         private transport: Transport,
         private scroll: ScrollService,
@@ -48,6 +50,8 @@ export class ShellPageComponent extends ShellBaseComponent implements AfterViewI
         super(notifications, breakpointObserver);
         ViewUtil.addClasses(element, 'd-block w-100 h-100');
 
+        language.events.subscribe(event => console.log(event));
+        
         router.completed.pipe(takeUntil(this.destroyed)).subscribe(this.routerCompletedHandler);
         transport.getDispatcher<MenuToggleEvent>(MenuToggleEvent.NAME).pipe(takeUntil(this.destroyed)).subscribe(() => this.toggleMenu());
     }

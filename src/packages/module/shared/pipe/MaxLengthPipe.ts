@@ -3,8 +3,7 @@ import { DestroyableContainer } from '@ts-core/common';
 import * as _ from 'lodash';
 
 @Pipe({
-    name: 'maxLength',
-    standalone: false
+    name: 'maxLength'
 })
 export class MaxLengthPipe extends DestroyableContainer implements PipeTransform {
     // --------------------------------------------------------------------------

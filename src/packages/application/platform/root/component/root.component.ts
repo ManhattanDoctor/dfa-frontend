@@ -15,7 +15,7 @@ import 'moment/locale/ru';
 @Component({
     selector: 'root',
     templateUrl: 'root.component.html',
-    styleUrls: ['root.component.scss'],
+    styleUrl: 'root.component.scss',
     standalone: false
 })
 export class RootComponent extends ApplicationComponent<SettingsService> {

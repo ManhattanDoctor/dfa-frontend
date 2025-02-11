@@ -7,7 +7,7 @@ import { ScrollCommand } from '@ts-core/angular-material';
 @Component({
     selector: 'shell-header',
     templateUrl: './shell-header.component.html',
-    styleUrls: ['./shell-header.component.scss'],
+    styleUrl: './shell-header.component.scss',
     standalone: false
 })
 export class ShellHeaderComponent extends DestroyableContainer {

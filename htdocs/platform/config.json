@@ -1,6 +1,6 @@
 {
-    "version": "0.0.0-2",
-    "versionDate": "2025-02-06T23:27:20.710Z",
+    "version": "0.0.0-3",
+    "versionDate": "2025-02-11T19:45:50.759Z",
     "language": "ru",
     "isProduction": "false",
     "languages": [
@@ -13,7 +13,7 @@
     "theme": "dark",
     "themes": [
         {
-            "name": "light",
+            "name": "LIGHT",
             "isDark": false,
             "styles": {
                 "color-ONE": "#f44336",
@@ -26,7 +26,7 @@
             }
         },
         {
-            "name": "dark",
+            "name": "DARK",
             "isDark": true,
             "styles": {
                 "color-ONE": "#f44336",

@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 
 @Directive({
     selector: '[error-picture]',
-    standalone: false
 })
 export class ErrorPictureDirective extends DestroyableContainer {
     //--------------------------------------------------------------------------

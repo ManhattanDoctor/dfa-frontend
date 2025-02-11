@@ -28,6 +28,6 @@ export class LoginPageComponent extends DestroyableContainer {
         super();
         ViewUtil.addClasses(element, 'd-flex flex-column justify-content-center align-items-center scroll-vertical w-100 h-100');
 
-        this.version = pipe.language.translate('general.version', { version: settings.version, versionDate: pipe.momentDate.transform(settings.versionDate, 'LLL'), });
+        this.version = pipe.language.translate('general.version', { version: settings.version, date: pipe.momentDate.transform(settings.versionDate, 'LLL'), });
     }
 }

@@ -85,7 +85,7 @@ $theme: mat.define-theme(
     );
 }
 
-.light-theme {
+.LIGHT-theme {
     @include mat.theme-overrides(
         (
             primary: #075db7,
@@ -129,8 +129,8 @@ $theme: mat.define-theme(
             surface-tint: #5c5e65,
             inverse-surface: #313031,
             inverse-on-surface: #f3f0f0,
-            outline: #76777b,
-            outline-variant: #c6c6cc,
+            //outline: #76777b,
+            //outline-variant: #c6c6cc,
             neutral: #797777,
             neutral10: #1c1b1c,
             error: #ba1a1a,
@@ -142,13 +142,29 @@ $theme: mat.define-theme(
             neutral-variant: #76777c,
             neutral-variant20: #2f3035,
             inverse-secondary: #b3c7f0,
-            inverse-tertiary: #feb95d
+            inverse-tertiary: #feb95d,
+
+            corner-none: 0,
+            corner-full: 4px,
+            corner-small: 4px,
+            corner-large: 4px,
+            corner-medium: 4px,
+            corner-large-top: 4px 4px 0 0,
+            corner-large-end: 0 4px 4px 0,
+            corner-extra-small: 4px,
+            corner-large-start: 4px 0 0 4px,
+            corner-extra-large: 4px,
+            corner-extra-large-top: 4px 4px 0 0,
+            corner-extra-small-top: 4px 4px 0 0,
+
+            outline: #b2b3b5,
+            outline-variant: #c6c6cc,
         )
     );
     @include component-overrides();
 }
 
-.dark-theme {
+.DARK-theme {
     @include mat.theme-overrides(
         (
             primary: #aac7ff,
@@ -207,8 +223,20 @@ $theme: mat.define-theme(
             inverse-secondary: #4b5f83,
             inverse-tertiary: #845400,
 
+            corner-none: 0,
+            corner-full: 4px,
+            corner-small: 4px,
+            corner-large: 4px,
+            corner-medium: 4px,
+            corner-large-top: 4px 4px 0 0,
+            corner-large-end: 0 4px 4px 0,
+            corner-extra-small: 4px,
+            corner-large-start: 4px 0 0 4px,
+            corner-extra-large: 4px,
+            corner-extra-large-top: 4px 4px 0 0,
+            corner-extra-small-top: 4px 4px 0 0,
             outline: rgba(255, 255, 255, 0.15),
-            outline-variant: rgba(255, 255, 255, 0.08)
+            outline-variant: rgba(255, 255, 255, 0.08),
         )
     );
 }

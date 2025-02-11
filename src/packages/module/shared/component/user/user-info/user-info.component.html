@@ -1,0 +1,12 @@
+<user-container
+    #userContainer
+    class="is-active p-3"
+    [user]="service.user"
+    #menuTrigger="matMenuTrigger"
+    [matMenuTriggerFor]="matMenu"
+    (click)="clickHandler()"
+></user-container>
+
+<mat-menu #matMenu [overlapTrigger]="false">
+    <vi-menu-list [list]="menu"></vi-menu-list>
+</mat-menu>

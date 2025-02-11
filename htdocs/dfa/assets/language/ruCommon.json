@@ -30,7 +30,7 @@
             "confirmation": "Вы точно хотите сохранить изменения?",
             "notification": "Изменения успешно сохранены"
         },
-        "version": "{version} от {versionDate}"
+        "version": "{version} от {date}"
     },
     "pageNotFound": {
         "title": "Страница отсутствует",

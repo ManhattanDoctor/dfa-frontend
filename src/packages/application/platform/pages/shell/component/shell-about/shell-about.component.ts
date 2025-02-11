@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { DestroyableContainer } from '@ts-core/common';
 import { EnvironmentService, PipeService, RouterService, SettingsService } from '@core/service';
 import { ViewUtil } from '@ts-core/angular';
+import { takeUntil } from 'rxjs';
 
 @Component({
     selector: 'shell-about',
@@ -15,7 +16,7 @@ export class ShellAboutComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    public version: string;
+    public version: object;
 
     //--------------------------------------------------------------------------
     //
@@ -23,10 +24,12 @@ export class ShellAboutComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(element: ElementRef, settings: SettingsService, pipe: PipeService, private router: RouterService, public environment: EnvironmentService,) {
+    constructor(element: ElementRef, private settings: SettingsService, private pipe: PipeService, private router: RouterService, public environment: EnvironmentService,) {
         super();
         ViewUtil.addClasses(element, 'd-block');
-        this.version = pipe.language.translate('general.footer', { version: settings.version, versionDate: pipe.momentDate.transform(settings.versionDate, 'LLL'), });
+
+        this.version = { version: this.settings.version, date: this.pipe.momentDate.transform(this.settings.versionDate, 'LLL') };
+        // this.pipe.language.completed.pipe(takeUntil(this.destroyed)).subscribe(this.checkVersion);
     }
 
     //--------------------------------------------------------------------------

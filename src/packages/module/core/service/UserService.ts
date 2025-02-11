@@ -56,7 +56,7 @@ export class UserService extends UserBaseService<User, UserServiceEvent> {
             return;
         }
         let { theme, language } = this.user.preferences;
-        if (this.theme.themes.has(language)) {
+        if (this.theme.themes.has(theme)) {
             this.theme.theme = this.theme.themes.get(theme);
         }
         if (this.language.languages.has(language)) {

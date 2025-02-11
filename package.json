@@ -35,7 +35,7 @@
         "@angular/router": "^19.0.6",
         "@angular/service-worker": "^19.0.6",
         "@project/common": "file:./src/externals/common/",
-        "@ts-core/angular": "~19.0.1",
+        "@ts-core/angular": "~19.0.3",
         "@ts-core/angular-file": "~19.0.1",
         "@ts-core/angular-material": "~19.0.1",
         "@ts-core/common": "~3.0.56",

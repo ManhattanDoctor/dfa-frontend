@@ -6,7 +6,7 @@ import { ViewUtil } from '@ts-core/angular';
 
 @Component({
     templateUrl: 'main-page.component.html',
-    styleUrls: ['main-page.component.scss'],
+    styleUrl: 'main-page.component.scss',
     standalone: false
 })
 export class MainPageComponent {

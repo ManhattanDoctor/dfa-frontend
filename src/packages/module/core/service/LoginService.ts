@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Client } from '@common/platform/api';
 import { CookieService, JSONValueStorage, LocalStorageService, LoginBaseService, LoginTokenStorage, ValueStorage } from '@ts-core/angular';
 import { IInitDtoResponse, ILoginDto, ILoginDtoResponse, LoginResource } from '@common/platform/api/login';
-import { DateUtil, ExtendedError, Transport, TransportNoConnectionError, TransportTimeoutError } from '@ts-core/common';
+import { ExtendedError, Transport, TransportNoConnectionError, TransportTimeoutError } from '@ts-core/common';
 import { OAuthLoginCommand } from '@feature/oauth/transport';
 import { IOpenIdToken, KeycloakTokenManager } from '@ts-core/openid-common';
 import * as _ from 'lodash';
@@ -46,7 +46,11 @@ export class LoginService extends LoginBaseService<void, ILoginDtoResponse, IIni
         return this.api.init();
     }
 
-    protected async logoutRequest(): Promise<void> { }
+    protected async logoutRequest(): Promise<void> {
+        if (this.manager.isValid) {
+            await this.api.logout(this.manager.refresh.value);
+        }
+    }
 
     protected reset(): void {
         super.reset();

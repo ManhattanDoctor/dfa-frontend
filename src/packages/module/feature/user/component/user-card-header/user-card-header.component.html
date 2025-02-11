@@ -1,0 +1,20 @@
+<!--
+<user-picture class="size-3" [user]="user"></user-picture>
+
+<button class="position-absolute" style="top: 0.5rem; left: 0.5rem" mat-icon-button [matMenuTriggerFor]="matMenu" (click)="menu.refresh(user)" *ngIf="!isHideMenu">
+    <mat-icon fontSet="fas" fontIcon="fa-ellipsis-v"></mat-icon>
+</button>
+
+<div class="d-flex justify-content-center position-absolute" style="z-index: 1; left: 0px; right: 0px; bottom: -1px" *ngIf="!isUser">
+    <span
+        class="px-3 py-1 surface-container border-top border-left border-right rounded-top text-one-line font-family-brand mat-title-large mouse-active text-underline-hover color-base-hover"
+        style="max-width: calc(100% - 2rem)"
+        [innerHTML]="description"
+    ></span>
+</div>
+
+<mat-menu #matMenu [overlapTrigger]="false">
+    <vi-menu-list [list]="menu"></vi-menu-list>
+</mat-menu>
+<span [vi-menu-trigger-for]="matMenu"></span>
+-->
