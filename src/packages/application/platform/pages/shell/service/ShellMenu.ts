@@ -5,6 +5,7 @@ import { RouterService, UserService, LoginService } from '@core/service';
 // import { ProfileManagerGuard } from '@feature/profile/guard';
 import { takeUntil, merge } from 'rxjs';
 import * as _ from 'lodash';
+import { UserResolver } from '@shared/resolver';
 
 @Injectable()
 export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
@@ -14,6 +15,8 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
     //
     // --------------------------------------------------------------------------
 
+    private static USER = 10;
+    private static COMPANY = 20;
 
     public management: SelectListItems<ISelectListItem<string>>;
 
@@ -23,13 +26,15 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(language: LanguageService, router: RouterService, login: LoginService, user: UserService) {
+    constructor(language: LanguageService, router: RouterService, user: UserService) {
         super(language);
 
         this.management = new SelectListItems(language);
-        /*
+
         let item: ISelectListItem<string> = null;
-        item = this.add(new ShellListItem('profile.file', ShellMenu.FILES, `/${RouterService.FILES_URL}`, 'fas fa-file'));
+        item = this.add(new ShellListItem('user.user', ShellMenu.USER, `/${RouterService.USER_URL}`, 'fas fa-user'));
+        item = this.add(new ShellListItem('company.company', ShellMenu.COMPANY, `/${RouterService.COMPANY_URL}`, 'fas fa-building'));
+        /*
         item = this.add(new ShellListItem('coin.balance', ShellMenu.COIN_TRANSACTIONS, `/${RouterService.COIN_TRANSACTIONS_URL}`, 'fas fa-coins'));
         item = this.add(new ShellListItem('voice.voices', ShellMenu.VOICES, `/${RouterService.VOICES_URL}`, 'fab fa-teamspeak'));
         item = this.add(new ShellListItem('profile.conversation', ShellMenu.CONVERSATIONS, `/${RouterService.CONVERSATIONS_URL}`, 'fas fa-comment'));

@@ -13,12 +13,13 @@ export class RouterService extends RouterBaseService {
     //
     //--------------------------------------------------------------------------
 
-    public static USER_URL = 'user';
-    public static ABOUT_URL = 'about';
     public static LOGIN_URL = 'login';
-    public static PROFILE_URL = 'profile';
-
+    public static ABOUT_URL = 'about';
     public static OAUTH_URL = 'oauth';
+
+    public static USER_URL = 'user';
+    public static COMPANY_URL = 'company';
+
     public static DEFAULT_URL;
 
     //--------------------------------------------------------------------------

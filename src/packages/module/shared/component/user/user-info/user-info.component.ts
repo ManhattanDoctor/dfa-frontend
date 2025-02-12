@@ -28,13 +28,8 @@ export class UserInfoComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    @ViewChild('userContainer', { static: true })
-    public userContainer: UserContainerComponent;
-
-    @ViewChild('menuTrigger', { static: true })
-    public menuTrigger: MatMenuTrigger;
-
-    private _user: User;
+    @ViewChild('container', { static: true })
+    public container: UserContainerComponent;
 
     //--------------------------------------------------------------------------
     //
@@ -50,12 +45,12 @@ export class UserInfoComponent extends DestroyableContainer {
         public service: UserService,
     ) {
         super();
-        ViewUtil.addClasses(container, 'd-flex align-items-center mouse-active background-color-hover');
+        ViewUtil.addClasses(container, 'd-flex align-items-center mouse-active');
 
-        this.checkUser();
+        this.invalidate();
         merge(service.logined, service.logouted, service.changed, language.completed)
             .pipe(takeUntil(this.destroyed))
-            .subscribe(this.checkUser);
+            .subscribe(this.invalidate);
     }
 
     //--------------------------------------------------------------------------
@@ -64,14 +59,9 @@ export class UserInfoComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    private commitUserProperties(): void {
-        let value = null;
-    }
-
-    private checkUser = (): void => {
-        this.user = this.service.user;
-        if (!_.isNil(this.userContainer)) {
-            this.userContainer.user = this.user;
+    private invalidate = (): void => {
+        if (!_.isNil(this.container)) {
+            this.container.invalidate();
         }
     }
 
@@ -83,24 +73,5 @@ export class UserInfoComponent extends DestroyableContainer {
 
     public clickHandler(): void {
         this.menu.refresh();
-    }
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Properties
-    //
-    //--------------------------------------------------------------------------
-
-    public get user(): User {
-        return this._user
-    }
-    public set user(value: User) {
-        if (value === this._user) {
-            return;
-        }
-        this._user = value;
-        if (!_.isNil(value)) {
-            this.commitUserProperties();
-        }
     }
 }

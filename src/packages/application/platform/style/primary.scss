@@ -19,7 +19,13 @@
 //
 //-------------------------------------------------------------------------*/
 
-@mixin component-overrides() {
+@mixin component-overrides() {    
+    @include mat.form-field-overrides(
+        (
+            outlined-disabled-input-text-color: var(--mat-sys-on-surface),
+            outlined-disabled-label-text-color: var(--mat-sys-on-surface)
+        )
+    );
     @include mat.table-overrides(
         (
             row-item-outline-color: var(--mat-sys-outline-variant)
@@ -235,10 +241,12 @@ $theme: mat.define-theme(
             corner-extra-large: 4px,
             corner-extra-large-top: 4px 4px 0 0,
             corner-extra-small-top: 4px 4px 0 0,
+
             outline: rgba(255, 255, 255, 0.15),
             outline-variant: rgba(255, 255, 255, 0.08),
         )
     );
+    @include component-overrides();
 }
 
 @include core.theme($theme);

@@ -1,6 +1,4 @@
-@use '@angular/material' as mat;
 @use '@ts-core/angular' as vi;
-@use '@ts-core/angular-material' as vi-mat;
 
 mat-sidenav {
     width: 230px;
@@ -11,13 +9,6 @@ mat-sidenav {
             flex-direction: column;
             @include vi.scroll-no();
         }
-    }
-
-    task-add-button {
-        position: absolute;
-        top: 60px;
-        right: 1rem;
-        z-index: 1;
     }
 
     mat-list-item {

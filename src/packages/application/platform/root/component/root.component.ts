@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { LoadingService, LoadingServiceManager, LanguageService, ThemeService, Assets } from '@ts-core/frontend';
 import { ExtendedError, Transport, TransportHttpCommandAsync, LoggerWrapper, Logger, LoggerLevel, LoadableEvent } from '@ts-core/common';
-import { WindowService, ApplicationComponent, ViewUtil, LoginBaseServiceEvent, LoginNotGuard, LoginGuard } from '@ts-core/angular';
+import { WindowService, ApplicationComponent, ViewUtil, LoginServiceBaseEvent, LoginNotGuard, LoginGuard } from '@ts-core/angular';
 import { RouterService, SettingsService, LoginService, ActionService } from '@core/service';
 import { AssetsCdnProvider } from '@core/lib';
 import { Language, LanguageUtil } from '@ts-core/language';
@@ -92,13 +92,13 @@ export class RootComponent extends ApplicationComponent<SettingsService> {
         // Login
         this.login.events.subscribe(data => {
             switch (data.type) {
-                case LoginBaseServiceEvent.LOGIN_COMPLETE:
+                case LoginServiceBaseEvent.LOGIN_COMPLETE:
                     this.router.navigateIfNotLoading(LoginNotGuard.redirectUrl);
                     break;
-                case LoginBaseServiceEvent.LOGOUT_FINISHED:
+                case LoginServiceBaseEvent.LOGOUT_FINISHED:
                     this.router.navigate(LoginGuard.redirectUrl);
                     break;
-                case LoginBaseServiceEvent.LOGOUT_STARTED:
+                case LoginServiceBaseEvent.LOGOUT_STARTED:
                     this.windows.closeAll();
                     break;
             }

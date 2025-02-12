@@ -20,7 +20,7 @@
     }
     &:not(.is-active) {
         .text-container {
-            @include vi.mouse-inactive();
+            @include vi.mouse-disabled();
         }
     }
 }

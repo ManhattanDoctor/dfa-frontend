@@ -1,19 +1,18 @@
 import { Component, ElementRef } from '@angular/core';
 import { ViewUtil } from '@ts-core/angular';
-import { DestroyableContainer } from '@ts-core/common';
-import { filter, takeUntil } from 'rxjs'
-import { PipeService, RouterService, UserService } from '@core/service';
-import { Transport } from '@ts-core/common';
-import { Client } from '@common/platform/api';
-import { SeoCommand } from '@core/transport';
+import { Transport, DestroyableContainer } from '@ts-core/common';
+import { takeUntil } from 'rxjs'
 import { User } from '@common/platform/user';
+import { ActivatedRoute } from '@angular/router';
+import { SeoCommand } from '@core/transport';
+import { PipeService } from '@core/service';
 import * as _ from 'lodash';
 
 @Component({
-    templateUrl: './profile-page.component.html',
+    templateUrl: './user-page.component.html',
     standalone: false
 })
-export class ProfilePageComponent extends DestroyableContainer {
+export class UserPageComponent extends DestroyableContainer {
     //--------------------------------------------------------------------------
     //
     // 	Properties
@@ -28,23 +27,10 @@ export class ProfilePageComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ElementRef,
-        service: UserService,
-        api: Client,
-        protected pipe: PipeService,
-        protected transport: Transport,
-        public router: RouterService) {
+    constructor(container: ElementRef, route: ActivatedRoute, private pipe: PipeService, private transport: Transport) {
         super();
-        ViewUtil.addClasses(container, 'd-block container px-3 px-lg-5 pb-3 pt-5 pb-lg-5');
-
-        this.user = service.user;
-
-        /*
-        transport.send(new SeoCommand({ title: 'profile.profile', description: this.pipe.userName.transform(this.user), image: this.user.preferences.picture }));
-        service.changed.pipe(
-            filter(data => !_.isNil(this.user) && this.user.id === data.id),
-            takeUntil(this.destroyed)).subscribe(async () => this.user = await api.userGet(this.user.id));
-        */
+        ViewUtil.addClasses(container, 'd-flex flex-column');
+        route.data.pipe(takeUntil(this.destroyed)).subscribe(data => this.user = data.item);
     }
 
     //--------------------------------------------------------------------------
@@ -54,7 +40,7 @@ export class ProfilePageComponent extends DestroyableContainer {
     //--------------------------------------------------------------------------
 
     protected async commitUserProperties(): Promise<void> {
-
+        this.transport.send(new SeoCommand({ title: this.pipe.userName.transform(this.user), description: this.pipe.userDescription.transform(this.user), image: this.user.preferences.picture }));
     }
 
     //--------------------------------------------------------------------------

@@ -78,6 +78,12 @@ export class UserContainerComponent extends IWindowContent {
     //
     //--------------------------------------------------------------------------
 
+    public invalidate(): void {
+        if (!_.isNil(this.user)) {
+            this.commitUserProperties();
+        }
+    }
+
     public destroy(): void {
         if (this.isDestroyed) {
             return;

@@ -1,21 +1,12 @@
-<div class="header-container d-flex align-items-center flex-shrink-0 border-bottom position-relative">
-    <button class="flex-shrink-0 ms-1 d-lg-none" mat-icon-button tabindex="-1" (click)="menuToggle()">
-        <mat-icon fontSet="fas" fontIcon="fa-ellipsis-v"></mat-icon>
+<page-header titleId="general.title">
+    <button mat-icon-button vi-language-toggle>
+        <mat-icon fontSet="fas" fontIcon="fa-globe"></mat-icon>
     </button>
-    <div class="flex-grow-1"></div>
-    <div class="d-flex align-items-center justify-content-center position-absolute top-0 bottom-0 start-0 end-0 mouse-disabled">
-        <img vi-theme-icon="128" style="width: 64px; height: 64px" />
-    </div>
-    <div class="flex-grow-1"></div>
     <button class="me-2" mat-icon-button vi-theme-toggle>
         <mat-icon fontSet="fas" fontIcon="fa-circle-half-stroke"></mat-icon>
     </button>
-</div>
+</page-header>
 
 <div class="flex-grow-1">
-    <p
-        class="px-3 px-md-4 mb-2 mt-5 color-base font-family-brand text-glow-title mat-display-medium mouse-inactive text-one-line text-center"
-        vi-translate="general.title"
-    ></p>
-    <p class="px-3 px-md-4 mb-4 font-family-brand mat-headline-medium mouse-inactive text-center" vi-translate="general.description"></p>
+    <p class="mt-5 px-3 px-md-4 mb-4 font-family-brand mat-headline-medium mouse-inactive text-center" vi-translate="general.description"></p>
 </div>

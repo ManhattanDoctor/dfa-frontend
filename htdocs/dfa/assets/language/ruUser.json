@@ -7,13 +7,9 @@
         "created": "Регистрация",
         "preferences": {
             "preferences": "Настройки",
-            "uid": "Уникальный код",
             "name": "Имя",
             "phone": "Телефон",
             "email": "Email",
-            "location": "⇛geo.location",
-            "birthday": "Дата рождения",
-            "description": "О себе",
             "theme": {
                 "theme": "Тема",
                 "DARK": "Темная",

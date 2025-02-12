@@ -6,7 +6,7 @@
 
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, PLATFORM_ID } from '@angular/core';
 import {
-    LoginBaseService,
+    LoginServiceBase,
     RouterBaseService,
     ITransportLazyModuleData,
     TransportLazy,
@@ -17,7 +17,7 @@ import {
 } from '@ts-core/angular';
 import { VIMatModule } from '@ts-core/angular-material';
 import { SettingsBaseService } from '@ts-core/frontend';
-import { CoreInitializer, LoginService, PipeService, SocketService, RouterService, SettingsService } from './service';
+import { CoreInitializer, LoginService, PipeService, SocketService, RouterService, SettingsService, OpenIdTokenService } from './service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ILogger, Logger, LoggerLevel } from '@ts-core/common';
@@ -31,6 +31,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TransportSocket } from '@ts-core/socket-client';
 import * as _ from 'lodash';
+import { KeycloakTokenManager } from '@ts-core/openid-common';
 
 //--------------------------------------------------------------------------
 //
@@ -68,8 +69,8 @@ export class CoreModule {
                 },
                 {
                     provide: Client,
-                    deps: [Logger],
-                    useFactory: (logger: ILogger) => new Client(logger, null, LoggerLevel.NONE)
+                    deps: [Logger, OpenIdTokenService],
+                    useFactory: (logger: ILogger, token: KeycloakTokenManager) => new Client(logger, token, null, LoggerLevel.NONE)
                 },
                 {
                     provide: Transport,
@@ -84,7 +85,7 @@ export class CoreModule {
 
                 { provide: MomentDatePipe, useClass: MomentDatePipe, },
                 { provide: PipeBaseService, useExisting: PipeService, },
-                { provide: LoginBaseService, useExisting: LoginService },
+                { provide: LoginServiceBase, useExisting: LoginService },
                 { provide: RouterBaseService, useExisting: RouterService },
                 { provide: SettingsBaseService, useExisting: SettingsService },
 

@@ -33,7 +33,7 @@ export class UserSaveHandler extends TransportCommandAsyncHandler<IUserEditDto, 
         }
         let item = await this.api.userEdit(params.id, params);
         if (this.user.isUser(item)) {
-            this.user.userUpdate(item);
+            this.user.update(item);
         }
         return item;
     }

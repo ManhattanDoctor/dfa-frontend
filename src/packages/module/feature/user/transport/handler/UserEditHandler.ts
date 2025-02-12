@@ -56,7 +56,7 @@ export class UserEditHandler extends TransportCommandAsyncHandler<string, IUserE
                     }
 
                     if (item.id === this.user.id) {
-                        this.user.userUpdate(item);
+                        this.user.update(item);
                     }
                     promise.resolve(item);
                     content.close();

@@ -57,7 +57,7 @@ export class SocketService extends TransportSocket {
         this.socket.settings.auth['token'] = this.login.sid;
         return super.connect();
     }
-    
+
     //--------------------------------------------------------------------------
     //
     // 	Private Methods

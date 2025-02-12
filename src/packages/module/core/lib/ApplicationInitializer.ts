@@ -3,8 +3,9 @@ import { LanguageService } from '@ts-core/frontend';
 import { ILanguageLoader, LanguageDelegateLoader, LanguagePreloadLoader, LanguageFileLoader, LanguageProjects, ILanguageProjectSettings, LanguageUtil } from '@ts-core/language';
 import { Client, CONFIG_URL } from '@common/platform/api';
 import { PlatformService, RouterBaseService, WindowService } from '@ts-core/angular';
-import { SettingsService, SocketService } from '../service';
+import { PermissionService, SettingsService, SocketService } from '../service';
 import { IServerInitializeOptions } from './IServerInitializeOptions';
+import { IKeycloakSettings } from '@ts-core/openid-common';
 import axios from 'axios';
 import * as _ from 'lodash';
 
@@ -18,12 +19,13 @@ export abstract class ApplicationInitializer extends Destroyable {
     constructor(
         protected api: Client,
         protected socket: SocketService,
+        protected permission: PermissionService,
         protected router: RouterBaseService,
         protected settings: SettingsService,
         protected platform: PlatformService,
         protected language: LanguageService,
         protected options: IServerInitializeOptions,
-        protected windows: WindowService,
+        protected windows: WindowService
     ) {
         super();
     }
@@ -43,6 +45,7 @@ export abstract class ApplicationInitializer extends Destroyable {
             return;
         }
         this.api.url = this.socket.url = this.settings.apiUrl;
+        this.permission.settings = this.settings.keycloak as IKeycloakSettings;
         this.language.loader = await this.getLanguageLoader();
     }
 

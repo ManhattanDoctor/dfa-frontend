@@ -13,11 +13,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { UserContainerComponent } from '@shared/component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MaxLengthPipe } from '@shared/pipe';
 import { CommonModule } from '@angular/common';
-import * as _ from 'lodash';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import * as _ from 'lodash';
 
 @Component({
     imports: [
@@ -76,8 +75,6 @@ export class UserEditComponent extends IWindowContent implements ISerializable<I
 
     constructor(
         container: ViewContainerRef,
-        private transport: Transport,
-        private pipe: PipeService,
         private windows: WindowService,
         public environment: EnvironmentService
     ) {

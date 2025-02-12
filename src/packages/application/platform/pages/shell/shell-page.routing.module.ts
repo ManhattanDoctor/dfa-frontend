@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RouterService } from '@core/service';
-import { LoginGuard } from '@ts-core/angular';
+import { CompanyResolver, UserResolver } from '@shared/resolver';
 import { ShellPageComponent } from './shell-page.component';
 
 const routes: Routes = [
@@ -18,9 +18,24 @@ const routes: Routes = [
                 loadChildren: () => import('@page/about/about-page.module')
             },
             {
-                path: RouterService.PROFILE_URL,
-                canActivate: [LoginGuard],
-                loadChildren: () => import('@page/profile/profile-page.module')
+                path: RouterService.USER_URL,
+                loadChildren: () => import('@page/user/user-page.module'),
+                resolve: { item: UserResolver },
+            },
+            {
+                path: `${RouterService.USER_URL}/:id`,
+                loadChildren: () => import('@page/user/user-page.module'),
+                resolve: { item: UserResolver },
+            },
+            {
+                path: RouterService.COMPANY_URL,
+                loadChildren: () => import('@page/company/company-page.module'),
+                resolve: { item: CompanyResolver },
+            },
+            {
+                path: `${RouterService.COMPANY_URL}/:id`,
+                loadChildren: () => import('@page/company/company-page.module'),
+                resolve: { item: CompanyResolver },
             },
             {
                 path: '**',

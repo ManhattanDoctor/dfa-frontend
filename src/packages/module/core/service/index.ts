@@ -9,3 +9,6 @@ export * from './CoreInitializer';
 export * from './ActionService';
 export * from './StorageService';
 export * from './SocketService';
+export * from './PermissionService';
+export * from './CompanyService';
+export * from './OpenIdTokenService';

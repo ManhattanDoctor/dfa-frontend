@@ -18,7 +18,7 @@ export class AboutPageComponent {
     //--------------------------------------------------------------------------
 
     constructor(container: ElementRef, transport: Transport, public router: RouterService, public environment: EnvironmentService) {
-        ViewUtil.addClasses(container, 'd-block container px-3 px-lg-5 pb-3 pt-5 pb-lg-5');
-        transport.send(new SeoCommand({ title: `about.title`, description: `about.description`, image: Assets.getImage(`Myth`, 'jpg') }));
+        ViewUtil.addClasses(container, 'd-flex flex-column');
+        transport.send(new SeoCommand({ title: 'about.title', description: 'about.description', image: Assets.getIcon('256', 'jpg') }));
     }
 }

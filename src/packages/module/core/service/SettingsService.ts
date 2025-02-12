@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SettingsBaseService } from '@ts-core/frontend';
-import { IHlfSettings, IKeycloakSettings } from '@common/platform/settings';
+import { IHlfSettings } from '@common/platform/settings';
 import * as _ from 'lodash';
+import { IKeycloakSettings } from '@ts-core/openid-common';
 
 @Injectable({ providedIn: 'root' })
 export class SettingsService extends SettingsBaseService {

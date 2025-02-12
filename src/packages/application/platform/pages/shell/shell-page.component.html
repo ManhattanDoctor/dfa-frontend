@@ -1,19 +1,14 @@
 <mat-sidenav-container fullscreen>
     <mat-sidenav
-        class="sidenav-left no-scroll surface-container-low level-2 z-index-2"
+        class="no-scroll surface-container-low"
         position="start"
         [opened]="isShowMenu"
         (openedChange)="isShowMenu = $event"
         [mode]="isNeedSide ? 'side' : 'over'"
-        [class.level-3]="!isNeedSide"
-        [class.border-right]="isNeedSide"
+        [ngClass]="{ 'level-3': !isNeedSide, 'border-right': isNeedSide }"
     >
-        <user-info class="flex-shrink-0 border-bottom"></user-info>
+        <user-info class="p-2 flex-shrink-0 border-bottom"></user-info>
 
-        <!--
-        <task-add-button></task-add-button>
-        -->
-        
         <mat-nav-list class="pt-0 flex-grow-1 scroll-vertical">
             <ng-container *ngFor="let item of menu?.collection">
                 <mat-list-item [activated]="item.isSelected" *ngIf="item.isEnabled" (click)="menu.actionItem(item)">
@@ -21,25 +16,13 @@
                     <span [innerHTML]="item.label" matListItemTitle></span>
                 </mat-list-item>
             </ng-container>
-
-            <!--
-            <mat-expansion-panel *ngIf="user.isAdministrator">
-                <mat-expansion-panel-header class="px-3" tabindex="-1">
-                    <mat-panel-title class="d-flex align-items-center">
-                        <span vi-translate="management.management"></span>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <ng-container *ngFor="let item of menu?.management.collection">
-                    <mat-list-item [activated]="item.isSelected" *ngIf="item.isEnabled" (click)="menu.actionItem(item)">
-                        <span class="me-2 mt-1" [ngClass]="item.iconId" *ngIf="item.iconId" matListItemIcon></span>
-                        <span [innerHTML]="item.label" matListItemTitle></span>
-                    </mat-list-item>
-                </ng-container>
-            </mat-expansion-panel>
-            -->
         </mat-nav-list>
 
-        <shell-about class="flex-shrink-0 border-top p-2 border-top surface-container-low"></shell-about>
+        <!--
+        <div class="m-3 border" style="height: 100%;"></div>
+        <div class="m-3 border variant" style="height: 100%;"></div>
+    -->
+        <shell-about class="flex-shrink-0 border-top p-2 surface-container-low"></shell-about>
     </mat-sidenav>
 
     <mat-sidenav-content
@@ -75,7 +58,6 @@
                 <div class="col-3 p-3 error-tertiary">error-container</div>
             </div>
             -->
-            
         </div>
     </mat-sidenav-content>
 

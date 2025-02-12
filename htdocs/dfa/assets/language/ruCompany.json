@@ -1,0 +1,17 @@
+{
+    "company": {
+        "id": "⇛user.id",
+        "company": "Компания",
+        "companies": "Компании",
+        "created": "Создана",
+        "preferences": {
+            "preferences": "⇛user.preferences.preferences",
+            "name": "Название",
+            "phone": "⇛user.preferences.phone",
+            "email": "⇛user.preferences.email",
+            "website": "Веб сайт",
+            "address": "Адрес",
+            "description": "Описание"
+        }
+    }
+}
