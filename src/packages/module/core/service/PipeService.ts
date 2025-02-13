@@ -49,8 +49,8 @@ export class PipeService extends PipeBaseService {
         return PipeService.USER_DESCRIPTION;
     }
 
-    public get companyName(): CompanyDescriptionPipe {
-        if (!PipeService.USER_NAME) {
+    public get companyName(): CompanyNamePipe {
+        if (!PipeService.COMPANY_NAME) {
             PipeService.COMPANY_NAME = new CompanyNamePipe();
         }
         return PipeService.COMPANY_NAME;

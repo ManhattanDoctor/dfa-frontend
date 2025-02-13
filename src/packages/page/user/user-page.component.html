@@ -1,4 +1,13 @@
-<page-header titleId="user.user"></page-header>
+<page-header titleId="user.user">
+    <button class="flex-shrink-0" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="matMenu" (click)="menu.refresh(user)">
+        <mat-icon fontSet="fas" fontIcon="fa-ellipsis-vertical"></mat-icon>
+    </button>
+</page-header>
 
-<user-details class="m-3" [user]="user"></user-details>
+<div class="flex-grow-1 scroll-vertical">
+    <user-details class="m-3" [user]="user"></user-details>
+</div>
 
+<mat-menu #matMenu overlapTrigger="false">
+    <vi-menu-list [list]="menu"></vi-menu-list>
+</mat-menu>

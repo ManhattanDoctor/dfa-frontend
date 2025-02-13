@@ -1,7 +1,7 @@
 import { Component, ElementRef, Inject } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { LoadingService, LoadingServiceManager, LanguageService, ThemeService, Assets } from '@ts-core/frontend';
-import { ExtendedError, Transport, TransportHttpCommandAsync, LoggerWrapper, Logger, LoggerLevel, LoadableEvent } from '@ts-core/common';
+import { ExtendedError, Transport, TransportHttpCommandAsync, LoggerWrapper, Logger, LoggerLevel, LoadableEvent, ObjectUtil } from '@ts-core/common';
 import { WindowService, ApplicationComponent, ViewUtil, LoginServiceBaseEvent, LoginNotGuard, LoginGuard } from '@ts-core/angular';
 import { RouterService, SettingsService, LoginService, ActionService } from '@core/service';
 import { AssetsCdnProvider } from '@core/lib';
@@ -114,16 +114,21 @@ export class RootComponent extends ApplicationComponent<SettingsService> {
     protected async apiLoadingError<T>(command: TransportHttpCommandAsync<T>): Promise<void> {
         let error = command.error;
         let { key, params } = LanguageUtil.getErrorTranslation(error);
-        switch (error.code) {
-            case ExtendedError.HTTP_CODE_UNAUTHORIZED:
-                this.windows.info(key, params, null, { id: `error.${error.code}` });
-                await this.login.logout();
-                break;
-            default:
-                if (command.isHandleError) {
-                    this.windows.info(key, params);
-                }
+
+        let options = { id: `error.${error.code}` };
+        if (this.isNeedLogout(error)) {
+            await this.login.logout();
         }
+        if (command.isHandleError) {
+            this.windows.info(key, params, null, options);
+        }
+    }
+
+    protected isNeedLogout(error: any): boolean {
+        if (error.status === ExtendedError.HTTP_CODE_UNAUTHORIZED) {
+            return true;
+        }
+        return false;
     }
 
     protected languageLoadingError(item: Language, error: Error): void {

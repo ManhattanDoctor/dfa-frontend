@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, ViewContainerRef, booleanAttribute } from '@angular/core';
-import { ViewUtil, IWindowContent, PrettifyPipe } from '@ts-core/angular';
+import { Component, Input, ViewContainerRef } from '@angular/core';
+import { ViewUtil, IWindowContent } from '@ts-core/angular';
 import { User } from '@common/platform/user';
 import { PipeService } from '@core/service';
 import { UserPictureComponent } from '../user-picture/user-picture.component';

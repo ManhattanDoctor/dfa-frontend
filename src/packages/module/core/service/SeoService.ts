@@ -73,12 +73,7 @@ export class SeoService extends Destroyable {
     }
 
     private getTitle(key: string): string {
-        if (!_.isNil(key)) {
-            return `${LanguagePipe.removeTags(this.language.translate(key))} | ${this.titleDefault}`;
-        }
-        else {
-            return this.titleDefault;
-        }
+        return !_.isNil(key) && this.language.isHasTranslation(key, true) ? `${LanguagePipe.removeTags(this.language.translate(key))} | ${this.titleDefault}` : this.descriptionDefault;
     }
 
     private getDescription(key: string): string {

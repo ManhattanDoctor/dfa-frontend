@@ -6,6 +6,8 @@ import { User } from '@common/platform/user';
 import { ActivatedRoute } from '@angular/router';
 import { SeoCommand } from '@core/transport';
 import { PipeService } from '@core/service';
+import { UserEditCommand } from '@feature/user/transport';
+import { UserMenu } from '@feature/user/service';
 import * as _ from 'lodash';
 
 @Component({
@@ -27,9 +29,9 @@ export class UserPageComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ElementRef, route: ActivatedRoute, private pipe: PipeService, private transport: Transport) {
+    constructor(container: ElementRef, route: ActivatedRoute, private pipe: PipeService, private transport: Transport, public menu: UserMenu) {
         super();
-        ViewUtil.addClasses(container, 'd-flex flex-column');
+        ViewUtil.addClasses(container, 'd-flex flex-column h-100');
         route.data.pipe(takeUntil(this.destroyed)).subscribe(data => this.user = data.item);
     }
 
@@ -49,6 +51,9 @@ export class UserPageComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
+    public edit(): void {
+        this.transport.send(new UserEditCommand(this.user.id));
+    }
     public destroy(): void {
         if (this.isDestroyed) {
             return;

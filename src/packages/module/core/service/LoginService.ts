@@ -4,7 +4,7 @@ import { LoginServiceBase } from '@ts-core/angular';
 import { IInitDtoResponse, ILoginDto, ILoginDtoResponse, LoginResource } from '@common/platform/api/login';
 import { ExtendedError, Transport, TransportNoConnectionError, TransportTimeoutError } from '@ts-core/common';
 import { OAuthLoginCommand } from '@feature/oauth/transport';
-import { OpenIdTokenService } from './OpenIdTokenService';
+import { KeycloakTokenManager } from '@ts-core/openid-common';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -16,7 +16,7 @@ export class LoginService extends LoginServiceBase<void, ILoginDtoResponse, IIni
     //
     //--------------------------------------------------------------------------
 
-    constructor(private transport: Transport, private api: Client, private token: OpenIdTokenService) {
+    constructor(private transport: Transport, private api: Client, private token: KeycloakTokenManager) {
         super();
     }
 

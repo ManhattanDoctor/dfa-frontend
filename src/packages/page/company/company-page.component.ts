@@ -6,6 +6,7 @@ import { Company } from '@common/platform/company';
 import { ActivatedRoute } from '@angular/router';
 import { PipeService } from '@core/service';
 import { SeoCommand } from '@core/transport';
+import { CompanyMenu } from '@feature/company/service';
 import * as _ from 'lodash';
 
 @Component({
@@ -27,9 +28,9 @@ export class CompanyPageComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ElementRef, route: ActivatedRoute, private pipe: PipeService, private transport: Transport) {
+    constructor(container: ElementRef, route: ActivatedRoute, private pipe: PipeService, private transport: Transport, public menu: CompanyMenu) {
         super();
-        ViewUtil.addClasses(container, 'd-flex flex-column');
+        ViewUtil.addClasses(container, 'd-flex flex-column h-100');
         route.data.pipe(takeUntil(this.destroyed)).subscribe(data => this.company = data.item);
     }
 

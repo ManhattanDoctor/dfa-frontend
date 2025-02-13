@@ -5,6 +5,9 @@ export * from './user/user-edit/user-edit.component';
 export * from './user/user-info/user-info.component';
 export * from './user/user-details/user-details.component';
 //
+export * from './company/company-picture/company-picture.component';
+export * from './company/company-container/company-container.component';
+export * from './company/company-edit/company-edit.component';
 export * from './company/company-details/company-details.component';
 //
 export * from './page-header/page-header.component';

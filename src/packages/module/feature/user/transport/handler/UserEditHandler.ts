@@ -29,7 +29,7 @@ export class UserEditHandler extends TransportCommandAsyncHandler<string, IUserE
     // --------------------------------------------------------------------------
 
     protected async execute(params: string): Promise<IUserEditDtoResponse> {
-        let windowId = 'UserEdit' + params;
+        let windowId = 'userEdit' + params;
         if (this.portal.setOnTop(windowId)) {
             return Promise.reject('Already opened');
         }
@@ -53,10 +53,6 @@ export class UserEditHandler extends TransportCommandAsyncHandler<string, IUserE
                     }
                     finally {
                         content.isDisabled = false;
-                    }
-
-                    if (item.id === this.user.id) {
-                        this.user.update(item);
                     }
                     promise.resolve(item);
                     content.close();

@@ -8,7 +8,7 @@ import { UserEditCommand } from '@feature/user/transport';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class ProfileMenu extends ListItems<IListItem<void>> {
+export class ProfileMenu extends ListItems<IListItem> {
     // --------------------------------------------------------------------------
     //
     //	Constants
@@ -47,5 +47,14 @@ export class ProfileMenu extends ListItems<IListItem<void>> {
 
         this.complete();
         this.refresh();
+    }
+}
+
+class MenuItem extends ListItem<void> {
+    declare action: (item: ListItem) => void;
+    declare checkEnabled: (item: ListItem) => boolean;
+    constructor(translationId: string, sortIndex: number, iconId: string) {
+        super(translationId, sortIndex);
+        this.iconId = iconId;
     }
 }

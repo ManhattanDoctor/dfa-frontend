@@ -7,7 +7,6 @@ import { PortalService } from '@ts-core/angular-material';
 import { WindowConfig, WindowEvent } from '@ts-core/angular';
 import { filter, takeUntil } from 'rxjs';
 import { Client } from '@common/platform/api';
-// import { UserCardComponent } from '../../component';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })

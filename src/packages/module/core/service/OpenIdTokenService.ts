@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CookieService, JSONValueStorage, LocalStorageService, LoginTokenStorage, ValueStorage } from "@ts-core/angular";
+import { CookieService, JSONValueStorage, LocalStorageService, LoginTokenStorage } from "@ts-core/angular";
 import { IOpenIdToken, KeycloakTokenManager } from "@ts-core/openid-common";
 import * as _ from 'lodash';
 

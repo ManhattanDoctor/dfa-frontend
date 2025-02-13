@@ -17,7 +17,7 @@ export class UserPictureDirective extends DestroyableContainer {
     // --------------------------------------------------------------------------
 
     private _user: User;
-    private _picture: string = null;
+    private _picture: string;
 
     private element: HTMLDivElement;
 

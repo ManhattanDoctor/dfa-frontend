@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Logger, ExtendedError, Transport, TransportCommandAsyncHandler } from '@ts-core/common';
+import { Logger, Transport, TransportCommandAsyncHandler } from '@ts-core/common';
 import { Client } from '@common/platform/api';
 import { UserService } from '@core/service';
 import { UserSaveCommand, IUserEditDto } from '../UserSaveCommand';
@@ -25,12 +25,6 @@ export class UserSaveHandler extends TransportCommandAsyncHandler<IUserEditDto, 
     // --------------------------------------------------------------------------
 
     protected async execute(params: IUserEditDto): Promise<User> {
-        if (_.isNil(params.id)) {
-            if (this.user.isLogined) {
-                params.id = this.user.id.toString();
-            }
-            throw new ExtendedError('Unable to save user: uid is nil');
-        }
         let item = await this.api.userEdit(params.id, params);
         if (this.user.isUser(item)) {
             this.user.update(item);
