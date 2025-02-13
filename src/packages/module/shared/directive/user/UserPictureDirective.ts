@@ -3,7 +3,7 @@ import { DestroyableContainer } from '@ts-core/common';
 import { User } from '@common/platform/user';
 import { Platform } from '@angular/cdk/platform';
 import { ViewUtil } from '@ts-core/angular';
-import { ThemeAssetService } from '@ts-core/frontend';
+import { ImageUtil } from '@common/platform/util';
 import * as _ from 'lodash';
 
 @Directive({
@@ -27,7 +27,7 @@ export class UserPictureDirective extends DestroyableContainer {
     //
     // --------------------------------------------------------------------------
 
-    constructor(platform: Platform, element: ElementRef<HTMLDivElement>, private themeAsset: ThemeAssetService) {
+    constructor(platform: Platform, element: ElementRef<HTMLDivElement>) {
         super();
         this.element = element.nativeElement;
         ViewUtil.addClass(this.element, 'overflow-hidden');
@@ -52,7 +52,7 @@ export class UserPictureDirective extends DestroyableContainer {
     }
 
     private commitPictureProperties(): void {
-        ViewUtil.setBackground(this.element, this.picture, 'no-repeat', this.themeAsset.getIcon('256'));
+        ViewUtil.setBackground(this.element, this.picture, 'no-repeat', ImageUtil.getUser(this.user.id));
     }
 
     private getPicture(): string {
