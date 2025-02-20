@@ -1,11 +1,11 @@
 import { ListItem, ListItems, IListItem } from '@ts-core/angular';
 import { LanguageService } from '@ts-core/frontend';
 import { Injectable } from '@angular/core';
-import { PermissionService, PipeService, RouterService, UserService } from '@core/service';
+import { PermissionService, RouterService, UserService } from '@core/service';
 import { User } from '@core/lib/user';
 import { Transport } from '@ts-core/common';
 import { UserEditCommand, UserOpenCommand } from '../transport';
-import { ResourcePermission } from '@common/platform';
+import { UserUtil } from '@common/platform/user';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -25,18 +25,18 @@ export class UserMenu extends ListItems<IListItem> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(language: LanguageService, transport: Transport, private router: RouterService, private service: UserService, private permission: PermissionService) {
+    constructor(language: LanguageService, transport: Transport, private router: RouterService, private service: UserService, permission: PermissionService) {
         super(language);
 
         let item: IListItem = null;
 
         item = this.add(new MenuItem('user.user', UserMenu.OPEN, 'fa fa-user me-2'));
         item.action = (item, user) => transport.send(new UserOpenCommand({ id: user.id, isBriefly: false }));
-        item.checkEnabled = (item, user) => !this.isPageOpen(user.id) && permission.hasResourceScope(ResourcePermission.USER_READ);
+        item.checkEnabled = (item, user) => !this.isPageOpen(user.id) && UserUtil.isCanRead(permission.resources, false);
 
         item = this.add(new MenuItem('general.edit.edit', UserMenu.EDIT, 'fa fa-pen me-2'));
         item.action = (item, user) => transport.send(new UserEditCommand(user.id));
-        item.checkEnabled = (item, user) => this.service.isUser(user) || permission.hasResourceScope(ResourcePermission.USER_EDIT);
+        item.checkEnabled = (item, user) => UserUtil.isCanEdit(permission.resources, false);
 
         this.complete();
     }

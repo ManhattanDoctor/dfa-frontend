@@ -1,8 +1,8 @@
 
 import { NgModule, NgModuleRef } from '@angular/core';
 import { TransportLazyModule } from '@ts-core/angular';
-import { CompanySaveHandler, CompanyOpenHandler, CompanyEditHandler } from './transport/handler';
-import { CompanyEditCommand, CompanyOpenCommand, CompanySaveCommand } from './transport';
+import { CompanySaveHandler, CompanyOpenHandler, CompanyEditHandler, CompanyAddWizardHandler, CompanyAddHandler, CompanyVerifyHandler, CompanySubmitHandler, CompanyRejectHandler, CompanyActivateHandler, } from './transport/handler';
+import { CompanyEditCommand, CompanyOpenCommand, CompanySaveCommand, CompanyAddWizardCommand, CompanyAddCommand, CompanyAddUserCommand, CompanyVerifyCommand, CompanySubmitCommand, CompanyRejectCommand, CompanyActivateCommand } from './transport';
 import { MatMenuModule } from '@angular/material/menu';
 import { Transport } from '@ts-core/common';
 
@@ -13,8 +13,7 @@ import { Transport } from '@ts-core/common';
 //--------------------------------------------------------------------------
 
 const providers = [];
-const declarations = [
-];
+const declarations = [];
 
 @NgModule({
     imports: [MatMenuModule],
@@ -30,7 +29,7 @@ export class CompanyModule extends TransportLazyModule<CompanyModule> {
     //--------------------------------------------------------------------------
 
     public static ID = 'CompanyModule';
-    public static COMMANDS = [CompanySaveCommand.NAME, CompanyOpenCommand.NAME, CompanyEditCommand.NAME];
+    public static COMMANDS = [CompanyAddWizardCommand.NAME, CompanySaveCommand.NAME, CompanyOpenCommand.NAME, CompanyEditCommand.NAME, CompanyAddCommand.NAME, CompanyAddUserCommand.NAME, CompanyVerifyCommand.NAME, CompanySubmitCommand.NAME, CompanyRejectCommand.NAME, CompanyActivateCommand.NAME];
 
     //--------------------------------------------------------------------------
     //
@@ -38,7 +37,7 @@ export class CompanyModule extends TransportLazyModule<CompanyModule> {
     //
     //--------------------------------------------------------------------------
 
-    constructor(reference: NgModuleRef<CompanyModule>, transport: Transport, open: CompanyOpenHandler, save: CompanySaveHandler, edit: CompanyEditHandler) {
+    constructor(reference: NgModuleRef<CompanyModule>, transport: Transport, open: CompanyOpenHandler, save: CompanySaveHandler, edit: CompanyEditHandler, add: CompanyAddHandler, wizardAdd: CompanyAddWizardHandler, verify: CompanyVerifyHandler, submit: CompanySubmitHandler, reject: CompanyRejectHandler, activate: CompanyActivateHandler) {
         super(reference, transport);
     }
 

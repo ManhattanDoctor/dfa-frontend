@@ -14,7 +14,7 @@ export class UserSaveHandler extends TransportCommandAsyncHandler<IUserEditDto, 
     //
     // --------------------------------------------------------------------------
 
-    constructor(transport: Transport, logger: Logger, private user: UserService, private api: Client) {
+    constructor(transport: Transport, logger: Logger, private api: Client) {
         super(logger, transport, UserSaveCommand.NAME);
     }
 
@@ -25,10 +25,6 @@ export class UserSaveHandler extends TransportCommandAsyncHandler<IUserEditDto, 
     // --------------------------------------------------------------------------
 
     protected async execute(params: IUserEditDto): Promise<User> {
-        let item = await this.api.userEdit(params.id, params);
-        if (this.user.isUser(item)) {
-            this.user.update(item);
-        }
-        return item;
+        return this.api.userEdit(params.id, params);
     }
 }

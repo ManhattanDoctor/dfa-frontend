@@ -24,7 +24,7 @@ export class OAuthService extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(private logger: Logger, private nativeWindow: NativeWindowService, private settings: SettingsService, private environment: EnvironmentService, private api: Client) {
+    constructor(private logger: Logger, private nativeWindow: NativeWindowService, private settings: SettingsService, private api: Client) {
         super();
         this.map = new Map();
     }

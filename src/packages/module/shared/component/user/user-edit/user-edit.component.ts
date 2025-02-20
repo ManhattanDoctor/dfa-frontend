@@ -28,8 +28,7 @@ import * as _ from 'lodash';
         MatFormFieldModule,
         MatProgressBarModule,
 
-        VIMatModule,
-        UserContainerComponent
+        VIMatModule
     ],
     selector: 'user-edit',
     templateUrl: 'user-edit.component.html',
@@ -69,8 +68,7 @@ export class UserEditComponent extends IWindowContent implements ISerializable<I
 
     constructor(
         container: ViewContainerRef,
-        private windows: WindowService,
-        public environment: EnvironmentService
+        private windows: WindowService
     ) {
         super(container);
         ViewUtil.addClasses(container, 'd-flex flex-column scroll-vertical');

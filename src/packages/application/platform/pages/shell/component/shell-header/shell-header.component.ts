@@ -35,8 +35,7 @@ export class ShellHeaderComponent extends DestroyableContainer {
     constructor(element: ElementRef,
         private router: RouterService,
         private transport: Transport,
-        private notifications: NotificationService,
-        public environment: EnvironmentService) {
+        private notifications: NotificationService) {
         super();
         ViewUtil.addClasses(element, 'd-flex align-items-center');
     }

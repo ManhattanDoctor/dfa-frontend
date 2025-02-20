@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Transport, Destroyable } from '@ts-core/common';
-import { EnvironmentService } from './EnvironmentService';
+import { Destroyable, Transport } from '@ts-core/common';
 import { RouterService } from './RouterService';
-import { StorageService } from './StorageService';
+import { Loginable } from '@ts-core/angular';
+import { LoginService } from './LoginService';
+import { CompanyAddCommand, CompanyAddWizardCommand } from '@feature/company/transport';
 import * as _ from 'lodash';
+import { PermissionService } from './PermissionService';
+import { ResourcePermission } from '../../../../externals/common/platform';
+import { concat, takeUntil } from 'rxjs';
+import { UserService } from './UserService';
+import { CompanyUtil } from '@common/platform/company';
 
 @Injectable({ providedIn: 'root' })
 export class ActionService extends Destroyable {
@@ -14,11 +20,11 @@ export class ActionService extends Destroyable {
     //--------------------------------------------------------------------------
 
     constructor(
-        private transport: Transport,
-        private router: RouterService,
-        private environment: EnvironmentService,
-        private storage: StorageService,) {
+        user: UserService,
+        private permission: PermissionService,
+        private transport: Transport) {
         super();
+        concat(user.logined, permission.completed).pipe(takeUntil(this.destroyed)).subscribe(() => this.check());
     }
 
     //--------------------------------------------------------------------------
@@ -27,8 +33,10 @@ export class ActionService extends Destroyable {
     //
     //--------------------------------------------------------------------------
 
-    public async check(): Promise<void> {
-
+    protected async check(): Promise<void> {
+        if (CompanyUtil.isCanAdd(this.permission.resources, false)) {
+            this.transport.send(new CompanyAddCommand());
+        }
     }
 }
 

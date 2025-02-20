@@ -29,7 +29,6 @@ export class ServiceWorkerVersionDirective extends DestroyableContainer {
         private nativeWindow: NativeWindowService,
         private windows: WindowService,
         private language: LanguageService,
-        private environment: EnvironmentService,
         private service: ServiceWorkerService) {
         super();
         this.element = element.nativeElement;

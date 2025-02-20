@@ -4,8 +4,8 @@ import { ViewUtil } from '@ts-core/angular';
 import { PipeService, RouterService } from '@core/service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { takeUntil } from 'rxjs';
 import * as _ from 'lodash';
-import { merge, takeUntil } from 'rxjs';
 
 @Component({
     imports: [

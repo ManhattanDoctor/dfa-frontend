@@ -28,8 +28,7 @@ import * as _ from 'lodash';
         MatFormFieldModule,
         MatProgressBarModule,
 
-        VIMatModule,
-        CompanyContainerComponent
+        VIMatModule
     ],
     selector: 'company-edit',
     templateUrl: 'company-edit.component.html',
@@ -67,8 +66,7 @@ export class CompanyEditComponent extends IWindowContent implements ISerializabl
 
     constructor(
         container: ViewContainerRef,
-        private windows: WindowService,
-        public environment: EnvironmentService
+        private windows: WindowService
     ) {
         super(container);
         ViewUtil.addClasses(container, 'd-flex flex-column scroll-vertical');

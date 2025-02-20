@@ -1,11 +1,17 @@
-import { Component, Input, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { ViewUtil } from '@ts-core/angular';
 import { User } from '@common/platform/user';
-import { DestroyableContainer } from '@ts-core/common';
+import { ObjectUtil } from '@ts-core/common';
 import { VIMatModule } from '@ts-core/angular-material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
+import { TransportSocket } from '@ts-core/socket-client';
+import { UserChangedEvent } from '@common/platform/transport';
+import { filter, map, takeUntil } from 'rxjs';
+import { UpdatableComponent } from '@shared/component';
+import { getSocketUserRoom } from '@common/platform';
+import { UserService } from '@core/service';
 import * as _ from 'lodash';
 
 @Component({
@@ -19,15 +25,7 @@ import * as _ from 'lodash';
     selector: 'user-details',
     templateUrl: 'user-details.component.html',
 })
-export class UserDetailsComponent extends DestroyableContainer {
-
-    //--------------------------------------------------------------------------
-    //
-    // 	Properties
-    //
-    //--------------------------------------------------------------------------
-
-    private _user: User;
+export class UserDetailsComponent extends UpdatableComponent<User> {
 
     //--------------------------------------------------------------------------
     //
@@ -35,52 +33,33 @@ export class UserDetailsComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ViewContainerRef) {
+    constructor(container: ViewContainerRef, private socket: TransportSocket, private service: UserService) {
         super();
         ViewUtil.addClasses(container, 'row g-0');
+
+        socket.getDispatcher<UserChangedEvent>(UserChangedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                filter(item => item.id === this.item.id),
+                takeUntil(this.destroyed)
+            ).subscribe(item => ObjectUtil.copyPartial(item, this.item));
     }
 
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
     //
     // 	Private Methods
     //
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
-    private commitUserProperties(): void {
-        let value = null;
-    }
-
-    //--------------------------------------------------------------------------
-    //
-    //  Private Properties
-    //
-    //--------------------------------------------------------------------------
-
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Methods
-    //
-    //--------------------------------------------------------------------------
-
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Properties
-    //
-    //--------------------------------------------------------------------------
-
-    public get user(): User {
-        return this._user;
-    }
-    @Input()
-    public set user(value: User) {
-        if (value === this._user) {
-            return;
+    protected itemOpenedHandler(item: User): void {
+        if (!this.service.isEquals(item)) {
+            this.socket.roomAdd(getSocketUserRoom(item.id));
         }
-        this._user = value;
-        if (!_.isNil(value)) {
-            this.commitUserProperties();
+    }
+
+    protected itemClosedHandler(item: User): void {
+        if (!this.service.isEquals(item)) {
+            this.socket.roomRemove(getSocketUserRoom(item.id));
         }
     }
 }

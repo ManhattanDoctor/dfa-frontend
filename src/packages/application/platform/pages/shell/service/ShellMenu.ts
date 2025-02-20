@@ -1,11 +1,12 @@
 import { SelectListItem, SelectListItems, ISelectListItem } from '@ts-core/angular';
 import { LanguageService } from '@ts-core/frontend';
 import { Injectable } from '@angular/core';
-import { RouterService, UserService, LoginService } from '@core/service';
+import { RouterService, UserService, LoginService, CompanyService, PermissionService } from '@core/service';
 // import { ProfileManagerGuard } from '@feature/profile/guard';
 import { takeUntil, merge } from 'rxjs';
 import * as _ from 'lodash';
 import { UserResolver } from '@shared/resolver';
+import { ResourcePermission } from '../../../../../../externals/common/platform';
 
 @Injectable()
 export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
@@ -26,14 +27,16 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(language: LanguageService, router: RouterService, user: UserService) {
+    constructor(language: LanguageService, router: RouterService, user: UserService, permission: PermissionService, company: CompanyService) {
         super(language);
 
         this.management = new SelectListItems(language);
 
         let item: ISelectListItem<string> = null;
         item = this.add(new ShellListItem('user.user', ShellMenu.USER, `/${RouterService.USER_URL}`, 'fas fa-user'));
+
         item = this.add(new ShellListItem('company.company', ShellMenu.COMPANY, `/${RouterService.COMPANY_URL}`, 'fas fa-building'));
+        item.checkEnabled = () => company.has;
         /*
         item = this.add(new ShellListItem('coin.balance', ShellMenu.COIN_TRANSACTIONS, `/${RouterService.COIN_TRANSACTIONS_URL}`, 'fas fa-coins'));
         item = this.add(new ShellListItem('voice.voices', ShellMenu.VOICES, `/${RouterService.VOICES_URL}`, 'fab fa-teamspeak'));
@@ -52,7 +55,7 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
         }
         router.finished.pipe(takeUntil(this.destroyed)).subscribe(() => this.refreshSelection());
 
-        merge(user.logined, user.logouted).pipe(takeUntil(this.destroyed)).subscribe(() => this.refresh());
+        merge(user.changed, company.changed).pipe(takeUntil(this.destroyed)).subscribe(() => this.refresh());
 
         [this, this.management].forEach(item => item.complete());
         this.refresh();

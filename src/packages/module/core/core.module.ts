@@ -31,7 +31,6 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TransportSocket } from '@ts-core/socket-client';
 import * as _ from 'lodash';
-import { KeycloakToken, KeycloakTokenManager } from '@ts-core/openid-common';
 
 //--------------------------------------------------------------------------
 //
@@ -69,8 +68,8 @@ export class CoreModule {
                 },
                 {
                     provide: Client,
-                    deps: [Logger, KeycloakTokenManager],
-                    useFactory: (logger: ILogger, token: KeycloakTokenManager) => new Client(logger, token, null, LoggerLevel.NONE)
+                    deps: [Logger, OpenIdTokenService],
+                    useFactory: (logger: ILogger, token: OpenIdTokenService) => new Client(logger, token, null, LoggerLevel.NONE)
                 },
                 {
                     provide: Transport,
@@ -83,7 +82,6 @@ export class CoreModule {
                 },
 
                 { provide: TransportSocket, useExisting: SocketService },
-                { provide: KeycloakTokenManager, useExisting: OpenIdTokenService },
 
                 { provide: MomentDatePipe, useClass: MomentDatePipe, },
                 { provide: PipeBaseService, useExisting: PipeService, },

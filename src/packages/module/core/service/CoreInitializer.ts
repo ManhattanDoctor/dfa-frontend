@@ -3,6 +3,7 @@ import { Transport, Destroyable } from '@ts-core/common';
 import { ThemeService } from '@ts-core/frontend';
 import { SeoService } from './SeoService';
 import { ServiceWorkerService } from '@ts-core/angular';
+import { ActionService } from './ActionService';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +17,7 @@ export class CoreInitializer extends Destroyable {
     constructor(
         seo: SeoService,
         theme: ThemeService,
+        action: ActionService,
         transport: Transport,
         serviceWorker: ServiceWorkerService
     ) {

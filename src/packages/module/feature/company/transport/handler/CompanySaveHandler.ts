@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Logger, Transport, TransportCommandAsyncHandler } from '@ts-core/common';
 import { Client } from '@common/platform/api';
-import { CompanyService } from '@core/service';
 import { CompanySaveCommand, ICompanyEditDto } from '../CompanySaveCommand';
 import { Company } from '@common/platform/company';
 import * as _ from 'lodash';
@@ -14,7 +13,7 @@ export class CompanySaveHandler extends TransportCommandAsyncHandler<ICompanyEdi
     //
     // --------------------------------------------------------------------------
 
-    constructor(transport: Transport, logger: Logger, private company: CompanyService, private api: Client) {
+    constructor(transport: Transport, logger: Logger, private api: Client) {
         super(logger, transport, CompanySaveCommand.NAME);
     }
 
@@ -25,10 +24,6 @@ export class CompanySaveHandler extends TransportCommandAsyncHandler<ICompanyEdi
     // --------------------------------------------------------------------------
 
     protected async execute(params: ICompanyEditDto): Promise<Company> {
-        let item = await this.api.companyEdit(params.id, params);
-        if (this.company.isCompany(item)) {
-            this.company.update(item);
-        }
-        return item;
+        return this.api.companyEdit(params.id, params);
     }
 }

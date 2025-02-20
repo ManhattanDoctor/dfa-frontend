@@ -1,0 +1,124 @@
+<div class="d-flex flex-shrink-0 align-items-center surface-container-low p-2">
+    <p class="mx-1 title mat-headline-small font-family-brand text-one-line color-base flex-grow-1 mouse-disabled" vi-translate="company.company"></p>
+    <button class="flex-shrink-0" (click)="submit()" mat-flat-button [disabled]="isDisabled || form.invalid || form.pristine || !details">
+        <span class="text-one-line flex-grow-1" vi-translate="general.add.add"></span>
+    </button>
+</div>
+
+<mat-progress-bar class="flex-shrink-0 border-line variant" [mode]="isDisabled ? 'indeterminate' : 'determinate'"></mat-progress-bar>
+
+<form class="flex-grow-1 px-3 pt-3 pb-2 row g-0 scroll-vertical" #form="ngForm" (keydown.enter)="$event.preventDefault()">
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <input
+                #nameInput="ngModel"
+                matInput
+                name="name"
+                [(ngModel)]="name"
+                type="text"
+                required
+                isNotEmpty
+                [minlength]="nameMinLength"
+                [maxlength]="nameMaxLength"
+                [disabled]="isDisabled"
+            />
+            <mat-label vi-translate="company.preferences.name"></mat-label>
+            <mat-error *ngIf="!(nameInput.valid || !nameInput.touched)" [innerHTML]="nameInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <input
+                #emailInput="ngModel"
+                matInput
+                name="email"
+                [(ngModel)]="email"
+                type="text"
+                isNotEmpty
+                [maxlength]="emailMaxLength"
+                [disabled]="isDisabled"
+            />
+            <mat-label vi-translate="company.preferences.email"></mat-label>
+            <mat-error *ngIf="!(emailInput.valid || !emailInput.touched)" [innerHTML]="emailInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <input #phoneInput="ngModel" matInput name="phone" [(ngModel)]="phone" type="text" isNotEmpty [maxlength]="nameMaxLength" [disabled]="isDisabled" />
+            <mat-label vi-translate="company.preferences.phone"></mat-label>
+            <mat-error *ngIf="!(phoneInput.valid || !phoneInput.touched)" [innerHTML]="phoneInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <input
+                #websiteInput="ngModel"
+                matInput
+                name="website"
+                [(ngModel)]="website"
+                type="text"
+                isNotEmpty
+                [maxlength]="websiteMaxLength"
+                [disabled]="isDisabled"
+            />
+            <mat-label vi-translate="company.preferences.website"></mat-label>
+            <mat-error *ngIf="!(websiteInput.valid || !websiteInput.touched)" [innerHTML]="websiteInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <textarea
+                #addressInput="ngModel"
+                matInput
+                name="address"
+                [(ngModel)]="address"
+                isNotEmpty
+                [maxlength]="addressMaxLength"
+                [disabled]="isDisabled"
+            ></textarea>
+            <mat-label vi-translate="company.preferences.address"></mat-label>
+            <mat-error *ngIf="!(addressInput.valid || !addressInput.touched)" [innerHTML]="addressInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <textarea
+                #descriptionInput="ngModel"
+                matInput
+                name="description"
+                [(ngModel)]="description"
+                isNotEmpty
+                [maxlength]="descriptionMaxLength"
+                [disabled]="isDisabled"
+            ></textarea>
+            <mat-label vi-translate="company.preferences.description"></mat-label>
+            <mat-error *ngIf="!(descriptionInput.valid || !descriptionInput.touched)" [innerHTML]="descriptionInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <input
+                #innInput="ngModel"
+                matInput
+                name="inn"
+                [(ngModel)]="inn"
+                type="text"
+                required
+                isNotEmpty
+                [minlength]="innMinLength"
+                [maxlength]="innMaxLength"
+                [disabled]="isDisabled"
+            />
+            <button mat-icon-button matSuffix (click)="detailsGet()" [title]="'general.load.load' | viTranslate" [disabled]="!inn || isDisabled">
+                <mat-icon fontSet="fas" fontIcon="fa-landmark"></mat-icon>
+            </button>
+            <span class="me-2" vi-translate="company.details.inn" matTextPrefix></span>
+            <mat-label vi-translate="company.details.details"></mat-label>
+            <mat-error *ngIf="!(innInput.valid || !innInput.touched)" [innerHTML]="innInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+        <div class="border rounded tertiary-container p-3 mb-3" *ngIf="details">
+            <company-details-tax [details]="details"></company-details-tax>
+        </div>
+    </div>
+</form>

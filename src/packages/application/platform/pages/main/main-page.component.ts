@@ -18,7 +18,6 @@ export class MainPageComponent {
 
     constructor(container: ViewContainerRef,
         private transport: Transport,
-        public environment: EnvironmentService,
         private router: RouterService) {
         ViewUtil.addClasses(container, 'd-flex flex-column flex-grow-1 overflow-hidden');
         transport.send(new SeoCommand({ title: `general.title`, description: `general.description` }));

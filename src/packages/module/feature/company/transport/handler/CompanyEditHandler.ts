@@ -18,7 +18,7 @@ export class CompanyEditHandler extends TransportCommandAsyncHandler<number, ICo
     //
     // --------------------------------------------------------------------------
 
-    constructor(transport: Transport, logger: Logger, private portal: PortalService, private notifications: NotificationService, private company: CompanyService, private api: Client) {
+    constructor(transport: Transport, logger: Logger, private portal: PortalService, private notifications: NotificationService, private api: Client) {
         super(logger, transport, CompanyEditCommand.NAME);
     }
 
@@ -53,10 +53,6 @@ export class CompanyEditHandler extends TransportCommandAsyncHandler<number, ICo
                     }
                     finally {
                         content.isDisabled = false;
-                    }
-
-                    if (item.id === this.company.id) {
-                        this.company.update(item);
                     }
                     promise.resolve(item);
                     content.close();

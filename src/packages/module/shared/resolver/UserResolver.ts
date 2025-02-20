@@ -28,7 +28,7 @@ export class UserResolver extends Resolver<User> {
     public async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<User> {
         let { id } = route.params;
         try {
-            return _.isNil(id) || this.service.isUser(id) ? this.service.user : await this.api.userGet(id);
+            return _.isNil(id) || this.service.isEquals(id) ? this.service.user : await this.api.userGet(id);
         } catch (error) {
             return this.parseError(error.toString(), false);
         }

@@ -1,0 +1,15 @@
+<div class="d-flex flex-shrink-0 align-items-center surface-container-low p-2 border-bottom">
+    <p class="mx-1 title mat-headline-small font-family-brand text-one-line color-base flex-grow-1 mouse-disabled" vi-translate="company.add.wizard.wizard"></p>
+    <button class="flex-shrink-0" (click)="submit()" mat-flat-button>
+        <span class="text-one-line flex-grow-1" [vi-translate]="role === 'OWNER'? 'general.add.add':'general.search.search'"></span>
+    </button>
+</div>
+
+<div class="flex-grow-1 p-3 row g-0 scroll-vertical">
+    <p class="mouse-disabled" vi-translate="company.add.wizard.description"></p>
+    <mat-radio-group class="mt-2 d-flex flex-column" [(ngModel)]="role">
+        <mat-radio-button *ngFor="let item of roles" [value]="item">
+            <span [vi-translate]="'company.add.wizard.role.' + item"></span>
+        </mat-radio-button>
+    </mat-radio-group>
+</div>

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CookieService, JSONValueStorage, LocalStorageService, LoginTokenStorage } from "@ts-core/angular";
-import { IOpenIdToken, KeycloakTokenManager } from "@ts-core/openid-common";
+import { IOpenIdTokenRefreshable, KeycloakTokenManager } from "@ts-core/openid-common";
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +11,7 @@ export class OpenIdTokenService extends KeycloakTokenManager {
     //
     //--------------------------------------------------------------------------
 
-    private storage: JSONValueStorage<IOpenIdToken>;
+    private storage: JSONValueStorage<IOpenIdTokenRefreshable>;
 
     //--------------------------------------------------------------------------
     //
@@ -44,13 +44,14 @@ export class OpenIdTokenService extends KeycloakTokenManager {
     //
     //--------------------------------------------------------------------------
 
+    
     public destroy(): void {
         super.destroy();
         this.storage = null;
     }
 }
 
-class OpenIdTokenStorage extends JSONValueStorage<IOpenIdToken> {
+class OpenIdTokenStorage extends JSONValueStorage<IOpenIdTokenRefreshable> {
     constructor(storage: LocalStorageService, cookies: CookieService) {
         super(LoginTokenStorage.TOKEN_KEY, storage, cookies);
     }

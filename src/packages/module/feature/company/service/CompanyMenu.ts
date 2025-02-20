@@ -3,9 +3,9 @@ import { LanguageService } from '@ts-core/frontend';
 import { Injectable } from '@angular/core';
 import { PermissionService, PipeService, RouterService, CompanyService } from '@core/service';
 import { Transport } from '@ts-core/common';
-import { CompanyEditCommand, CompanyOpenCommand } from '../transport';
+import { CompanyEditCommand, CompanyOpenCommand, CompanyRejectCommand, CompanySubmitCommand, CompanyVerifyCommand } from '../transport';
 import { ResourcePermission } from '@common/platform';
-import { Company } from '@common/platform/company';
+import { Company, CompanyUtil } from '@common/platform/company';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -18,6 +18,9 @@ export class CompanyMenu extends ListItems<IListItem> {
 
     private static OPEN = 0;
     private static EDIT = 10;
+    private static SUBMIT = 20;
+    private static VERIFY = 20;
+    private static REJECT = 20;
 
     // --------------------------------------------------------------------------
     //
@@ -25,18 +28,36 @@ export class CompanyMenu extends ListItems<IListItem> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(language: LanguageService, transport: Transport, private router: RouterService, private service: CompanyService, private permission: PermissionService) {
+    constructor(language: LanguageService, transport: Transport, private router: RouterService, private service: CompanyService, permission: PermissionService) {
         super(language);
 
         let item: IListItem = null;
 
+        item = this.add(new MenuItem('general.edit.edit', CompanyMenu.EDIT, 'fa fa-cog me-2'));
+        item.action = (item, company) => transport.send(new CompanyEditCommand(company.id));
+        item.checkEnabled = (item, company) => CompanyUtil.isCanEdit(permission.resources, false);
+
         item = this.add(new MenuItem('company.company', CompanyMenu.OPEN, 'fa fa-building me-2'));
         item.action = (item, company) => transport.send(new CompanyOpenCommand({ id: company.id, isBriefly: false }));
-        item.checkEnabled = (item, company) => !this.isPageOpen(company.id) && permission.hasResourceScope(ResourcePermission.COMPANY_READ);
+        item.checkEnabled = (item, company) => !this.isPageOpen(company.id) && CompanyUtil.isCanRead(permission.resources, false);
 
+        item = this.add(new MenuItem('company.submit.submit', CompanyMenu.SUBMIT, 'fa fa-arrow-right me-2'));
+        item.action = (item, company) => transport.send(new CompanySubmitCommand());
+        item.checkEnabled = (item, company) => CompanyUtil.isCanSubmit(company, permission.resources, false);
+
+        item = this.add(new MenuItem('company.verify.verify', CompanyMenu.VERIFY, 'fa fa-check me-2'));
+        item.action = (item, company) => transport.send(new CompanyVerifyCommand(company.id));
+        item.checkEnabled = (item, company) => CompanyUtil.isCanVerify(company, permission.resources, false);
+
+        item = this.add(new MenuItem('company.reject.reject', CompanyMenu.VERIFY, 'fa fa-xmark me-2'));
+        item.action = (item, company) => transport.send(new CompanyRejectCommand(company.id));
+        item.checkEnabled = (item, company) => CompanyUtil.isCanReject(company, permission.resources, false);
+
+        /*
         item = this.add(new MenuItem('general.edit.edit', CompanyMenu.EDIT, 'fa fa-pen me-2'));
         item.action = (item, company) => transport.send(new CompanyEditCommand(company.id));
-        item.checkEnabled = (item, company) => permission.hasResourceScope(ResourcePermission.COMPANY_EDIT);
+        // item.checkEnabled = (item, company) => permission.has(ResourcePermission.COMPANY_EDIT);
+        */
 
         this.complete();
     }
@@ -49,7 +70,7 @@ export class CompanyMenu extends ListItems<IListItem> {
 
     private isPageOpen(item: number): boolean {
         let items = [RouterService.COMPANY_URL];
-        if (this.service.isCompany(item)) {
+        if (this.service.isEquals(item)) {
             items.push(`${RouterService.COMPANY_URL}/${item}`);
         }
         return items.some(item => this.router.isUrlActive(item, false));

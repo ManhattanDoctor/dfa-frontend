@@ -28,8 +28,6 @@ export class SeoService extends Destroyable {
     //--------------------------------------------------------------------------
 
     constructor(transport: Transport,
-        environment: EnvironmentService,
-        // private metrika: Metrika,
         private platform: PlatformService,
         private language: LanguageService,
         private title: Title,
@@ -73,11 +71,11 @@ export class SeoService extends Destroyable {
     }
 
     private getTitle(key: string): string {
-        return !_.isNil(key) && this.language.isHasTranslation(key, true) ? `${LanguagePipe.removeTags(this.language.translate(key))} | ${this.titleDefault}` : this.descriptionDefault;
+        return !_.isNil(key) ? LanguagePipe.removeTags(this.language.translate(key)) : this.titleDefault;
     }
 
     private getDescription(key: string): string {
-        return !_.isNil(key) && this.language.isHasTranslation(key, true) ? LanguagePipe.removeTags(this.language.translate(key)) : this.descriptionDefault;
+        return !_.isNil(key) ? LanguagePipe.removeTags(this.language.translate(key)) : this.descriptionDefault;
     }
 
     //--------------------------------------------------------------------------

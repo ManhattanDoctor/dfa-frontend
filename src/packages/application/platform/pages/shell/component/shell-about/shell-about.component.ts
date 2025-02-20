@@ -24,7 +24,7 @@ export class ShellAboutComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(element: ElementRef, private settings: SettingsService, private pipe: PipeService, private router: RouterService, public environment: EnvironmentService,) {
+    constructor(element: ElementRef, private settings: SettingsService, private pipe: PipeService, private router: RouterService) {
         super();
         ViewUtil.addClasses(element, 'd-block');
 

@@ -28,7 +28,7 @@ export class CompanyResolver extends Resolver<Company> {
     public async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Company> {
         let { id } = route.params;
         try {
-            return _.isNil(id) || this.service.isCompany(id) ? this.service.company : await this.api.companyGet(id);
+            return _.isNil(id) || this.service.isEquals(id) ? this.service.company : await this.api.companyGet(id);
         } catch (error) {
             return this.parseError(error.toString(), false);
         }

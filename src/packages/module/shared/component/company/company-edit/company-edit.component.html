@@ -1,13 +1,13 @@
 <div class="d-flex flex-shrink-0 align-items-center surface-container-low p-2">
-    <company-container [company]="company"></company-container>
-    <button class="flex-shrink-0" mat-icon-button (click)="submit()" [disabled]="isDisabled || form.invalid || form.pristine">
-        <mat-icon fontSet="fas" fontIcon="fa-circle-check"></mat-icon>
+    <p class="mx-1 title mat-headline-small font-family-brand text-one-line color-base flex-grow-1 mouse-disabled" vi-translate="company.company"></p>
+    <button class="flex-shrink-0" (click)="submit()" mat-flat-button [disabled]="isDisabled || form.invalid || form.pristine">
+        <span class="text-one-line flex-grow-1" vi-translate="general.edit.edit"></span>
     </button>
 </div>
 
 <mat-progress-bar class="flex-shrink-0 border-line variant" [mode]="isDisabled ? 'indeterminate' : 'determinate'"></mat-progress-bar>
 
-<form class="flex-grow-1 px-4 pt-4 pb-2 row g-0 scroll-vertical" #form="ngForm" (keydown.enter)="$event.preventDefault()">
+<form class="flex-grow-1 px-3 pt-3 pb-1 row g-0 scroll-vertical" #form="ngForm" (keydown.enter)="$event.preventDefault()">
     <div class="col-12">
         <mat-form-field class="d-block">
             <input

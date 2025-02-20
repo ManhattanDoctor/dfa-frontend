@@ -48,7 +48,7 @@ export class UserInfoComponent extends DestroyableContainer {
         ViewUtil.addClasses(container, 'd-flex align-items-center mouse-active');
 
         this.invalidate();
-        merge(service.logined, service.logouted, service.changed, language.completed)
+        merge(service.changed, language.completed)
             .pipe(takeUntil(this.destroyed))
             .subscribe(this.invalidate);
     }

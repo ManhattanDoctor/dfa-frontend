@@ -1,11 +1,17 @@
-import { Component, Input, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { ViewUtil } from '@ts-core/angular';
 import { Company } from '@common/platform/company';
-import { DestroyableContainer } from '@ts-core/common';
 import { VIMatModule } from '@ts-core/angular-material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
+import { UpdatableComponent } from '@shared/component';
+import { TransportSocket } from '@ts-core/socket-client';
+import { CompanyChangedEvent } from '@common/platform/transport';
+import { ObjectUtil } from '@ts-core/common';
+import { filter, map, takeUntil } from 'rxjs';
+import { getSocketCompanyRoom } from '@common/platform';
+import { CompanyService } from '@core/service';
 import * as _ from 'lodash';
 
 @Component({
@@ -19,15 +25,7 @@ import * as _ from 'lodash';
     selector: 'company-details',
     templateUrl: 'company-details.component.html',
 })
-export class CompanyDetailsComponent extends DestroyableContainer {
-
-    //--------------------------------------------------------------------------
-    //
-    // 	Properties
-    //
-    //--------------------------------------------------------------------------
-
-    private _company: Company;
+export class CompanyDetailsComponent extends UpdatableComponent<Company> {
 
     //--------------------------------------------------------------------------
     //
@@ -35,52 +33,37 @@ export class CompanyDetailsComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ViewContainerRef) {
+    constructor(container: ViewContainerRef, private socket: TransportSocket, private service: CompanyService) {
         super();
         ViewUtil.addClasses(container, 'row g-0');
+
+        socket.getDispatcher<CompanyChangedEvent>(CompanyChangedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                takeUntil(this.destroyed)
+            ).subscribe(item => {
+                console.log(item);
+            });
+
+        socket.getDispatcher<CompanyChangedEvent>(CompanyChangedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                filter(item => item.id === this.item.id),
+                takeUntil(this.destroyed)
+            ).subscribe(item => ObjectUtil.copyPartial(item, this.item));
     }
 
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
     //
     // 	Private Methods
     //
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
-    private commitCompanyProperties(): void {
-        let value = null;
+    protected itemOpenedHandler(item: Company): void {
+        this.socket.roomAdd(getSocketCompanyRoom(item.id));
     }
 
-    //--------------------------------------------------------------------------
-    //
-    //  Private Properties
-    //
-    //--------------------------------------------------------------------------
-
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Methods
-    //
-    //--------------------------------------------------------------------------
-
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Properties
-    //
-    //--------------------------------------------------------------------------
-
-    public get company(): Company {
-        return this._company;
-    }
-    @Input()
-    public set company(value: Company) {
-        if (value === this._company) {
-            return;
-        }
-        this._company = value;
-        if (!_.isNil(value)) {
-            this.commitCompanyProperties();
-        }
+    protected itemClosedHandler(item: Company): void {
+        this.socket.roomRemove(getSocketCompanyRoom(item.id));
     }
 }

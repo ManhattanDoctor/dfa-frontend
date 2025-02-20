@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Loginable } from '@ts-core/angular';
 import { Company } from '@common/platform/company';
-import { ObservableData } from '@ts-core/common';
-import { filter, map, Observable } from 'rxjs';
+import { ObservableData, TransformUtil } from '@ts-core/common';
+import { filter, map, Observable, takeUntil } from 'rxjs';
 import { LoginService } from './LoginService';
+import { SocketService } from './SocketService';
+import { CompanyAddedEvent } from '@common/platform/transport';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class CompanyService extends Loginable<LoginService,CompanyServiceEvent,Company>  {
+export class CompanyService extends Loginable<LoginService, CompanyServiceEvent, Company | Partial<Company>> {
     //--------------------------------------------------------------------------
     //
     // 	Properties
@@ -22,9 +24,26 @@ export class CompanyService extends Loginable<LoginService,CompanyServiceEvent,C
     //
     //--------------------------------------------------------------------------
 
-    constructor(login: LoginService) {
+    constructor(login: LoginService, private socket: SocketService,) {
         super(login);
         this.initialize();
+
+        socket.getDispatcher<CompanyAddedEvent>(CompanyAddedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                takeUntil(this.destroyed)
+            ).subscribe(item => this.set(TransformUtil.toClass(Company, item)));
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Private Methods
+    //
+    //--------------------------------------------------------------------------
+
+    protected set(item: Company): void {
+        this._company = item;
+        this.observer.next(new ObservableData(CompanyServiceEvent.CHANGED, this.company));
     }
 
     //--------------------------------------------------------------------------
@@ -34,11 +53,11 @@ export class CompanyService extends Loginable<LoginService,CompanyServiceEvent,C
     //--------------------------------------------------------------------------
 
     protected async loginedHandler(): Promise<void> {
-        this._company = this.login.loginData.company;
+        this.set(this.login.loginData.company);
     }
 
     protected async logoutedHandler(): Promise<void> {
-        this._company = null;
+        this.set(null);
     }
 
     //--------------------------------------------------------------------------
@@ -52,17 +71,14 @@ export class CompanyService extends Loginable<LoginService,CompanyServiceEvent,C
             return;
         }
         Object.assign(this.company, data);
-        this.observer.next(new ObservableData(CompanyServiceEvent.CHANGED, this.company));
+        this.observer.next(new ObservableData(CompanyServiceEvent.CHANGED, data));
     }
 
-    public isCompany(item: Partial<Company> | number): boolean {
+    public isEquals(item: Partial<Company> | number): boolean {
         if (!this.has || _.isNil(item)) {
             return false;
         }
-        if (_.isNumber(item)) {
-            return item === this.company.id;
-        }
-        return item.id === this.company.id;
+        return _.isNumber(item) ? item === this.company.id : item.id === this.company.id;
     }
 
     public destroy(): void {
@@ -94,10 +110,10 @@ export class CompanyService extends Loginable<LoginService,CompanyServiceEvent,C
         return this._company;
     }
 
-    public get changed(): Observable<Company> {
+    public get changed(): Observable<Partial<Company>> {
         return this.events.pipe(
             filter(item => item.type === CompanyServiceEvent.CHANGED),
-            map(item => item.data as Company)
+            map(item => item.data as Partial<Company>)
         );
     }
 }

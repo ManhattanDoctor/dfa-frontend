@@ -18,7 +18,7 @@ export class UserEditHandler extends TransportCommandAsyncHandler<string, IUserE
     //
     // --------------------------------------------------------------------------
 
-    constructor(transport: Transport, logger: Logger, private portal: PortalService, private notifications: NotificationService, private user: UserService, private api: Client) {
+    constructor(transport: Transport, logger: Logger, private portal: PortalService, private notifications: NotificationService, private api: Client) {
         super(logger, transport, UserEditCommand.NAME);
     }
 

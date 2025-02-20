@@ -11,6 +11,7 @@ export class User extends UserBase implements IUser<Partial<User>> {
     //--------------------------------------------------------------------------
 
     public update(data: Partial<User>): void {
+        ObjectUtil.copyPartial(data, this, ['companyId', 'created', 'status']);
         if (!_.isNil(data.preferences)) {
             ObjectUtil.copyPartial(data.preferences, this.preferences);
         }

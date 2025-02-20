@@ -1,26 +1,30 @@
 <div class="col-12">
     <mat-form-field class="d-block" [vi-click-to-copy]="id">
-        <input #id class="mouse-disabled" matInput [value]="company?.id" disabled />
+        <input #id class="mouse-disabled" matInput [value]="item?.id" disabled />
         <mat-label vi-translate="company.id"></mat-label>
     </mat-form-field>
     <mat-form-field class="d-block" [vi-click-to-copy]="name">
-        <input #name class="mouse-disabled" matInput [value]="company?.preferences.name" disabled />
+        <input #name class="mouse-disabled" matInput [value]="item?.preferences.name" disabled />
         <mat-label vi-translate="company.preferences.name"></mat-label>
     </mat-form-field>
-    <mat-form-field class="d-block" [vi-click-to-copy]="email">
-        <input #email class="mouse-disabled" matInput [value]="company?.preferences.email" disabled />
+    <mat-form-field class="d-block" [vi-click-to-copy]="status">
+        <input #status class="mouse-disabled" matInput [value]="'company.status.' + item.status | viTranslate" disabled />
+        <mat-label vi-translate="company.status.status"></mat-label>
+    </mat-form-field>
+    <mat-form-field class="d-block" [vi-click-to-copy]="email" *ngIf="item?.preferences.email">
+        <input #email class="mouse-disabled" matInput [value]="item?.preferences.email" disabled />
         <mat-label vi-translate="company.preferences.email"></mat-label>
     </mat-form-field>
-    <mat-form-field class="d-block" [vi-click-to-copy]="website">
-        <input #website class="mouse-disabled" matInput [value]="company?.preferences.website" disabled />
+    <mat-form-field class="d-block" [vi-click-to-copy]="website" *ngIf="item?.preferences.website">
+        <input #website class="mouse-disabled" matInput [value]="item?.preferences.website" disabled />
         <mat-label vi-translate="company.preferences.website"></mat-label>
     </mat-form-field>
-    <mat-form-field class="d-block" [vi-click-to-copy]="address">
-        <input #address class="mouse-disabled" matInput [value]="company?.preferences.address" disabled />
+    <mat-form-field class="d-block" [vi-click-to-copy]="address" *ngIf="item?.preferences.address">
+        <input #address class="mouse-disabled" matInput [value]="item?.preferences.address" disabled />
         <mat-label vi-translate="company.preferences.address"></mat-label>
     </mat-form-field>
-    <mat-form-field class="d-block" [vi-click-to-copy]="description">
-        <textarea #description class="mouse-disabled" matInput [value]="company?.preferences.description | viPrettify" disabled></textarea>
+    <mat-form-field class="d-block" [vi-click-to-copy]="description" *ngIf="item?.preferences.description">
+        <textarea #description class="mouse-disabled" matInput [value]="item?.preferences.description | viPrettify" disabled></textarea>
         <mat-label vi-translate="company.preferences.description"></mat-label>
     </mat-form-field>
 </div>

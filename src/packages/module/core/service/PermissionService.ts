@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { IKeycloakSettings, KeycloakClient, KeycloakResources, KeycloakTokenManager, KeycloakUtil } from '@ts-core/openid-common';
-import { getResourceValidationOptions } from '@common/platform';
+import { IKeycloakSettings, KeycloakClient, OpenIdResources } from '@ts-core/openid-common';
 import { ExtendedError, Loadable, LoadableEvent, LoadableStatus, ObservableData } from '@ts-core/common';
+import { OpenIdTokenService } from './OpenIdTokenService';
 import { takeUntil } from 'rxjs';
 import * as _ from 'lodash';
 
@@ -14,7 +14,7 @@ export class PermissionService extends Loadable {
     //--------------------------------------------------------------------------
 
     protected _settings: IKeycloakSettings;
-    protected resources: KeycloakResources;
+    protected _resources: OpenIdResources;
 
     //--------------------------------------------------------------------------
     //
@@ -22,10 +22,9 @@ export class PermissionService extends Loadable {
     //
     //--------------------------------------------------------------------------
 
-    constructor(private token: KeycloakTokenManager) {
+    constructor(private token: OpenIdTokenService) {
         super();
-        this.resourcesUpdate();
-        token.changed.pipe(takeUntil(this.destroyed)).subscribe(() => this.resourcesUpdate());
+        token.changed.pipe(takeUntil(this.destroyed)).subscribe(() => this.update());
     }
 
     //--------------------------------------------------------------------------
@@ -34,20 +33,7 @@ export class PermissionService extends Loadable {
     //
     //--------------------------------------------------------------------------
 
-    protected commitStatusChangedProperties(oldStatus: LoadableStatus, newStatus: LoadableStatus): void {
-        switch (newStatus) {
-            case LoadableStatus.ERROR:
-            case LoadableStatus.NOT_LOADED:
-                this.resources = null;
-                break;
-        }
-    }
-
-    protected commitSettingsProperties(): void {
-        this.resourcesUpdate();
-    }
-
-    protected async resourcesUpdate(): Promise<void> {
+    protected async update(): Promise<void> {
         if (!this.token.isValid || _.isNil(this.settings)) {
             this.status = LoadableStatus.NOT_LOADED;
             return;
@@ -61,7 +47,7 @@ export class PermissionService extends Loadable {
         this.observer.next(new ObservableData(LoadableEvent.STARTED));
 
         try {
-            this.resources = await this.resourcesGet();
+            this._resources = await this.resourcesGet();
             this.status = LoadableStatus.LOADED;
             this.observer.next(new ObservableData(LoadableEvent.COMPLETE));
         }
@@ -74,27 +60,17 @@ export class PermissionService extends Loadable {
         }
     }
 
-    protected resourcesGet(): Promise<KeycloakResources> {
-        return new KeycloakClient(this.token.access.value, this.settings).getResources();
+    protected commitStatusChangedProperties(oldStatus: LoadableStatus, newStatus: LoadableStatus): void {
+        switch (newStatus) {
+            case LoadableStatus.ERROR:
+            case LoadableStatus.NOT_LOADED:
+                this._resources = null;
+                break;
+        }
     }
 
-    //--------------------------------------------------------------------------
-    //
-    // 	Public Methods
-    //
-    //--------------------------------------------------------------------------
-
-    public hasResourceScope(permission: string): boolean {
-        if (!this.isLoaded) {
-            return false;
-        }
-        try {
-            KeycloakUtil.validateResourceScope(getResourceValidationOptions(permission), this.resources);
-            return true;
-        }
-        catch (error) {
-            return false;
-        }
+    protected async resourcesGet(): Promise<OpenIdResources> {
+        return new KeycloakClient(this.token.access.value, this.settings).getResources();
     }
 
     //--------------------------------------------------------------------------
@@ -103,6 +79,9 @@ export class PermissionService extends Loadable {
     //
     //--------------------------------------------------------------------------
 
+    public get resources(): OpenIdResources {
+        return this._resources;
+    }
     public get settings(): IKeycloakSettings {
         return this._settings;
     }
@@ -111,8 +90,6 @@ export class PermissionService extends Loadable {
             return;
         }
         this._settings = value;
-        if (!_.isNil(value)) {
-            this.commitSettingsProperties();
-        }
+        this.update();
     }
 }
