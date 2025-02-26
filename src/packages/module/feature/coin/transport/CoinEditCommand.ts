@@ -1,13 +1,14 @@
-import { EntityObjectOpenCommand, IEntityObjectOpenDto } from "@feature/hlf/transport";
+import { TransportCommandAsync } from '@ts-core/common';
+import { Coin } from '@common/platform/coin';
 
-export class CompanyOpenCommand extends EntityObjectOpenCommand {
+export class CoinEditCommand extends TransportCommandAsync<number, ICoinEditDtoResponse> {
     // --------------------------------------------------------------------------
     //
     //  Public Static Properties
     //
     // --------------------------------------------------------------------------
 
-    public static readonly NAME = 'CompanyOpenCommand';
+    public static readonly NAME = 'CoinEditCommand';
 
     // --------------------------------------------------------------------------
     //
@@ -15,7 +16,9 @@ export class CompanyOpenCommand extends EntityObjectOpenCommand {
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: IEntityObjectOpenDto) {
-        super(CompanyOpenCommand.NAME, request);
+    constructor(request: number) {
+        super(CoinEditCommand.NAME, request);
     }
 }
+
+export type ICoinEditDtoResponse = Coin;

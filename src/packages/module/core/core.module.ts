@@ -31,6 +31,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TransportSocket } from '@ts-core/socket-client';
 import { UserMapCollection } from './lib/user';
+import { CoinMapCollection } from './lib/coin';
 import { CompanyMapCollection } from './lib/company';
 import * as _ from 'lodash';
 
@@ -117,6 +118,7 @@ export class CoreModule {
                     }
                 },
                 UserMapCollection,
+                CoinMapCollection,
                 CompanyMapCollection
             ]
         };

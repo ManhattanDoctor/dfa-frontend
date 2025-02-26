@@ -1,1 +1,1 @@
-export * from './company.module';
+export * from './coin.module';

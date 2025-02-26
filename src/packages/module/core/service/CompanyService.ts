@@ -40,7 +40,10 @@ export class CompanyService extends Loginable<LoginService, CompanyServiceEvent,
             .pipe(
                 map(item => item.data),
                 takeUntil(this.destroyed)
-            ).subscribe(item => this.set(TransformUtil.toClass(Company, item)));
+            ).subscribe(async item => {
+                this.set(TransformUtil.toClass(Company, item));
+                await this.permission.refresh();
+            });
     }
 
     //--------------------------------------------------------------------------
@@ -86,7 +89,7 @@ export class CompanyService extends Loginable<LoginService, CompanyServiceEvent,
         this.observer.next(new ObservableData(CompanyServiceEvent.CHANGED, data));
 
         if (isNeedUpdatePermission) {
-            console.log(await this.permission.refresh());
+            await this.permission.refresh();
         }
     }
 

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { OpenIdResources, OpenIdTokenExpiredError } from '@ts-core/openid-common';
+import { OpenIdResources } from '@ts-core/openid-common';
 import { ExtendedError, Loadable, LoadableEvent, LoadableStatus, ObservableData } from '@ts-core/common';
 import { OpenIdTokenService } from './OpenIdTokenService';
 import { takeUntil } from 'rxjs';
 import { Client } from '@common/platform/api';
-import * as _ from 'lodash';
 import { LoadableResolver } from '@ts-core/angular';
+import { ResourcePermission } from '@common/platform';
+import * as _ from 'lodash';
+import { PermissionUtil } from '../../../../externals/common/platform/util';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService extends Loadable {
@@ -82,6 +84,10 @@ export class PermissionService extends Loadable {
         else {
             this.status = LoadableStatus.NOT_LOADED;
         }
+    }
+
+    public validate(permission: ResourcePermission, isThrowError: boolean): boolean {
+        return PermissionUtil.validatePermission({ resources: this.resources, permission }, isThrowError);
     }
 
     public async refresh(): Promise<boolean> {

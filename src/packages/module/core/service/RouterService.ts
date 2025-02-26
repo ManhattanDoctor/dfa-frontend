@@ -23,6 +23,9 @@ export class RouterService extends RouterBaseService {
     public static COMPANY_URL = 'company';
     public static COMPANIES_URL = 'companies';
 
+    public static COIN_URL = 'coin';
+    public static COINS_URL = 'coins';
+
     public static DEFAULT_URL;
 
     //--------------------------------------------------------------------------

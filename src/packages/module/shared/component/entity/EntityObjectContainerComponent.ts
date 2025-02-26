@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewContainerRef } from '@angul
 import { ViewUtil } from '@ts-core/angular';
 import { Transport } from '@ts-core/common';
 import { EntityObjectComponent } from './EntityObjectComponent';
-import { EntityObject } from '@feature/hlf';
+import { EntityObject } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({ selector: '', template: '' })

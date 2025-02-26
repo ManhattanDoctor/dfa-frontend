@@ -1,17 +1,1 @@
-<!--
-<page-header [title]="company | companyName">
-    <button class="flex-shrink-0" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="matMenu" (click)="menu.refresh(company)">
-        <mat-icon fontSet="fas" fontIcon="fa-ellipsis-vertical"></mat-icon>
-    </button>
-</page-header>
-
-<div class="flex-grow-1 scroll-vertical">
-    <company-container class="m-3" [item]="company"></company-container>
-</div>
-
-
-<mat-menu #matMenu overlapTrigger="false">
-    <vi-menu-list [list]="menu"></vi-menu-list>
-</mat-menu>
--->
-<company-container class="h-100" [item]="company"></company-container>
+<company-container class="h-100" [item]="item"></company-container>

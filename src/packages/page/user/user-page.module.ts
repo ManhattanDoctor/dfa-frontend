@@ -2,27 +2,12 @@
 import { NgModule } from '@angular/core';
 import { UserPageRoutingModule } from './user-page.routing.module';
 import { UserPageComponent } from './user-page.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { PageHeaderComponent, UserDetailsComponent } from '@shared/component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { VIMatModule } from '@ts-core/angular-material';
-import { UserNamePipe } from '@shared/pipe';
+import { UserContainerComponent } from '@shared/component';
 
 @NgModule({
     imports: [
-        MatIconModule,
-        MatMenuModule,
-        MatInputModule,
-        MatButtonModule,
         UserPageRoutingModule,
-
-        VIMatModule,
-
-        UserNamePipe,
-        PageHeaderComponent,
-        UserDetailsComponent
+        UserContainerComponent,
     ],
     declarations: [UserPageComponent]
 })

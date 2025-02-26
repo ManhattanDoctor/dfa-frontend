@@ -1,4 +1,7 @@
 //
+export * from './entity/EntityObjectComponent';
+export * from './entity/EntityObjectContainerComponent';
+//
 export * from './common/page-header/page-header.component';
 export * from './common/socket-reconnect/socket-reconnect.component';
 export * from './common/UpdatableComponent';
@@ -7,9 +10,8 @@ export * from './actions/actions.component';
 export * from './actions/finance-actions.component';
 //
 export * from './coin/coin-balances/coin-balances.component';
-//
-export * from './entity/EntityObjectComponent';
-export * from './entity/EntityObjectContainerComponent';
+export * from './coin/coin-details/coin-details.component';
+export * from './coin/coin-container/coin-container.component';
 //
 export * from './user/user-picture/user-picture.component';
 export * from './user/user-edit/user-edit.component';

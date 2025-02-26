@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { TransportLazyModule } from '@ts-core/angular';
 import { Transport } from '@ts-core/common';
-import { EntityObjectOpenHandler, HlfTransactionOpenHandler } from './transport/handler';
-import { EntityObjectOpenCommand, HlfTransactionOpenCommand } from './transport';
+import { HlfTransactionOpenHandler } from './transport/handler';
+import { HlfTransactionOpenCommand } from './transport';
 
 //--------------------------------------------------------------------------
 //
@@ -35,7 +35,7 @@ export class HlfModule extends TransportLazyModule<HlfModule> {
     //--------------------------------------------------------------------------
 
     public static ID = 'HlfModule';
-    public static COMMANDS = [HlfTransactionOpenCommand.NAME, EntityObjectOpenCommand.NAME];
+    public static COMMANDS = [HlfTransactionOpenCommand.NAME];
 
     //--------------------------------------------------------------------------
     //

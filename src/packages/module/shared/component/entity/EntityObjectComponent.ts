@@ -1,43 +1,13 @@
 import { Component, Input, ViewContainerRef } from '@angular/core';
 import { IWindowContent, WindowEvent } from '@ts-core/angular';
-import { Transport, ClassType, ITransport, getUid } from '@ts-core/common';
-import { getType, ObjectType } from '@common/hlf';
-import { EntityObject, EntityObjectId } from '@feature/hlf';
-import { EntityObjectOpenCommand } from '@feature/hlf/transport';
-import { Company } from '@common/platform/company';
-import { Coin } from '@common/platform/coin';
-import { CompanyOpenCommand } from '@feature/company/transport';
+import { Transport, ITransport } from '@ts-core/common';
+import { EntityObject, EntityObjectId } from '@feature/entity';
+import { EntityObjectOpenCommand } from '@feature/entity/transport';
 import { filter, takeUntil } from 'rxjs';
-import { User } from '@common/platform/user';
-import { UserOpenCommand } from '@feature/user/transport';
 import * as _ from 'lodash';
 
 @Component({ selector: '', template: '' })
 export class EntityObjectComponent<U extends EntityObject> extends IWindowContent {
-    //--------------------------------------------------------------------------
-    //
-    // 	Static Methods
-    //
-    //--------------------------------------------------------------------------
-
-    public static open<U extends EntityObject | EntityObjectId>(transport: ITransport, item: U, isBriefly: boolean): void {
-        let type = _.isString(item) ? getType(item) : null;
-        let Command: ClassType<EntityObjectOpenCommand<EntityObjectId>> = null;
-
-        if (item instanceof Coin || type === ObjectType.COIN) {
-            // Command = CoinOpenCommand;
-        }
-        else if (item instanceof Company || type === ObjectType.USER) {
-            Command = CompanyOpenCommand;
-        }
-        else if (item instanceof User) {
-            Command = UserOpenCommand;
-        }
-
-        if (!_.isNil(Command)) {
-            transport.send(new Command({ id: _.isObject(item) ? item.id : item, isBriefly }));
-        }
-    }
 
     //--------------------------------------------------------------------------
     //
@@ -101,7 +71,7 @@ export class EntityObjectComponent<U extends EntityObject> extends IWindowConten
         if (_.isNil(isBriefly)) {
             isBriefly = this.isOpenBriefly;
         }
-        EntityObjectComponent.open(this.transport, item, isBriefly);
+        this.transport.send(new EntityObjectOpenCommand(EntityObjectOpenCommand.NAME, { id: item.id, isBriefly }));
         if (this.isBriefly) {
             this.close();
         }

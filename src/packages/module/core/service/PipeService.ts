@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LanguageService, ThemeAssetService } from '@ts-core/frontend';
 import { PipeBaseService } from '@ts-core/angular';
-import { CoinAmountPipe, CoinIdPipe, UserDescriptionPipe, UserNamePipe, } from '@shared/pipe';
+import { CoinAmountPipe, CoinIdPipe, CoinNamePipe, UserDescriptionPipe, UserNamePipe, CoinDescriptionPipe } from '@shared/pipe';
 import { CompanyNamePipe, CompanyDescriptionPipe } from '@shared/pipe/company';
 import * as _ from 'lodash';
 
@@ -18,7 +18,9 @@ export class PipeService extends PipeBaseService {
     private static USER_DESCRIPTION: UserDescriptionPipe;
 
     private static COIN_ID: CoinIdPipe;
+    private static COIN_NAME: CoinNamePipe;
     private static COIN_AMOUNT: CoinAmountPipe;
+    private static COIN_DESCRIPTION: CoinDescriptionPipe;
 
     private static COMPANY_NAME: CompanyNamePipe;
     private static COMPANY_DESCRIPTION: CompanyDescriptionPipe;
@@ -45,12 +47,23 @@ export class PipeService extends PipeBaseService {
         }
         return PipeService.COIN_ID;
     }
-
+    public get coinName(): CoinNamePipe {
+        if (!PipeService.COIN_NAME) {
+            PipeService.COIN_NAME = new CoinNamePipe();
+        }
+        return PipeService.COIN_NAME;
+    }
     public get coinAmount(): CoinAmountPipe {
         if (!PipeService.COIN_AMOUNT) {
             PipeService.COIN_AMOUNT = new CoinAmountPipe(this.language);
         }
         return PipeService.COIN_AMOUNT;
+    }
+    public get coinDescription(): CoinDescriptionPipe {
+        if (!PipeService.COIN_DESCRIPTION) {
+            PipeService.COIN_DESCRIPTION = new CoinDescriptionPipe();
+        }
+        return PipeService.COIN_DESCRIPTION;
     }
 
     public get userName(): UserNamePipe {

@@ -2,17 +2,52 @@
     "coin": {
         "uid": "UID",
         "coin": "Токен",
-        "held": "Заблокировано",
-        "emitted": "Выпущено",
-        "burned": "Сожжено",
-        "inUse": "Доступно",
+        "coins": "Токены",
         "amount": "Сумма",
-        "total": "Всего",
-        "balance": "Баланс",
-        "balances": "Балансы",
+        "name": "⇛company.preferences.name",
+        "created": "Создана",
+        "hlfUid": "UID в блокчейне",
+        "balance": {
+            "balance": "Баланс",
+            "balances": "Балансы",
+            "held": "Заблокировано",
+            "emitted": "Выпущено",
+            "burned": "Сожжено",
+            "total": "Всего",
+            "inUse": "Доступно"
+        },
+        "status": {
+            "status": "⇛user.status.status",
+            "DRAFT": "Черновик",
+            "ACTIVE": "Активна",
+            "VERIFIED": "Верифицирована",
+            "REJECTED": "Отклонена",
+            "NON_ACTIVE": "Не активна",
+            "VERIFICATION_PROCESS": "В процессе верификации"
+        },
         "transfer": {
             "transfer": "Перевести токены",
             "confirmation": "Вы уверены, что хотите перевести токены?"
+        },
+        "verify": {
+            "verify": "Верифицировать",
+            "confirmation": "Вы точно хотите верифицировать компанию?",
+            "notification": "Компания успешно верифицирована"
+        },
+        "reject": {
+            "reject": "Отклонить",
+            "confirmation": "Вы точно хотите отклонить компанию?",
+            "notification": "Компания успешно отклонена"
+        },
+        "activate": {
+            "activate": "Активировать",
+            "confirmation": "Вы точно хотите активировать компанию?",
+            "notification": "Компания успешно активирована"
+        },
+        "submit": {
+            "submit": "На верификацию",
+            "confirmation": "Вы точно хотите отправить компанию на верификацию?",
+            "notification": "Компания успешно отправлена на верификацию"
         },
         "coinId": {
             "coinId": "Тикер",

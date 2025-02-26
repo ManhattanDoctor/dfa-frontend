@@ -13,6 +13,7 @@ import { UpdatableComponent } from '@shared/component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { CoinOpenCommand } from '@feature/coin/transport';
 import * as _ from 'lodash';
 
 @Component({
@@ -86,7 +87,7 @@ export class CoinBalancesComponent extends UpdatableComponent<string> {
     // --------------------------------------------------------------------------
 
     public async rowClickedHandler(item: ICdkTableRowEvent<CoinBalance>): Promise<void> {
-        // this.transport.send(new HlfObjectOpenCommand({ id: item.data.uid, isBriefly: true }));
+        this.transport.send(new CoinOpenCommand({ id: item.data.coinUid, isBriefly: true }));
     }
 
     protected itemOpenedHandler(item: string): void {

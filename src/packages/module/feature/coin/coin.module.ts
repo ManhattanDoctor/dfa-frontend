@@ -1,10 +1,11 @@
 
 import { NgModule, NgModuleRef } from '@angular/core';
 import { TransportLazyModule } from '@ts-core/angular';
-import { CoinSaveHandler, CoinOpenHandler, CoinEditHandler, CoinAddWizardHandler, CoinAddHandler, CoinVerifyHandler, CoinSubmitHandler, CoinRejectHandler, CoinActivateHandler, } from './transport/handler';
-import { CoinEditCommand, CoinOpenCommand, CoinSaveCommand, CoinAddWizardCommand, CoinAddCommand, CoinAddUserCommand, CoinVerifyCommand, CoinSubmitCommand, CoinRejectCommand, CoinActivateCommand } from './transport';
+// import { CoinSaveHandler, CoinOpenHandler, CoinEditHandler, CoinAddWizardHandler, CoinAddHandler, CoinVerifyHandler, CoinSubmitHandler, CoinRejectHandler, CoinActivateHandler, } from './transport/handler';
+import { CoinEditCommand, CoinOpenCommand, CoinSaveCommand, CoinAddCommand, CoinVerifyCommand, CoinSubmitCommand, CoinRejectCommand, CoinActivateCommand } from './transport';
 import { MatMenuModule } from '@angular/material/menu';
 import { Transport } from '@ts-core/common';
+import { CoinOpenHandler } from './transport/handler';
 
 //--------------------------------------------------------------------------
 //
@@ -29,7 +30,7 @@ export class CoinModule extends TransportLazyModule<CoinModule> {
     //--------------------------------------------------------------------------
 
     public static ID = 'CoinModule';
-    public static COMMANDS = [CoinAddWizardCommand.NAME, CoinSaveCommand.NAME, CoinOpenCommand.NAME, CoinEditCommand.NAME, CoinAddCommand.NAME, CoinAddUserCommand.NAME, CoinVerifyCommand.NAME, CoinSubmitCommand.NAME, CoinRejectCommand.NAME, CoinActivateCommand.NAME];
+    public static COMMANDS = [CoinSaveCommand.NAME, CoinOpenCommand.NAME, CoinEditCommand.NAME, CoinAddCommand.NAME, CoinVerifyCommand.NAME, CoinSubmitCommand.NAME, CoinRejectCommand.NAME, CoinActivateCommand.NAME];
 
     //--------------------------------------------------------------------------
     //
@@ -37,7 +38,8 @@ export class CoinModule extends TransportLazyModule<CoinModule> {
     //
     //--------------------------------------------------------------------------
 
-    constructor(reference: NgModuleRef<CoinModule>, transport: Transport, open: CoinOpenHandler, save: CoinSaveHandler, edit: CoinEditHandler, add: CoinAddHandler, wizardAdd: CoinAddWizardHandler, verify: CoinVerifyHandler, submit: CoinSubmitHandler, reject: CoinRejectHandler, activate: CoinActivateHandler) {
+    // constructor(reference: NgModuleRef<CoinModule>, transport: Transport, open: CoinOpenHandler, save: CoinSaveHandler, edit: CoinEditHandler, add: CoinAddHandler, wizardAdd: CoinAddWizardHandler, verify: CoinVerifyHandler, submit: CoinSubmitHandler, reject: CoinRejectHandler, activate: CoinActivateHandler) {
+    constructor(reference: NgModuleRef<CoinModule>, transport: Transport, open: CoinOpenHandler) {
         super(reference, transport);
     }
 

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RouterService } from '@core/service';
-import { CompanyResolver, UserResolver } from '@shared/resolver';
+import { CoinResolver, CompanyResolver, UserResolver } from '@shared/resolver';
 import { ShellPageComponent } from './shell-page.component';
 
 const routes: Routes = [
@@ -44,6 +44,15 @@ const routes: Routes = [
             {
                 path: RouterService.COMPANIES_URL,
                 loadChildren: () => import('@page/companies/companies-page.module')
+            },
+            {
+                path: `${RouterService.COIN_URL}/:id`,
+                loadChildren: () => import('@page/coin/coin-page.module'),
+                resolve: { item: CoinResolver },
+            },
+            {
+                path: RouterService.COINS_URL,
+                loadChildren: () => import('@page/coins/coins-page.module')
             },
             {
                 path: '**',

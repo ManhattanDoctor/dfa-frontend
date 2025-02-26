@@ -1,13 +1,13 @@
-import { TransportCommand } from '@ts-core/common';
+import { EntityObjectOpenCommand, IEntityObjectOpenDto } from "@feature/entity/transport";
 
-export class CompanyRejectCommand extends TransportCommand<number> {
+export class CoinOpenCommand extends EntityObjectOpenCommand {
     // --------------------------------------------------------------------------
     //
-    //   Constants
+    //  Public Static Properties
     //
     // --------------------------------------------------------------------------
 
-    public static NAME = 'CompanyRejectCommand';
+    public static readonly NAME = 'CoinOpenCommand';
 
     // --------------------------------------------------------------------------
     //
@@ -15,7 +15,7 @@ export class CompanyRejectCommand extends TransportCommand<number> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: number) {
-        super(CompanyRejectCommand.NAME, request);
+    constructor(request: IEntityObjectOpenDto) {
+        super(CoinOpenCommand.NAME, request);
     }
 }

@@ -37,7 +37,7 @@ export class CompanyMenu extends ListItems<IListItem> {
         item.checkEnabled = (item, company) => CompanyUtil.isCanEdit(company, permission.resources, false);
 
         item = this.add(new MenuItem('company.company', CompanyMenu.OPEN, 'fa fa-building me-2'));
-        item.action = (item, company) => transport.send(new CompanyOpenCommand({ id: company.id, isBriefly: false }));
+        item.action = (item, company) => transport.send(new CompanyOpenCommand({ id: company.id, isBriefly: true }));
         item.checkEnabled = (item, company) => !this.isPageOpen(company.id) && CompanyUtil.isCanRead(permission.resources, false);
 
         item = this.add(new MenuItem('company.submit.submit', CompanyMenu.SUBMIT, 'fa fa-arrow-right me-2'));

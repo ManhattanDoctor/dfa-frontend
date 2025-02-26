@@ -5,7 +5,7 @@ import { PrettifyPipe } from '@ts-core/angular';
 import * as _ from 'lodash';
 
 @Pipe({
-    name: 'userDescription'
+    name: 'companyDescription'
 })
 export class CompanyDescriptionPipe extends DestroyableContainer implements PipeTransform {
 

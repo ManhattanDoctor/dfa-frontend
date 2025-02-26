@@ -5,9 +5,9 @@ import { ObjectUtil, Transport } from '@ts-core/common';
 import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
 import { ActionsComponent, CompanyDetailsComponent, CompanyPictureComponent, EntityObjectComponent, FinanceActionsComponent } from '@shared/component';
 import { TransportSocket } from '@ts-core/socket-client';
-import { Company } from '@common/platform/company';
+import { Company, CompanyStatus } from '@common/platform/company';
 import { CompanyMenu } from '@core/lib/company';
-import { getSocketCompanyRoom } from '@common/platform';
+import { getSocketCompanyRoom, ResourcePermission } from '@common/platform';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { CompanyChangedEvent } from '@common/platform/transport';
@@ -16,6 +16,8 @@ import { CompanyNamePipe } from '@shared/pipe/company';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CoinBalancesComponent } from '@shared/component';
+import { PermissionService } from '@core/service';
+import { PermissionUtil } from '@common/platform/util';
 import * as _ from 'lodash';
 
 @Component({
@@ -59,6 +61,7 @@ export class CompanyContainerComponent extends EntityObjectComponent<Company> {
         transport: Transport,
         language: LanguageService,
         private socket: TransportSocket,
+        private permission: PermissionService,
         public menu: CompanyMenu,
     ) {
         super(container, transport);
@@ -66,7 +69,7 @@ export class CompanyContainerComponent extends EntityObjectComponent<Company> {
 
         this.tabs = new SelectListItems(language);
         this.tabs.add(new SelectListItem('company.company', 0, 'COMPANY'));
-        this.tabs.add(new SelectListItem('coin.balances', 1, 'COIN_BALANCES'));
+        this.tabs.add(new SelectListItem('coin.balance.balances', 1, 'COIN_BALANCES'));
         this.tabs.add(new SelectListItem('action.actions', 2, 'ACTIONS'));
         this.tabs.add(new SelectListItem('action.finances', 3, 'FINANCE_ACTIONS'));
         this.tabs.complete(0);
@@ -84,6 +87,13 @@ export class CompanyContainerComponent extends EntityObjectComponent<Company> {
     // 	Private Methods
     //
     // --------------------------------------------------------------------------
+
+    protected commitItemProperties(): void {
+        super.commitItemProperties();
+
+        this.tabs.getByIndex(2).isEnabled = !_.isNil(this.item.hlfUid);
+        this.tabs.getByIndex(3).isEnabled = !_.isNil(this.item.hlfUid);
+    }
 
     protected itemOpenedHandler(item: Company): void {
         this.socket.roomAdd(getSocketCompanyRoom(item.id));

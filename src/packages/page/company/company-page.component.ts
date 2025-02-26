@@ -1,37 +1,29 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { ViewUtil } from '@ts-core/angular';
-import { Transport, DestroyableContainer } from '@ts-core/common';
+import { Transport } from '@ts-core/common';
 import { takeUntil } from 'rxjs'
 import { Company } from '@common/platform/company';
 import { ActivatedRoute } from '@angular/router';
 import { PipeService } from '@core/service';
 import { SeoCommand } from '@core/transport';
-import { CompanyMenu } from '@core/lib/company';
+import { EntityObjectComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Component({
     templateUrl: './company-page.component.html',
     standalone: false
 })
-export class CompanyPageComponent extends DestroyableContainer {
-    //--------------------------------------------------------------------------
-    //
-    // 	Properties
-    //
-    //--------------------------------------------------------------------------
-
-    private _company: Company;
-
+export class CompanyPageComponent extends EntityObjectComponent<Company> {
     //--------------------------------------------------------------------------
     //
     // 	Constructor
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ElementRef, route: ActivatedRoute, private pipe: PipeService, private transport: Transport, public menu: CompanyMenu) {
-        super();
+    constructor(container: ViewContainerRef, transport: Transport, route: ActivatedRoute, private pipe: PipeService) {
+        super(container, transport);
         ViewUtil.addClasses(container, 'h-100');
-        route.data.pipe(takeUntil(this.destroyed)).subscribe(data => this.company = data.item);
+        route.data.pipe(takeUntil(this.destroyed)).subscribe(data => this.item = data.item);
     }
 
     //--------------------------------------------------------------------------
@@ -40,40 +32,8 @@ export class CompanyPageComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    protected async commitCompanyProperties(): Promise<void> {
-        this.transport.send(new SeoCommand({ title: this.pipe.companyName.transform(this.company), description: this.pipe.companyDescription.transform(this.company), image: this.company.preferences.picture }));
-    }
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Methods
-    //
-    //--------------------------------------------------------------------------
-
-    public destroy(): void {
-        if (this.isDestroyed) {
-            return;
-        }
-        super.destroy();
-        this.company = null;
-    }
-
-    //--------------------------------------------------------------------------
-    //
-    // 	Public Properties
-    //
-    //--------------------------------------------------------------------------
-
-    public get company(): Company {
-        return this._company;
-    }
-    public set company(value: Company) {
-        if (value === this._company) {
-            return;
-        }
-        this._company = value;
-        if (!_.isNil(value)) {
-            this.commitCompanyProperties();
-        }
+    protected async commitItemProperties(): Promise<void> {
+        super.commitItemProperties();
+        this.transport.send(new SeoCommand({ title: this.pipe.companyName.transform(this.item), description: this.pipe.companyDescription.transform(this.item), image: this.item.preferences.picture }));
     }
 }

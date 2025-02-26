@@ -55,11 +55,15 @@ export class EntityObjectService extends LoggerWrapper {
             return this.map.get(uid)
         }
         let promise = new Promise<IEntityObject>(async resolve => {
+            let item = null;
             try {
-                resolve(await this.api.entityObjectGet(uid));
+                item = await this.api.entityObjectGet(uid);
             }
             catch (error) {
-                resolve({ id: null, name: this.pipe.language.translate('user.anonymous'), type: getType(uid), picture: Assets.getIcon('72') });
+                item = { id: null, name: this.pipe.language.translate('general.unknown'), type: getType(uid), picture: Assets.getIcon('72') };
+            }
+            finally {
+                resolve(item);
             }
         })
         this.map.set(uid, promise);

@@ -1,4 +1,4 @@
-import { EntityObjectOpenCommand, IEntityObjectOpenDto } from "@feature/hlf/transport";
+import { EntityObjectOpenCommand, IEntityObjectOpenDto } from "@feature/entity/transport";
 
 export class CompanyOpenCommand extends EntityObjectOpenCommand {
     // --------------------------------------------------------------------------

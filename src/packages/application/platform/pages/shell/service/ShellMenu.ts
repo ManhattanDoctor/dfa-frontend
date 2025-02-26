@@ -5,6 +5,7 @@ import { RouterService, UserService, CompanyService, PermissionService } from '@
 import { takeUntil, merge } from 'rxjs';
 import { CompanyUtil } from '@common/platform/company';
 import { UserUtil } from '@common/platform/user';
+import { CoinUtil } from '@common/platform/coin';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -16,9 +17,10 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
     // --------------------------------------------------------------------------
 
     private static USER = 10;
-    private static COMPANY = 30;
     private static USERS = 20;
+    private static COMPANY = 30;
     private static COMPANIES = 40;
+    private static COINS = 50;
 
     public management: SelectListItems<ISelectListItem<string>>;
 
@@ -45,6 +47,9 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
 
         item = this.add(new ShellListItem('company.companies', ShellMenu.COMPANIES, `/${RouterService.COMPANIES_URL}`, 'fas fa-city'));
         item.checkEnabled = (item, company) => CompanyUtil.isCanList(permission.resources, false);
+        
+        item = this.add(new ShellListItem('coin.coins', ShellMenu.COINS, `/${RouterService.COINS_URL}`, 'fas fa-coins'));
+        item.checkEnabled = (item, company) => CoinUtil.isCanList(permission.resources, false);
 
         for (let item of [...this.collection, ...this.management.collection]) {
             item.action = item => router.navigate(item.data);
@@ -52,7 +57,7 @@ export class ShellMenu extends SelectListItems<ISelectListItem<string>> {
         }
         router.finished.pipe(takeUntil(this.destroyed)).subscribe(() => this.refreshSelection());
 
-        merge(user.changed, company.changed).pipe(takeUntil(this.destroyed)).subscribe(() => this.refresh());
+        merge(user.changed, company.changed, permission.completed).pipe(takeUntil(this.destroyed)).subscribe(() => this.refresh());
 
         [this, this.management].forEach(item => item.complete());
         this.refresh();

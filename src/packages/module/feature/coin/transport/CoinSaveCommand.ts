@@ -1,14 +1,14 @@
 import { TransportCommandAsync } from '@ts-core/common';
-import { Company } from '@common/platform/company';
+import { Coin, CoinStatus } from '@common/platform/coin';
 
-export class CompanyEditCommand extends TransportCommandAsync<number, ICompanyEditDtoResponse> {
+export class CoinSaveCommand extends TransportCommandAsync<ICoinSaveDto, Coin> {
     // --------------------------------------------------------------------------
     //
     //  Public Static Properties
     //
     // --------------------------------------------------------------------------
 
-    public static readonly NAME = 'CompanyEditCommand';
+    public static readonly NAME = 'CoinSaveCommand';
 
     // --------------------------------------------------------------------------
     //
@@ -16,9 +16,13 @@ export class CompanyEditCommand extends TransportCommandAsync<number, ICompanyEd
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: number) {
-        super(CompanyEditCommand.NAME, request);
+    constructor(request: ICoinSaveDto) {
+        super(CoinSaveCommand.NAME, request);
     }
 }
 
-export type ICompanyEditDtoResponse = Company;
+export interface ICoinSaveDto {
+    id: number;
+    status?: CoinStatus;
+}
+

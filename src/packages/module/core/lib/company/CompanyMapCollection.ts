@@ -80,5 +80,10 @@ export class CompanyTableSettings implements ICdkTableSettings<Company> {
             headerId: 'company.preferences.name',
             format: item => pipe.companyName.transform(item)
         });
+        this.columns.push({
+            name: 'description',
+            headerId: 'company.preferences.description',
+            format: item => pipe.companyDescription.transform(item)
+        });
     }
 }

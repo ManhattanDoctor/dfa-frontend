@@ -3,13 +3,12 @@ import { RouterService } from '@core/service';
 import { BottomSheetService, WindowService } from '@ts-core/angular';
 import { WindowConfig } from '@ts-core/angular';
 import { ComponentType } from '@angular/cdk/portal';
-import { IEntityObjectOpenDto, EntityObjectOpenCommand } from '@feature/hlf/transport';
-import { takeUntil, merge } from 'rxjs';
 import { EntityObject, EntityObjectId } from '../../EntityObject';
 import { EntityObjectContainerComponent } from '@shared/component';
+import { EntityObjectOpenCommand, IEntityObjectOpenDto } from '../EntityObjectOpenCommand';
 import * as _ from 'lodash';
 
-export abstract class EntityObjectOpenHandler<U extends EntityObject, T extends EntityObjectId = EntityObjectId> extends TransportCommandHandler<IEntityObjectOpenDto<T>, EntityObjectOpenCommand<T>> {
+export abstract class EntityObjectHandler<U extends EntityObject, T extends EntityObjectId = EntityObjectId> extends TransportCommandHandler<IEntityObjectOpenDto<T>, EntityObjectOpenCommand<T>> {
     //--------------------------------------------------------------------------
     //
     // 	Constructor
@@ -69,13 +68,17 @@ export abstract class EntityObjectOpenHandler<U extends EntityObject, T extends 
     //
     //--------------------------------------------------------------------------
 
+    protected abstract getUrl(id: EntityObjectId): string;
+
     protected abstract getItem(id: EntityObjectId): Promise<U>;
+
+    protected abstract getPrefix(): string;
 
     protected abstract getComponent<T = any>(): ComponentType<T>;
 
     protected getConfig(id: EntityObjectId, item: U): WindowConfig {
         let value = new WindowConfig(false, false, 800, 500);
-        value.id = item.id.toString();
+        value.id = `${this.getPrefix()}${item.id}`;
         value.isExpandable = this.isExpandable(id);
         return value;
     }
@@ -85,10 +88,6 @@ export abstract class EntityObjectOpenHandler<U extends EntityObject, T extends 
     // 	Protected Properties
     //
     //--------------------------------------------------------------------------
-
-    protected getUrl(id: EntityObjectId): string {
-        return null;
-    }
 
     protected hasUrl(id: EntityObjectId): boolean {
         return !_.isNil(this.getUrl(id));

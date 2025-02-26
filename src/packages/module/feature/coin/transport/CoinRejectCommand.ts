@@ -1,13 +1,13 @@
 import { TransportCommand } from '@ts-core/common';
 
-export class CompanyAddCommand extends TransportCommand<void> {
+export class CoinRejectCommand extends TransportCommand<number> {
     // --------------------------------------------------------------------------
     //
     //   Constants
     //
     // --------------------------------------------------------------------------
 
-    public static NAME = 'CompanyAddCommand';
+    public static NAME = 'CoinRejectCommand';
 
     // --------------------------------------------------------------------------
     //
@@ -15,7 +15,7 @@ export class CompanyAddCommand extends TransportCommand<void> {
     //
     // --------------------------------------------------------------------------
 
-    constructor() {
-        super(CompanyAddCommand.NAME);
+    constructor(request: number) {
+        super(CoinRejectCommand.NAME, request);
     }
 }

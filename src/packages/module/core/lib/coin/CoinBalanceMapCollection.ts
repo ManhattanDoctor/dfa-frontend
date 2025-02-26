@@ -68,19 +68,19 @@ export class CoinBalanceTableSettings implements ICdkTableSettings<CoinBalance> 
         })
         this.columns.push({
             name: 'inUse',
-            headerId: 'coin.inUse',
+            headerId: 'coin.balance.inUse',
             className: 'text-success',
             format: item => pipe.coinAmount.transform(item.inUse, item, false)
         })
         this.columns.push({
             name: 'held',
-            headerId: 'coin.held',
+            headerId: 'coin.balance.held',
             className: 'text-danger',
             format: item => pipe.coinAmount.transform(item.held, item, false)
         })
         this.columns.push({
             name: 'total',
-            headerId: 'coin.total',
+            headerId: 'coin.balance.total',
             format: item => pipe.coinAmount.transform(item.total, item, false)
         })
     }

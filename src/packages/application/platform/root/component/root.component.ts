@@ -11,6 +11,7 @@ import { filter, map, merge, takeUntil } from 'rxjs';
 import * as _ from 'lodash';
 import 'numeral/locales/ru';
 import 'moment/locale/ru';
+import { CompanyNotFoundError } from '../../../../../externals/common/platform';
 
 @Component({
     selector: 'root',
@@ -53,6 +54,8 @@ export class RootComponent extends ApplicationComponent<SettingsService> {
     ) {
         super();
         icon.setDefaultFontSetClass('fas');
+
+        LanguageUtil.getErrorTranslation(new CompanyNotFoundError(1));
     }
 
     //--------------------------------------------------------------------------
@@ -114,7 +117,7 @@ export class RootComponent extends ApplicationComponent<SettingsService> {
     protected async apiLoadingError<T>(command: TransportHttpCommandAsync<T>): Promise<void> {
         let error = command.error;
         let { key, params } = LanguageUtil.getErrorTranslation(error);
-
+        
         let options = { id: `error.${error.code}` };
         if (this.isNeedLogout(error)) {
             await this.login.logout();
