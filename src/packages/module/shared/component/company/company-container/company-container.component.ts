@@ -1,27 +1,52 @@
-import { Component, Input, ViewContainerRef } from '@angular/core';
-import { ViewUtil, IWindowContent } from '@ts-core/angular';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { ISelectListItem, SelectListItem, SelectListItems, ViewUtil } from '@ts-core/angular';
+import { LanguageService } from '@ts-core/frontend';
+import { ObjectUtil, Transport } from '@ts-core/common';
+import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
+import { ActionsComponent, CompanyDetailsComponent, CompanyPictureComponent, EntityObjectComponent, FinanceActionsComponent } from '@shared/component';
+import { TransportSocket } from '@ts-core/socket-client';
 import { Company } from '@common/platform/company';
-import { PipeService } from '@core/service';
-import { CompanyPictureComponent } from '../company-picture/company-picture.component';
+import { CompanyMenu } from '@core/lib/company';
+import { getSocketCompanyRoom } from '@common/platform';
 import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { CompanyChangedEvent } from '@common/platform/transport';
+import { filter, map, takeUntil } from 'rxjs';
+import { CompanyNamePipe } from '@shared/pipe/company';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { CoinBalancesComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Component({
-    imports: [CommonModule, CompanyPictureComponent],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatButtonModule,
+
+        VIMatModule,
+        ActionsComponent,
+        FinanceActionsComponent,
+        CompanyNamePipe,
+        CoinBalancesComponent,
+        CompanyPictureComponent,
+        CompanyDetailsComponent,
+    ],
     selector: 'company-container',
-    templateUrl: 'company-container.component.html',
-    styleUrl: 'company-container.component.scss',
+    templateUrl: 'company-container.component.html'
 })
-export class CompanyContainerComponent extends IWindowContent {
+export class CompanyContainerComponent extends EntityObjectComponent<Company> {
+
     //--------------------------------------------------------------------------
     //
     // 	Properties
     //
     //--------------------------------------------------------------------------
 
-    private _company: Company;
-    private _title: string;
-    private _description: string;
+    @ViewChild(MenuTriggerForDirective, { static: true })
+    public trigger: MenuTriggerForDirective;
+    public tabs: SelectListItems<ISelectListItem<string>>;
 
     //--------------------------------------------------------------------------
     //
@@ -29,114 +54,53 @@ export class CompanyContainerComponent extends IWindowContent {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ViewContainerRef, private pipe: PipeService) {
-        super(container);
-        ViewUtil.addClasses(container, 'd-flex flex-grow-1 align-items-center justify-content-center scroll-no');
+    constructor(
+        container: ViewContainerRef,
+        transport: Transport,
+        language: LanguageService,
+        private socket: TransportSocket,
+        public menu: CompanyMenu,
+    ) {
+        super(container, transport);
+        ViewUtil.addClasses(container, 'd-flex flex-column');
+
+        this.tabs = new SelectListItems(language);
+        this.tabs.add(new SelectListItem('company.company', 0, 'COMPANY'));
+        this.tabs.add(new SelectListItem('coin.balances', 1, 'COIN_BALANCES'));
+        this.tabs.add(new SelectListItem('action.actions', 2, 'ACTIONS'));
+        this.tabs.add(new SelectListItem('action.finances', 3, 'FINANCE_ACTIONS'));
+        this.tabs.complete(0);
+
+        socket.getDispatcher<CompanyChangedEvent>(CompanyChangedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                filter(item => item.id === this.item.id),
+                takeUntil(this.destroyed)
+            ).subscribe(item => ObjectUtil.copyPartial(item, this.item));
     }
 
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
     //
     // 	Private Methods
     //
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
-    private commitCompanyProperties(): void {
-        var value = null;
-
-        value = this.pipe.companyName.transform(this.company);
-        if (value !== this.title) {
-            this.title = value;
-        }
-
-        value = this.pipe.companyDescription.transform(this.company);
-        if (value !== this.description) {
-            this.description = value;
-        }
+    protected itemOpenedHandler(item: Company): void {
+        this.socket.roomAdd(getSocketCompanyRoom(item.id));
     }
 
-    private commitTitleProperties(): void {
-        let value = null;
-
-        value = this.title;
-        if (value !== this.title) {
-            this.title = value;
-        }
+    protected itemClosedHandler(item: Company): void {
+        this.socket.roomRemove(getSocketCompanyRoom(item.id));
     }
 
-    private commitDescriptionProperties(): void {
-        let value = null;
-
-        value = this.description;
-        if (value !== this.description) {
-            this.description = value;
-        }
-    }
-
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
     //
-    //  Public Methods
+    // 	Event Handlers
     //
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
-    public invalidate(): void {
-        if (!_.isNil(this.company)) {
-            this.commitCompanyProperties();
-        }
-    }
-
-    public destroy(): void {
-        if (this.isDestroyed) {
-            return;
-        }
-        super.destroy();
-        this.company = null;
-    }
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Properties
-    //
-    //--------------------------------------------------------------------------
-
-    public get company(): Company {
-        return this._company;
-    }
-    @Input()
-    public set company(value: Company) {
-        if (value === this._company) {
-            return;
-        }
-        this._company = value;
-        if (!_.isNil(value)) {
-            this.commitCompanyProperties();
-        }
-    }
-
-    public get title(): string {
-        return this._title;
-    }
-    @Input()
-    public set title(value: string) {
-        if (value === this._title) {
-            return;
-        }
-        this._title = value;
-        if (!_.isNil(value)) {
-            this.commitTitleProperties();
-        }
-    }
-
-    public get description(): string {
-        return this._description;
-    }
-    @Input()
-    public set description(value: string) {
-        if (value === this._description) {
-            return;
-        }
-        this._description = value;
-        if (!_.isNil(value)) {
-            this.commitDescriptionProperties();
-        }
+    public async menuOpen(event: MouseEvent): Promise<void> {
+        this.menu.refresh(this.item);
+        this.trigger.openMenuOn(event.target);
     }
 }

@@ -3,11 +3,13 @@ import { DateUtil, Logger, Transport } from '@ts-core/common';
 import { TransportSocket, TransportSocketClient } from '@ts-core/socket-client';
 import { TransportSocketRoomCommand } from '@ts-core/socket-common';
 import { SOCKET_NAMESPACE } from '@common/platform/api';
-import { LoadableResolver, NotificationService } from '@ts-core/angular';
+import { LoadableResolver, WindowConfig, WindowService } from '@ts-core/angular';
 import { map, takeUntil } from 'rxjs';
 import { OpenIdTokenService } from './OpenIdTokenService';
-import * as _ from 'lodash';
 import { LoginService } from './LoginService';
+import { SocketReconnectComponent } from '@shared/component';
+import * as _ from 'lodash';
+import { PortalService } from '@ts-core/angular-material';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService extends TransportSocket {
@@ -18,12 +20,12 @@ export class SocketService extends TransportSocket {
     //
     // --------------------------------------------------------------------------
 
-    constructor(logger: Logger, transport: Transport, login: LoginService, private token: OpenIdTokenService, private notifications: NotificationService) {
-        super(logger, { timeout: DateUtil.MILLISECONDS_MINUTE, isRestoreRoomsOnConnect: true, }, new TransportSocketClient(logger, { reconnectionAttempts: 1, namespace: SOCKET_NAMESPACE, auth: {} }));
+    constructor(logger: Logger, transport: Transport, login: LoginService, private token: OpenIdTokenService, private portal: PortalService) {
+        super(logger, { timeout: DateUtil.MILLISECONDS_MINUTE, isRestoreRoomsOnConnect: true, }, new TransportSocketClient(logger, { reconnectionAttempts: DateUtil.MILLISECONDS_YEAR, namespace: SOCKET_NAMESPACE, auth: {} }));
 
         token.changed.pipe(takeUntil(this.destroyed)).subscribe(() => this.reconnect());
         login.logouted.pipe(takeUntil(this.destroyed)).subscribe(() => this.roomsRemove());
-        transport.listen<TransportSocketRoomCommand>(TransportSocketRoomCommand.NAME).pipe(map(item => item.request)).subscribe(item => this.roomHandler(item));
+        transport.listen<TransportSocketRoomCommand>(TransportSocketRoomCommand.NAME).pipe(takeUntil(this.destroyed), map(item => item.request)).subscribe(item => this.roomHandler(item));
     }
 
     //--------------------------------------------------------------------------
@@ -34,16 +36,13 @@ export class SocketService extends TransportSocket {
 
     protected async connectedHandler(): Promise<void> {
         await super.connectedHandler();
-        if (this.isHasDisconnectNotificationId()) {
-            this.notifications.remove(this.disconnectNotificationId)
-        }
+        this.closeNotification();
     }
 
     protected async reconnectedFailedHandler(): Promise<void> {
         await super.reconnectedFailedHandler();
-        if (this.token.isValid && !this.isHasDisconnectNotificationId()) {
-            await this.notifications.question(this.disconnectNotificationId, null, null, { id: this.disconnectNotificationId, closeDuration: DateUtil.MILLISECONDS_HOUR }).yesNotPromise;
-            this.connect();
+        if (!this.isHasDisconnectNotification()) {
+            this.openNotification();
         }
     }
 
@@ -53,8 +52,26 @@ export class SocketService extends TransportSocket {
     //
     //--------------------------------------------------------------------------
 
-    private isHasDisconnectNotificationId(): boolean {
-        return this.notifications.has(this.disconnectNotificationId);
+    private async openNotification(): Promise<void> {
+        if (this.isHasDisconnectNotification()) {
+            return;
+        }
+        let config = new WindowConfig(true, false, 480);
+        config.id = this.disconnectNotificationId;
+        config.isDisableClose = true;
+
+        this.portal.open(SocketReconnectComponent, config);
+        // await this.notifications.question(this.disconnectNotificationId, null, null, { id: this.disconnectNotificationId, closeDuration: DateUtil.MILLISECONDS_HOUR }).yesNotPromise;
+    }
+
+    private async closeNotification(): Promise<void> {
+        if (this.isHasDisconnectNotification()) {
+            this.portal.close(this.disconnectNotificationId)
+        }
+    }
+
+    private isHasDisconnectNotification(): boolean {
+        return this.portal.has(this.disconnectNotificationId);
     }
 
     //--------------------------------------------------------------------------

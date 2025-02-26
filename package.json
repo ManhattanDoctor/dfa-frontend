@@ -42,7 +42,7 @@
         "@ts-core/frontend": "~3.0.15",
         "@ts-core/language": "~3.0.34",
         "@ts-core/oauth": "~3.1.16",
-        "@ts-core/openid-common": "~1.0.26",
+        "@ts-core/openid-common": "~1.0.27",
         "@ts-core/socket-client": "~3.0.16",
         "@types/numeral": "^2.0.5",
         "bootstrap": "^5.3.3",

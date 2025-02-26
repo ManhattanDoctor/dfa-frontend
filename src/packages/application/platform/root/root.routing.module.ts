@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, NoPreloading } from '@angular/router';
 import { LanguageResolver, LoginIfCanGuard, LoginNotGuard, LoginResolver } from '@ts-core/angular';
-import { RouterService, SocketResolver } from '@core/service';
-import { PermissionResolver } from '@shared/resolver';
+import { PermissionResolver, RouterService, SocketResolver } from '@core/service';
 
 const routes: Routes = [
     {

@@ -1,0 +1,21 @@
+{
+    "action": {
+        "date": "Дата",
+        "action": "Событие",
+        "actions": "События",
+        "finances": "Финансы",
+        "type": {
+            "type": "Тип",
+            "description": {
+                "USER_ADDED": "Компания создана",
+                "COIN_ADDED": "Монета добавлена",
+                "COIN_EMITTED": "Эмиссия токенов",
+                "COIN_BURNED": "Токены сожжены",
+                "COIN_HOLDED": "Токены заблокированы",
+                "COIN_UNHOLDED": "Токены разблокированы",
+                "COIN_TRANSFER_RECEIVE": "Получены токены",
+                "COIN_TRANSFER_SENT": "Переданы токены "
+            }
+        }
+    }
+}

@@ -11,7 +11,6 @@ export class UpdatableComponent<U> extends DestroyableContainer {
     //--------------------------------------------------------------------------
 
     protected _item: U;
-    protected _isBriefly: boolean;
 
     //--------------------------------------------------------------------------
     //

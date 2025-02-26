@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IKeycloakSettings, KeycloakClient, OpenIdResources } from '@ts-core/openid-common';
+import { OpenIdResources, OpenIdTokenExpiredError } from '@ts-core/openid-common';
 import { ExtendedError, Loadable, LoadableEvent, LoadableStatus, ObservableData } from '@ts-core/common';
 import { OpenIdTokenService } from './OpenIdTokenService';
 import { takeUntil } from 'rxjs';
+import { Client } from '@common/platform/api';
 import * as _ from 'lodash';
+import { LoadableResolver } from '@ts-core/angular';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService extends Loadable {
@@ -13,7 +15,6 @@ export class PermissionService extends Loadable {
     //
     //--------------------------------------------------------------------------
 
-    protected _settings: IKeycloakSettings;
     protected _resources: OpenIdResources;
 
     //--------------------------------------------------------------------------
@@ -22,23 +23,18 @@ export class PermissionService extends Loadable {
     //
     //--------------------------------------------------------------------------
 
-    constructor(private token: OpenIdTokenService) {
+    constructor(private api: Client, private token: OpenIdTokenService) {
         super();
-        token.changed.pipe(takeUntil(this.destroyed)).subscribe(() => this.update());
+        token.changed.pipe(takeUntil(this.destroyed)).subscribe(() => this.updateIfNeed());
     }
 
     //--------------------------------------------------------------------------
     //
-    // 	Private Methods
+    // 	Protected Methods
     //
     //--------------------------------------------------------------------------
 
     protected async update(): Promise<void> {
-        if (!this.token.isValid || _.isNil(this.settings)) {
-            this.status = LoadableStatus.NOT_LOADED;
-            return;
-        }
-
         if (this.isLoading) {
             return;
         }
@@ -70,7 +66,26 @@ export class PermissionService extends Loadable {
     }
 
     protected async resourcesGet(): Promise<OpenIdResources> {
-        return new KeycloakClient(this.token.access.value, this.settings).getResources();
+        return this.api.openIdResourcesGet(this.token.access.value);
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Public Methods
+    //
+    //--------------------------------------------------------------------------
+
+    public async updateIfNeed(): Promise<void> {
+        if (!this.token.isExpired) {
+            await this.update();
+        }
+        else {
+            this.status = LoadableStatus.NOT_LOADED;
+        }
+    }
+
+    public async refresh(): Promise<boolean> {
+        return this.api.refresh(true);
     }
 
     //--------------------------------------------------------------------------
@@ -82,14 +97,12 @@ export class PermissionService extends Loadable {
     public get resources(): OpenIdResources {
         return this._resources;
     }
-    public get settings(): IKeycloakSettings {
-        return this._settings;
-    }
-    public set settings(value: IKeycloakSettings) {
-        if (value === this._settings) {
-            return;
-        }
-        this._settings = value;
-        this.update();
+}
+
+
+@Injectable({ providedIn: 'root' })
+export class PermissionResolver extends LoadableResolver<PermissionService> {
+    constructor(service: PermissionService) {
+        super(service);
     }
 }

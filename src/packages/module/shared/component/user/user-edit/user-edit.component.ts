@@ -1,6 +1,5 @@
 import { Component, Input, ViewContainerRef } from '@angular/core';
 import { WindowService, IWindowContent, ViewUtil } from '@ts-core/angular';
-import { EnvironmentService } from '@core/service';
 import { User, UserPreferences, UserPreferencesTheme, UserPreferencesLanguage, USER_PREFERENCES_PHONE_MAX_LENGTH, USER_PREFERENCES_EMAIL_MAX_LENGTH } from '@common/platform/user';
 import { ISerializable } from '@ts-core/common';
 import { USER_PREFERENCES_NAME_MIN_LENGTH, USER_PREFERENCES_NAME_MAX_LENGTH } from '@common/platform/user';
@@ -10,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { UserContainerComponent } from '@shared/component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';

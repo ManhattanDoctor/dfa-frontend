@@ -28,6 +28,7 @@
     );
     @include mat.table-overrides(
         (
+            background-color: transparent,
             row-item-outline-color: var(--mat-sys-outline-variant)
         )
     );

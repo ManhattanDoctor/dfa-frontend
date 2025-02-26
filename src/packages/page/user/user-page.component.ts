@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SeoCommand } from '@core/transport';
 import { PipeService } from '@core/service';
 import { UserEditCommand } from '@feature/user/transport';
-import { UserMenu } from '@feature/user/service';
+import { UserMenu } from '@core/lib/user';
 import * as _ from 'lodash';
 
 @Component({

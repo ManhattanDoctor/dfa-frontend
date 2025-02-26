@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional } from '@angular/core';
 import { IServerInitializeOptions, ApplicationInitializer, SERVER_INITIALIZE_OPTIONS } from '@core/lib';
 import { Client } from '@common/platform/api';
 import { PermissionService, SettingsService, SocketService } from '@core/service';
-import { NotificationService, PlatformService, RouterBaseService, WindowService } from '@ts-core/angular';
+import { PlatformService, RouterBaseService, WindowService } from '@ts-core/angular';
 import { LanguageService } from '@ts-core/frontend';
 import { LanguageProjects } from '@common/platform/language';
 import { ILanguageProjectSettings } from '@ts-core/language';

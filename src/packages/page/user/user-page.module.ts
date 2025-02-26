@@ -8,6 +8,7 @@ import { PageHeaderComponent, UserDetailsComponent } from '@shared/component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { VIMatModule } from '@ts-core/angular-material';
+import { UserNamePipe } from '@shared/pipe';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { VIMatModule } from '@ts-core/angular-material';
 
         VIMatModule,
 
+        UserNamePipe,
         PageHeaderComponent,
         UserDetailsComponent
     ],

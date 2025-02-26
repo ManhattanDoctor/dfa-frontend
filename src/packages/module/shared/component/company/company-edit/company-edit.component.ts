@@ -4,7 +4,7 @@ import { EnvironmentService } from '@core/service';
 import { Company, CompanyPreferences, COMPANY_PREFERENCES_PHONE_MAX_LENGTH, COMPANY_PREFERENCES_EMAIL_MAX_LENGTH, COMPANY_PREFERENCES_ADDRESS_MAX_LENGTH, COMPANY_PREFERENCES_DESCRIPTION_MAX_LENGTH, COMPANY_PREFERENCES_WEBSITE_MAX_LENGTH } from '@common/platform/company';
 import { ISerializable } from '@ts-core/common';
 import { COMPANY_PREFERENCES_NAME_MIN_LENGTH, COMPANY_PREFERENCES_NAME_MAX_LENGTH } from '@common/platform/company';
-import { ICompanyEditDto } from '@feature/company/transport';
+import { ICompanySaveDto } from '@feature/company/transport';
 import { VIMatModule } from '@ts-core/angular-material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -33,7 +33,7 @@ import * as _ from 'lodash';
     selector: 'company-edit',
     templateUrl: 'company-edit.component.html',
 })
-export class CompanyEditComponent extends IWindowContent implements ISerializable<ICompanyEditDto> {
+export class CompanyEditComponent extends IWindowContent implements ISerializable<ICompanySaveDto> {
     //--------------------------------------------------------------------------
     //
     //  Constants
@@ -123,7 +123,7 @@ export class CompanyEditComponent extends IWindowContent implements ISerializabl
         this.emit(CompanyEditComponent.EVENT_SUBMITTED);
     }
 
-    public serialize(): ICompanyEditDto {
+    public serialize(): ICompanySaveDto {
         let preferences = {} as Partial<CompanyPreferences>;
         preferences.name = this.name;
         preferences.phone = this.phone;

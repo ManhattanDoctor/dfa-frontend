@@ -13,7 +13,7 @@ import { VIMatModule } from '@ts-core/angular-material';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { UserInfoComponent } from '@shared/component';
+import { UserProfileInfoComponent } from '@shared/component';
 
 @NgModule({
     imports: [
@@ -29,7 +29,7 @@ import { UserInfoComponent } from '@shared/component';
         VIMatModule,
         ShellPageRoutingModule,
 
-        UserInfoComponent
+        UserProfileInfoComponent
     ],
     declarations: [ShellPageComponent, ShellHeaderComponent, ShellAboutComponent, ServiceWorkerVersionDirective],
     providers: [ShellMenu]

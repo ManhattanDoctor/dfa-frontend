@@ -1,4 +1,4 @@
-<page-header titleId="user.user">
+<page-header [title]="user | userName">
     <button class="flex-shrink-0" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="matMenu" (click)="menu.refresh(user)">
         <mat-icon fontSet="fas" fontIcon="fa-ellipsis-vertical"></mat-icon>
     </button>

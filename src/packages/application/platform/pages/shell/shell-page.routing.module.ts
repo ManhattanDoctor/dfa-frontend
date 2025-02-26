@@ -28,6 +28,10 @@ const routes: Routes = [
                 resolve: { item: UserResolver },
             },
             {
+                path: RouterService.USERS_URL,
+                loadChildren: () => import('@page/users/users-page.module')
+            },
+            {
                 path: RouterService.COMPANY_URL,
                 loadChildren: () => import('@page/company/company-page.module'),
                 resolve: { item: CompanyResolver },
@@ -36,6 +40,10 @@ const routes: Routes = [
                 path: `${RouterService.COMPANY_URL}/:id`,
                 loadChildren: () => import('@page/company/company-page.module'),
                 resolve: { item: CompanyResolver },
+            },
+            {
+                path: RouterService.COMPANIES_URL,
+                loadChildren: () => import('@page/companies/companies-page.module')
             },
             {
                 path: '**',

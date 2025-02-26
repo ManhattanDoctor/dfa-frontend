@@ -7,11 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { UpdatableComponent } from '@shared/component';
 import { TransportSocket } from '@ts-core/socket-client';
-import { CompanyChangedEvent } from '@common/platform/transport';
-import { ObjectUtil } from '@ts-core/common';
-import { filter, map, takeUntil } from 'rxjs';
 import { getSocketCompanyRoom } from '@common/platform';
-import { CompanyService } from '@core/service';
 import * as _ from 'lodash';
 
 @Component({
@@ -33,24 +29,9 @@ export class CompanyDetailsComponent extends UpdatableComponent<Company> {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ViewContainerRef, private socket: TransportSocket, private service: CompanyService) {
+    constructor(container: ViewContainerRef, private socket: TransportSocket) {
         super();
         ViewUtil.addClasses(container, 'row g-0');
-
-        socket.getDispatcher<CompanyChangedEvent>(CompanyChangedEvent.NAME)
-            .pipe(
-                map(item => item.data),
-                takeUntil(this.destroyed)
-            ).subscribe(item => {
-                console.log(item);
-            });
-
-        socket.getDispatcher<CompanyChangedEvent>(CompanyChangedEvent.NAME)
-            .pipe(
-                map(item => item.data),
-                filter(item => item.id === this.item.id),
-                takeUntil(this.destroyed)
-            ).subscribe(item => ObjectUtil.copyPartial(item, this.item));
     }
 
     // --------------------------------------------------------------------------

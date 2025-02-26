@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Loginable } from '@ts-core/angular';
 import { Company } from '@common/platform/company';
-import { ObservableData, TransformUtil } from '@ts-core/common';
+import { ObjectUtil, ObservableData, TransformUtil } from '@ts-core/common';
 import { filter, map, Observable, takeUntil } from 'rxjs';
 import { LoginService } from './LoginService';
 import { SocketService } from './SocketService';
-import { CompanyAddedEvent } from '@common/platform/transport';
+import { CompanyAddedEvent, CompanyChangedEvent } from '@common/platform/transport';
+import { PermissionService } from './PermissionService';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -24,9 +25,16 @@ export class CompanyService extends Loginable<LoginService, CompanyServiceEvent,
     //
     //--------------------------------------------------------------------------
 
-    constructor(login: LoginService, private socket: SocketService,) {
+    constructor(login: LoginService, socket: SocketService, private permission: PermissionService) {
         super(login);
         this.initialize();
+
+        socket.getDispatcher<CompanyChangedEvent>(CompanyChangedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                filter(item => this.has && item.id === this.company.id),
+                takeUntil(this.destroyed)
+            ).subscribe(item => this.update(item));
 
         socket.getDispatcher<CompanyAddedEvent>(CompanyAddedEvent.NAME)
             .pipe(
@@ -66,12 +74,20 @@ export class CompanyService extends Loginable<LoginService, CompanyServiceEvent,
     //
     //--------------------------------------------------------------------------
 
-    public update(data: any): void {
+    public async update(data: any): Promise<void> {
         if (!this.has) {
             return;
         }
+        let isNeedUpdatePermission = false;
+        if (ObjectUtil.hasOwnProperty(data, 'status') && data.status !== this.company.status) {
+            isNeedUpdatePermission = true;
+        }
         Object.assign(this.company, data);
         this.observer.next(new ObservableData(CompanyServiceEvent.CHANGED, data));
+
+        if (isNeedUpdatePermission) {
+            console.log(await this.permission.refresh());
+        }
     }
 
     public isEquals(item: Partial<Company> | number): boolean {

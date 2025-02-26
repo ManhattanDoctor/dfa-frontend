@@ -30,7 +30,7 @@ export class UserResolver extends Resolver<User> {
         try {
             return _.isNil(id) || this.service.isEquals(id) ? this.service.user : await this.api.userGet(id);
         } catch (error) {
-            return this.parseError(error.toString(), false);
+            return this.parseError(error.toString(), true);
         }
     }
 }

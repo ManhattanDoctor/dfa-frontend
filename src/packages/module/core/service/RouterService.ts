@@ -18,7 +18,10 @@ export class RouterService extends RouterBaseService {
     public static OAUTH_URL = 'oauth';
 
     public static USER_URL = 'user';
+    public static USERS_URL = 'users';
+
     public static COMPANY_URL = 'company';
+    public static COMPANIES_URL = 'companies';
 
     public static DEFAULT_URL;
 

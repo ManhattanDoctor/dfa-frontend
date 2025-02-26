@@ -25,6 +25,6 @@ export class UserSaveHandler extends TransportCommandAsyncHandler<IUserEditDto, 
     // --------------------------------------------------------------------------
 
     protected async execute(params: IUserEditDto): Promise<User> {
-        return this.api.userEdit(params.id, params);
+        return this.api.userEdit(params);
     }
 }

@@ -1,0 +1,12 @@
+<vi-cdk-table-paginable class="d-block flex-grow-1" [table]="items" [settings]="settings" (cellClicked)="cellClickedHandler($event)">
+    <div class="d-flex flex-grow-1 align-items-center p-3">
+        <button class="flex-shrink-0" mat-icon-button (click)="items.reload()" [disabled]="items?.isLoading">
+            <mat-icon fontSet="fas" fontIcon="fa-sync" [class.fa-spin]="items?.isLoading"></mat-icon>
+        </button>
+    </div>
+</vi-cdk-table-paginable>
+
+<mat-menu #matMenu [overlapTrigger]="false">
+    <vi-menu-list [list]="menu"></vi-menu-list>
+</mat-menu>
+<span [vi-menu-trigger-for]="matMenu"></span>

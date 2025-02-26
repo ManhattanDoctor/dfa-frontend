@@ -12,9 +12,9 @@ import { PageHeaderComponent } from '@shared/component';
         MatIconModule,
         MatButtonModule,
         VIMatModule,
-        MainPageRoutingModule,
 
         PageHeaderComponent,
+        MainPageRoutingModule,
     ],
     declarations: [MainPageComponent]
 })

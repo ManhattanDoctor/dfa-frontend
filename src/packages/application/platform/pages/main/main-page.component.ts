@@ -1,5 +1,4 @@
 import { Component, ViewContainerRef } from '@angular/core';
-import { EnvironmentService, RouterService } from '@core/service';
 import { Transport } from '@ts-core/common';
 import { MenuToggleEvent, SeoCommand } from '@core/transport';
 import { ViewUtil } from '@ts-core/angular';
@@ -17,8 +16,7 @@ export class MainPageComponent {
     //--------------------------------------------------------------------------
 
     constructor(container: ViewContainerRef,
-        private transport: Transport,
-        private router: RouterService) {
+        private transport: Transport) {
         ViewUtil.addClasses(container, 'd-flex flex-column flex-grow-1 overflow-hidden');
         transport.send(new SeoCommand({ title: `general.title`, description: `general.description` }));
     }
@@ -34,7 +32,6 @@ export class MainPageComponent {
     }
 
     public back(): void {
-
     }
 
 }

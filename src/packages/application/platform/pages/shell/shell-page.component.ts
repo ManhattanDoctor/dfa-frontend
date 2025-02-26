@@ -6,7 +6,7 @@ import { EnvironmentService, RouterService, UserService } from '@core/service';
 import { filter, takeUntil } from 'rxjs';
 import { ShellMenu } from './service';
 import { MatSidenavContent } from '@angular/material/sidenav';
-import { Transport } from '@ts-core/common';
+import { DateUtil, Transport } from '@ts-core/common';
 import { MenuToggleEvent, ScrollEvent } from '@core/transport';
 import { Client } from '@common/platform/api';
 import { LanguageService } from '@ts-core/frontend';
@@ -51,7 +51,7 @@ export class ShellPageComponent extends ShellBaseComponent implements AfterViewI
         super(notifications, breakpointObserver);
         ViewUtil.addClasses(element, 'd-block w-100 h-100');
 
-        language.events.pipe(filter(event => event.type === LanguageTranslatorEvent.KEY_NOT_FOUND)).subscribe(event => console.log(event.error.message));
+        // language.events.pipe(filter(event => event.type === LanguageTranslatorEvent.KEY_NOT_FOUND)).subscribe(event => console.log(event.error.message));
 
         router.completed.pipe(takeUntil(this.destroyed)).subscribe(this.routerCompletedHandler);
         transport.getDispatcher<MenuToggleEvent>(MenuToggleEvent.NAME).pipe(takeUntil(this.destroyed)).subscribe(() => this.toggleMenu());

@@ -1,0 +1,19 @@
+@use '@ts-core/angular' as vi;
+
+:host {
+    @include vi.mouse-active();
+    &:hover {
+        .text-container {
+            .title {
+                color: var(--mat-sys-primary);
+            }
+        }
+        ::ng-deep {
+            user-picture {
+                .picture {
+                    border-color: var(--mat-sys-primary);
+                }
+            }
+        }
+    }
+}

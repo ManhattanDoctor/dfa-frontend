@@ -1,8 +1,8 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { RouterService } from '@core/service';
-import * as _ from 'lodash';
 import { DestroyableContainer } from '@ts-core/common';
 import { ViewUtil } from '@ts-core/angular';
+import * as _ from 'lodash';
 
 @Component({
     templateUrl: './not-found-page.component.html',

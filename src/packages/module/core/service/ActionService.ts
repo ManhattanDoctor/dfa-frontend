@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Destroyable, Transport } from '@ts-core/common';
-import { RouterService } from './RouterService';
-import { Loginable } from '@ts-core/angular';
-import { LoginService } from './LoginService';
-import { CompanyAddCommand, CompanyAddWizardCommand } from '@feature/company/transport';
+import { CompanyAddCommand } from '@feature/company/transport';
 import * as _ from 'lodash';
 import { PermissionService } from './PermissionService';
-import { ResourcePermission } from '../../../../externals/common/platform';
-import { concat, takeUntil } from 'rxjs';
+import { merge, takeUntil } from 'rxjs';
 import { UserService } from './UserService';
 import { CompanyUtil } from '@common/platform/company';
 
@@ -24,7 +20,7 @@ export class ActionService extends Destroyable {
         private permission: PermissionService,
         private transport: Transport) {
         super();
-        concat(user.logined, permission.completed).pipe(takeUntil(this.destroyed)).subscribe(() => this.check());
+        merge(user.logined, permission.completed).pipe(takeUntil(this.destroyed)).subscribe(() => this.check());
     }
 
     //--------------------------------------------------------------------------

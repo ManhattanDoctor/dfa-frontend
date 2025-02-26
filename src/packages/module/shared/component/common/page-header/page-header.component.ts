@@ -51,7 +51,6 @@ export class PageHeaderComponent extends DestroyableContainer {
         value = this.pipe.language.translate(this.titleId);
         if (value !== this.title) {
             this.title = value;
-
         }
     }
 
@@ -72,5 +71,4 @@ export class PageHeaderComponent extends DestroyableContainer {
         this._titleId = value;
         this.commitTitleIdProperties();
     }
-
 }

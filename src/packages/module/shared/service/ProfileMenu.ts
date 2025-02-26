@@ -6,10 +6,8 @@ import { Transport } from '@ts-core/common';
 import { merge, takeUntil } from 'rxjs';
 import { UserEditCommand } from '@feature/user/transport';
 import { CompanyAddWizardCommand } from '@feature/company/transport';
-import { ResourcePermission } from '@common/platform';
-import { CoinUtil } from '@common/hlf/coin';
+import { CompanyUtil } from '@common/platform/company';
 import * as _ from 'lodash';
-import { CompanyUtil } from '../../../../externals/common/platform/company';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileMenu extends ListItems<IListItem> {

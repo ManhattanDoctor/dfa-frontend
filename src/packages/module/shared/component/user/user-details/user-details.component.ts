@@ -26,7 +26,6 @@ import * as _ from 'lodash';
     templateUrl: 'user-details.component.html',
 })
 export class UserDetailsComponent extends UpdatableComponent<User> {
-
     //--------------------------------------------------------------------------
     //
     // 	Constructor

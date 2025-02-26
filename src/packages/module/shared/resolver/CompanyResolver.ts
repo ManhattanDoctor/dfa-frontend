@@ -30,7 +30,7 @@ export class CompanyResolver extends Resolver<Company> {
         try {
             return _.isNil(id) || this.service.isEquals(id) ? this.service.company : await this.api.companyGet(id);
         } catch (error) {
-            return this.parseError(error.toString(), false);
+            return this.parseError(error.toString(), true);
         }
     }
 }

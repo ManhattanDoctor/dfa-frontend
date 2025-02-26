@@ -1,11 +1,10 @@
 import { Destroyable, ExtendedError, UrlUtil } from '@ts-core/common';
 import { LanguageService } from '@ts-core/frontend';
-import { ILanguageLoader, LanguageDelegateLoader, LanguagePreloadLoader, LanguageFileLoader, LanguageProjects, ILanguageProjectSettings, LanguageUtil } from '@ts-core/language';
+import { ILanguageLoader, LanguageDelegateLoader, LanguagePreloadLoader, LanguageFileLoader, ILanguageProjectSettings, LanguageUtil } from '@ts-core/language';
 import { Client, CONFIG_URL } from '@common/platform/api';
 import { PlatformService, RouterBaseService, WindowService } from '@ts-core/angular';
 import { PermissionService, SettingsService, SocketService } from '../service';
 import { IServerInitializeOptions } from './IServerInitializeOptions';
-import { IKeycloakSettings } from '@ts-core/openid-common';
 import axios from 'axios';
 import * as _ from 'lodash';
 
@@ -45,7 +44,6 @@ export abstract class ApplicationInitializer extends Destroyable {
             return;
         }
         this.api.url = this.socket.url = this.settings.apiUrl;
-        this.permission.settings = this.settings.keycloak as IKeycloakSettings;
         this.language.loader = await this.getLanguageLoader();
     }
 
@@ -63,7 +61,7 @@ export abstract class ApplicationInitializer extends Destroyable {
             return new LanguagePreloadLoader(this.options.locales);
         }
         if (this.settings.isProduction) {
-            return new LanguageDelegateLoader(locale => this.api.language(this.languageSettings.name, locale, this.settings.version));
+            return new LanguageDelegateLoader(locale => this.api.languageGet(this.languageSettings.name, locale, this.settings.version));
         }
         return new LanguageFileLoader(`${this.settings.assetsUrl}language/`, this.languageSettings.prefixes);
     }

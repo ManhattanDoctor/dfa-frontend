@@ -7,12 +7,12 @@
         [mode]="isNeedSide ? 'side' : 'over'"
         [ngClass]="{ 'level-3': !isNeedSide, 'border-right': isNeedSide }"
     >
-        <user-info class="p-2 flex-shrink-0 border-bottom"></user-info>
+        <user-profile-info class="p-2 flex-shrink-0 border-bottom"></user-profile-info>
 
         <mat-nav-list class="pt-0 flex-grow-1 scroll-vertical">
             <ng-container *ngFor="let item of menu?.collection">
                 <mat-list-item [activated]="item.isSelected" *ngIf="item.isEnabled" (click)="menu.actionItem(item)">
-                    <span class="me-2 mt-1" [ngClass]="item.iconId" *ngIf="item.iconId" matListItemIcon></span>
+                    <span class="me-3 mt-1" [ngClass]="item.iconId" *ngIf="item.iconId" matListItemIcon></span>
                     <span [innerHTML]="item.label" matListItemTitle></span>
                 </mat-list-item>
             </ng-container>

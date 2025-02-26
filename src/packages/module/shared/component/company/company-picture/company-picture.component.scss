@@ -16,14 +16,14 @@
         height: 150px;
     }
     &.size-0 {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
     }
 }
 
 .picture {
     border-width: 1px;
     border-style: solid;
-    border-radius: 50%;
+    border-radius: var(--mat-sys-corner-medium);
     border-color: var(--mat-sys-outline)
 }

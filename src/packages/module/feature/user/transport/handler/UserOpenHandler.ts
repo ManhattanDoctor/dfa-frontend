@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '@ts-core/common';
-import { Transport, TransportCommandHandler } from '@ts-core/common';
+import { Transport } from '@ts-core/common';
 import { RouterService } from '@core/service';
-import { IUserOpenDto, UserOpenCommand } from '../UserOpenCommand';
-import { PortalService } from '@ts-core/angular-material';
-import { WindowConfig, WindowEvent } from '@ts-core/angular';
-import { filter, takeUntil } from 'rxjs';
+import { UserOpenCommand } from '../UserOpenCommand';
 import { Client } from '@common/platform/api';
+import { User } from '@common/platform/user';
+import { EntityObjectOpenHandler } from '@feature/hlf/transport/handler';
+import { BottomSheetService, WindowService } from '@ts-core/angular';
+import { ComponentType } from '@angular/cdk/portal';
+import { EntityObjectId } from '@feature/hlf';
+import { UserContainerComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class UserOpenHandler extends TransportCommandHandler<IUserOpenDto, UserOpenCommand> {
+export class UserOpenHandler extends EntityObjectOpenHandler<User> {
     // --------------------------------------------------------------------------
     //
     //  Constructor
     //
     // --------------------------------------------------------------------------
 
-    constructor(logger: Logger, transport: Transport, private router: RouterService, private portal: PortalService, private api: Client) {
-        super(logger, transport, UserOpenCommand.NAME);
+
+    constructor(logger: Logger, transport: Transport, windows: WindowService, sheets: BottomSheetService, router: RouterService, private api: Client) {
+        super(logger, transport, UserOpenCommand.NAME, windows, sheets, router);
     }
 
     // --------------------------------------------------------------------------
@@ -27,52 +31,15 @@ export class UserOpenHandler extends TransportCommandHandler<IUserOpenDto, UserO
     //
     // --------------------------------------------------------------------------
 
-    protected async execute(params: IUserOpenDto): Promise<void> {
-        if (_.isNil(params.isBriefly)) {
-            params.isBriefly = true;
-        }
-        if (params.isBriefly) {
-            this.openBrief(params.id);
-        } else {
-            this.open(params.id);
-        }
+    protected getComponent(): ComponentType<any> {
+        return UserContainerComponent;
     }
 
-    protected open(params: string): void {
-        this.close(params);
-        this.router.navigate(`${RouterService.USER_URL}/${params}`, {});
+    protected async getItem(id: EntityObjectId): Promise<User> {
+        return this.api.userGet(id.toString());
     }
 
-    protected async openBrief(params: string): Promise<void> {
-        let windowId = this.getWindowId(params);
-        if (this.portal.setOnTop(windowId)) {
-            return;
-        }
-
-        let item = await this.api.userGet(params);
-        let config = new WindowConfig(true, false, 360);
-        config.id = windowId;
-        config.isExpandable = true;
-
-        let content = null;
-        /*
-        this.portal.open(UserCardComponent, config);
-        content.user = item;
-        */
-       
-        content.events.pipe(
-            filter(type => type === WindowEvent.EXPAND),
-            takeUntil(content.destroyed)).subscribe(() => {
-                this.transport.send(new UserOpenCommand({ id: params, isBriefly: false }));
-                content.close();
-            });
-    }
-
-    private getWindowId(params: string): string {
-        return 'userOpen' + params;
-    }
-
-    private close(params: string): void {
-        this.portal.close(this.getWindowId(params));
+    protected getUrl(id: EntityObjectId): string {
+        return `${RouterService.USER_URL}/${id}`;
     }
 }

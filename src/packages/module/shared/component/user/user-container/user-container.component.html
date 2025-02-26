@@ -1,6 +1,21 @@
-<user-picture #picture class="flex-shrink-0 size-0 me-2" [user]="user"></user-picture>
-
-<div class="text-container text-one-line flex-grow-1">
-    <p class="title mat-headline-small font-family-brand text-one-line color-base" [innerHTML]="title" *ngIf="title"></p>
-    <p class="description text-one-line font-family-brand mat-label-large" [innerHTML]="description" *ngIf="description"></p>
+<div class="d-flex flex-shrink-0 align-items-center surface-container-low p-2">
+    <!-- <img class="border rounded flex-shrink-0 me-3 ms-2" style="width: 52px; height: 52px" [src]="item?.preferences.picture" /> -->
+    <user-picture #picture class="flex-shrink-0 size-0 me-2" [user]="item"></user-picture>
+    <p class="mx-1 title mat-headline-medium font-family-brand text-center text-one-line flex-grow-1 mouse-disabled" [innerHTML]="item | userName"></p>
+    <button class="flex-shrink-0" mat-icon-button tabindex="-1" (click)="menuOpen($event)">
+        <mat-icon fontSet="fas" fontIcon="fa-ellipsis-v"></mat-icon>
+    </button>
 </div>
+
+<vi-tab-group class="d-block flex-shrink-0 border-top border-bottom" [list]="tabs"></vi-tab-group>
+
+<div class="d-flex flex-grow-1 scroll-vertical">
+    <user-details class="flex-grow-1 p-3" *ngIf="tabs.selectedData === 'USER'" [item]="item"></user-details>
+    <!-- <coin-balances class="flex-grow-1" *ngIf="tabs.selectedData === 'COIN_BALANCES'" [uid]="item?.uid"></coin-balances> -->
+    <actions class="flex-grow-1" [uid]="item?.id" *ngIf="tabs.selectedData === 'ACTIONS'"></actions>
+</div>
+
+<mat-menu #matMenu [overlapTrigger]="false">
+    <vi-menu-list [list]="menu"></vi-menu-list>
+</mat-menu>
+<span [vi-menu-trigger-for]="matMenu"></span>

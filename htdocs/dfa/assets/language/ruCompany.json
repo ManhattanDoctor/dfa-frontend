@@ -4,6 +4,7 @@
         "company": "Компания",
         "companies": "Компании",
         "created": "Создана",
+        "hlfUid": "UID в блокчейне",
         "status": {
             "status": "⇛user.status.status",
             "DRAFT": "Черновик",
@@ -52,6 +53,11 @@
             "reject": "Отклонить",
             "confirmation": "Вы точно хотите отклонить компанию?",
             "notification": "Компания успешно отклонена"
+        },
+        "activate": {
+            "activate": "Активировать",
+            "confirmation": "Вы точно хотите активировать компанию?",
+            "notification": "Компания успешно активирована"
         },
         "submit": {
             "submit": "На верификацию",

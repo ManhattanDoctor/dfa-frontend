@@ -3,7 +3,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { LoadingService, LoadingServiceManager, LanguageService, ThemeService, Assets } from '@ts-core/frontend';
 import { ExtendedError, Transport, TransportHttpCommandAsync, LoggerWrapper, Logger, LoggerLevel, LoadableEvent, ObjectUtil } from '@ts-core/common';
 import { WindowService, ApplicationComponent, ViewUtil, LoginServiceBaseEvent, LoginNotGuard, LoginGuard } from '@ts-core/angular';
-import { RouterService, SettingsService, LoginService } from '@core/service';
+import { RouterService, SettingsService, LoginService, PermissionService } from '@core/service';
 import { AssetsCdnProvider } from '@core/lib';
 import { Language, LanguageUtil } from '@ts-core/language';
 import { Client } from '@common/platform/api';
@@ -46,6 +46,7 @@ export class RootComponent extends ApplicationComponent<SettingsService> {
         protected theme: ThemeService,
         protected settings: SettingsService,
         protected language: LanguageService,
+        protected permission: PermissionService,
 
         public loading: LoadingService,
         icon: MatIconRegistry
@@ -140,6 +141,7 @@ export class RootComponent extends ApplicationComponent<SettingsService> {
 
     protected async readyHandler(): Promise<void> {
         await this.login.loginIfNeed();
+        await this.permission.updateIfNeed();
     }
 }
 

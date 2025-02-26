@@ -1,27 +1,49 @@
-import { Component, Input, ViewContainerRef } from '@angular/core';
-import { ViewUtil, IWindowContent } from '@ts-core/angular';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { ISelectListItem, SelectListItem, SelectListItems, ViewUtil } from '@ts-core/angular';
+import { LanguageService } from '@ts-core/frontend';
+import { ObjectUtil, Transport } from '@ts-core/common';
+import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
+import { ActionsComponent, UserDetailsComponent, UserPictureComponent, EntityObjectComponent } from '@shared/component';
+import { TransportSocket } from '@ts-core/socket-client';
 import { User } from '@common/platform/user';
-import { PipeService } from '@core/service';
-import { UserPictureComponent } from '../user-picture/user-picture.component';
+import { UserMenu } from '@core/lib/user';
+import { getSocketUserRoom } from '@common/platform';
 import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserChangedEvent } from '@common/platform/transport';
+import { filter, map, takeUntil } from 'rxjs';
+import { UserNamePipe } from '@shared/pipe/user';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import * as _ from 'lodash';
 
 @Component({
-    imports: [CommonModule, UserPictureComponent],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatButtonModule,
+
+        VIMatModule,
+        ActionsComponent,
+        UserNamePipe,
+        UserPictureComponent, 
+        UserDetailsComponent,
+    ],
     selector: 'user-container',
-    templateUrl: 'user-container.component.html',
-    styleUrl: 'user-container.component.scss',
+    templateUrl: 'user-container.component.html'
 })
-export class UserContainerComponent extends IWindowContent {
+export class UserContainerComponent extends EntityObjectComponent<User> {
+
     //--------------------------------------------------------------------------
     //
     // 	Properties
     //
     //--------------------------------------------------------------------------
 
-    private _user: User;
-    private _title: string;
-    private _description: string;
+    @ViewChild(MenuTriggerForDirective, { static: true })
+    public trigger: MenuTriggerForDirective;
+    public tabs: SelectListItems<ISelectListItem<string>>;
 
     //--------------------------------------------------------------------------
     //
@@ -29,114 +51,51 @@ export class UserContainerComponent extends IWindowContent {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ViewContainerRef, private pipe: PipeService) {
-        super(container);
-        ViewUtil.addClasses(container, 'd-flex flex-grow-1 align-items-center justify-content-center scroll-no');
+    constructor(
+        container: ViewContainerRef,
+        transport: Transport,
+        language: LanguageService,
+        private socket: TransportSocket,
+        public menu: UserMenu,
+    ) {
+        super(container, transport);
+        ViewUtil.addClasses(container, 'd-flex flex-column');
+
+        this.tabs = new SelectListItems(language);
+        this.tabs.add(new SelectListItem('user.user', 0, 'USER'));
+        this.tabs.add(new SelectListItem('action.actions', 1, 'ACTIONS'));
+        this.tabs.complete(0);
+
+        socket.getDispatcher<UserChangedEvent>(UserChangedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                filter(item => item.id === this.item.id),
+                takeUntil(this.destroyed)
+            ).subscribe(item => ObjectUtil.copyPartial(item, this.item));
     }
 
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
     //
     // 	Private Methods
     //
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
-    private commitUserProperties(): void {
-        var value = null;
-
-        value = this.pipe.userName.transform(this.user);
-        if (value !== this.title) {
-            this.title = value;
-        }
-
-        value = this.pipe.userDescription.transform(this.user);
-        if (value !== this.description) {
-            this.description = value;
-        }
+    protected itemOpenedHandler(item: User): void {
+        this.socket.roomAdd(getSocketUserRoom(item.id));
     }
 
-    private commitTitleProperties(): void {
-        let value = null;
-
-        value = this.title;
-        if (value !== this.title) {
-            this.title = value;
-        }
+    protected itemClosedHandler(item: User): void {
+        this.socket.roomRemove(getSocketUserRoom(item.id));
     }
 
-    private commitDescriptionProperties(): void {
-        let value = null;
-
-        value = this.description;
-        if (value !== this.description) {
-            this.description = value;
-        }
-    }
-
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
     //
-    //  Public Methods
+    // 	Event Handlers
     //
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
-    public invalidate(): void {
-        if (!_.isNil(this.user)) {
-            this.commitUserProperties();
-        }
-    }
-
-    public destroy(): void {
-        if (this.isDestroyed) {
-            return;
-        }
-        super.destroy();
-        this.user = null;
-    }
-
-    //--------------------------------------------------------------------------
-    //
-    //  Public Properties
-    //
-    //--------------------------------------------------------------------------
-
-    public get user(): User {
-        return this._user;
-    }
-    @Input()
-    public set user(value: User) {
-        if (value === this._user) {
-            return;
-        }
-        this._user = value;
-        if (!_.isNil(value)) {
-            this.commitUserProperties();
-        }
-    }
-
-    public get title(): string {
-        return this._title;
-    }
-    @Input()
-    public set title(value: string) {
-        if (value === this._title) {
-            return;
-        }
-        this._title = value;
-        if (!_.isNil(value)) {
-            this.commitTitleProperties();
-        }
-    }
-
-    public get description(): string {
-        return this._description;
-    }
-    @Input()
-    public set description(value: string) {
-        if (value === this._description) {
-            return;
-        }
-        this._description = value;
-        if (!_.isNil(value)) {
-            this.commitDescriptionProperties();
-        }
+    public async menuOpen(event: MouseEvent): Promise<void> {
+        this.menu.refresh(this.item);
+        this.trigger.openMenuOn(event.target);
     }
 }
