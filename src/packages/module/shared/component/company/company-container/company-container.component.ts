@@ -5,9 +5,9 @@ import { ObjectUtil, Transport } from '@ts-core/common';
 import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
 import { ActionsComponent, CompanyDetailsComponent, CompanyPictureComponent, EntityObjectComponent, FinanceActionsComponent } from '@shared/component';
 import { TransportSocket } from '@ts-core/socket-client';
-import { Company, CompanyStatus } from '@common/platform/company';
+import { Company } from '@common/platform/company';
 import { CompanyMenu } from '@core/lib/company';
-import { getSocketCompanyRoom, ResourcePermission } from '@common/platform';
+import { getSocketCompanyRoom } from '@common/platform';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { CompanyChangedEvent } from '@common/platform/transport';
@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CoinBalancesComponent } from '@shared/component';
 import { PermissionService } from '@core/service';
-import { PermissionUtil } from '@common/platform/util';
+import { EntityObjectType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -112,5 +112,15 @@ export class CompanyContainerComponent extends EntityObjectComponent<Company> {
     public async menuOpen(event: MouseEvent): Promise<void> {
         this.menu.refresh(this.item);
         this.trigger.openMenuOn(event.target);
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Public Properties
+    //
+    //--------------------------------------------------------------------------
+
+    public get type(): EntityObjectType {
+        return EntityObjectType.COMPANY;
     }
 }

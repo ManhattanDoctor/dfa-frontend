@@ -39,8 +39,8 @@ export class SocketService extends TransportSocket {
         this.closeNotification();
     }
 
-    protected async reconnectedFailedHandler(): Promise<void> {
-        await super.reconnectedFailedHandler();
+    protected async disconnectedHandler(): Promise<void> {
+        await super.disconnectedHandler();
         if (!this.isHasDisconnectNotification()) {
             this.openNotification();
         }
@@ -61,7 +61,6 @@ export class SocketService extends TransportSocket {
         config.isDisableClose = true;
 
         this.portal.open(SocketReconnectComponent, config);
-        // await this.notifications.question(this.disconnectNotificationId, null, null, { id: this.disconnectNotificationId, closeDuration: DateUtil.MILLISECONDS_HOUR }).yesNotPromise;
     }
 
     private async closeNotification(): Promise<void> {

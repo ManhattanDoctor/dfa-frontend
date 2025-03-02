@@ -4,7 +4,7 @@ import { ViewUtil } from '@ts-core/angular';
 import { User } from '@core/lib/user';
 import { UserService, LoginService, PipeService } from '@core/service';
 import { MatMenuModule } from '@angular/material/menu';
-import { VIMatModule } from '@ts-core/angular-material';
+import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
 import { merge, takeUntil } from 'rxjs';
 import { ProfileMenu } from '@shared/service';
 import { UserPictureComponent } from '@shared/component';
@@ -27,6 +27,9 @@ export class UserProfileInfoComponent extends DestroyableContainer {
     // 	Properties
     //
     //--------------------------------------------------------------------------
+
+    @ViewChild(MenuTriggerForDirective, { static: true })
+    public trigger: MenuTriggerForDirective;
 
     public title: string;
     public description: string;
@@ -81,10 +84,11 @@ export class UserProfileInfoComponent extends DestroyableContainer {
     //
     //--------------------------------------------------------------------------
 
-    public clickHandler(): void {
-        this.menu.refresh();
+    public async menuOpen(event: MouseEvent): Promise<void> {
+        this.menu.refresh(this.user);
+        this.trigger.openMenuOn(event.target);
     }
-
+    
     //--------------------------------------------------------------------------
     //
     //  Public Properties

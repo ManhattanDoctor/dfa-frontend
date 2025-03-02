@@ -1,12 +1,12 @@
 {
     "company": {
-        "id": "⇛user.id",
+        "id": "⇛general.id",
         "company": "Компания",
         "companies": "Компании",
         "created": "Создана",
         "hlfUid": "UID в блокчейне",
         "status": {
-            "status": "⇛user.status.status",
+            "status": "⇛general.status",
             "DRAFT": "Черновик",
             "ACTIVE": "Активна",
             "VERIFIED": "Верифицирована",
@@ -32,7 +32,7 @@
             "email": "⇛user.preferences.email",
             "website": "Веб сайт",
             "address": "Адрес",
-            "description": "Описание"
+            "description": "⇛general.description"
         },
         "add": {
             "wizard": {

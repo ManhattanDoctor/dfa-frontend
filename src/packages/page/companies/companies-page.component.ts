@@ -3,9 +3,10 @@ import { ViewUtil } from '@ts-core/angular';
 import { CDK_TABLE_COLUMN_MENU_NAME, ICdkTableCellEvent, MenuTriggerForDirective } from '@ts-core/angular-material';
 import { Transport, DestroyableContainer } from '@ts-core/common';
 import { PipeService } from '@core/service';
-import { CompanyOpenCommand } from '@feature/company/transport';
 import { CompanyMapCollection, CompanyMenu, CompanyTableSettings } from '@core/lib/company';
 import { Company } from '@common/platform/company';
+import { EntityObjectOpenCommand } from '../../module/feature/entity/transport';
+import { EntityObjectType } from '@feature/entity';
 
 @Component({
     templateUrl: './companies-page.component.html',
@@ -46,7 +47,7 @@ export class CompaniesPageComponent extends DestroyableContainer {
 
     public async cellClickedHandler(item: ICdkTableCellEvent<Company>): Promise<void> {
         if (item.column !== CDK_TABLE_COLUMN_MENU_NAME) {
-            this.transport.send(new CompanyOpenCommand({ id: item.data.id, isBriefly: true }));
+            this.transport.send(new EntityObjectOpenCommand({ id: item.data.id, type: EntityObjectType.COMPANY, isBriefly: true }));
         }
         else {
             this.menu.refresh(item.data);

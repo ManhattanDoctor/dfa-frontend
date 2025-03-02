@@ -15,10 +15,9 @@ export class MainPageComponent {
     //
     //--------------------------------------------------------------------------
 
-    constructor(container: ViewContainerRef,
-        private transport: Transport) {
+    constructor(container: ViewContainerRef, private transport: Transport) {
         ViewUtil.addClasses(container, 'd-flex flex-column flex-grow-1 overflow-hidden');
-        transport.send(new SeoCommand({ title: `general.title`, description: `general.description` }));
+        transport.send(new SeoCommand({ title: 'main.title', description: 'main.description' }));
     }
 
     //--------------------------------------------------------------------------

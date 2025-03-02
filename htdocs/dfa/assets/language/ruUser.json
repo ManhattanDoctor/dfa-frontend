@@ -1,12 +1,12 @@
 {
     "user": {
-        "id": "#",
+        "id": "⇛general.id",
         "login": "Логин",
         "user": "Пользователь",
         "users": "Пользователи",
         "created": "Регистрация",
         "status": {
-            "status": "Статус",
+            "status": "⇛general.status",
             "ACTIVE": "Активен",
             "NON_ACTIVE": "Не активен"
         },

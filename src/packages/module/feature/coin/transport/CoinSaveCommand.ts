@@ -1,5 +1,8 @@
 import { TransportCommandAsync } from '@ts-core/common';
-import { Coin, CoinStatus } from '@common/platform/coin';
+import { Coin } from '@common/platform/coin';
+import { CoinType, ICoinSeries } from '@common/hlf/coin';
+import { ICoinData } from '@common/hlf/coin/data';
+import { ICoinPermission } from '@common/hlf/coin/permission';
 
 export class CoinSaveCommand extends TransportCommandAsync<ICoinSaveDto, Coin> {
     // --------------------------------------------------------------------------
@@ -23,6 +26,13 @@ export class CoinSaveCommand extends TransportCommandAsync<ICoinSaveDto, Coin> {
 
 export interface ICoinSaveDto {
     id: number;
-    status?: CoinStatus;
+
+    name: string;
+    type: CoinType;
+    ticker: string;
+
+    data?: ICoinData;
+    series?: ICoinSeries;
+    permissions?: Array<ICoinPermission>;
 }
 

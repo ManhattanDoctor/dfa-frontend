@@ -1,6 +1,6 @@
 import { TransportCommand } from '@ts-core/common';
 
-export class CoinActivateCommand extends TransportCommand<void> {
+export class CoinActivateCommand extends TransportCommand<number> {
     // --------------------------------------------------------------------------
     //
     //   Constants
@@ -15,7 +15,7 @@ export class CoinActivateCommand extends TransportCommand<void> {
     //
     // --------------------------------------------------------------------------
 
-    constructor() {
-        super(CoinActivateCommand.NAME);
+    constructor(request: number) {
+        super(CoinActivateCommand.NAME, request);
     }
 }

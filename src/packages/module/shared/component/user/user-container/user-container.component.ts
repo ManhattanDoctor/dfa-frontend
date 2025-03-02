@@ -15,6 +15,7 @@ import { filter, map, takeUntil } from 'rxjs';
 import { UserNamePipe } from '@shared/pipe/user';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { EntityObjectType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -27,7 +28,7 @@ import * as _ from 'lodash';
         VIMatModule,
         ActionsComponent,
         UserNamePipe,
-        UserPictureComponent, 
+        UserPictureComponent,
         UserDetailsComponent,
     ],
     selector: 'user-container',
@@ -97,5 +98,15 @@ export class UserContainerComponent extends EntityObjectComponent<User> {
     public async menuOpen(event: MouseEvent): Promise<void> {
         this.menu.refresh(this.item);
         this.trigger.openMenuOn(event.target);
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Public Properties
+    //
+    //--------------------------------------------------------------------------
+
+    public get type(): EntityObjectType {
+        return EntityObjectType.USER;
     }
 }

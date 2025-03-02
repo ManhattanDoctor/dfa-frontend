@@ -5,6 +5,9 @@ import { PermissionService, RouterService, CompanyService } from '@core/service'
 import { Transport } from '@ts-core/common';
 import { CompanyActivateCommand, CompanyEditCommand, CompanyOpenCommand, CompanyRejectCommand, CompanySubmitCommand, CompanyVerifyCommand } from '@feature/company/transport';
 import { Company, CompanyUtil } from '@common/platform/company';
+import { CoinAddCommand } from '@feature/coin/transport';
+import { EntityObjectOpenCommand } from '@feature/entity/transport';
+import { EntityObjectType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -20,6 +23,8 @@ export class CompanyMenu extends ListItems<IListItem> {
     private static SUBMIT = 20;
     private static VERIFY = 20;
     private static REJECT = 20;
+
+    private static COIN_ADD = 40;
 
     // --------------------------------------------------------------------------
     //
@@ -37,7 +42,7 @@ export class CompanyMenu extends ListItems<IListItem> {
         item.checkEnabled = (item, company) => CompanyUtil.isCanEdit(company, permission.resources, false);
 
         item = this.add(new MenuItem('company.company', CompanyMenu.OPEN, 'fa fa-building me-2'));
-        item.action = (item, company) => transport.send(new CompanyOpenCommand({ id: company.id, isBriefly: true }));
+        item.action = (item, company) => transport.send(new EntityObjectOpenCommand({ id: company.id, type: EntityObjectType.COMPANY, isBriefly: true }));
         item.checkEnabled = (item, company) => !this.isPageOpen(company.id) && CompanyUtil.isCanRead(permission.resources, false);
 
         item = this.add(new MenuItem('company.submit.submit', CompanyMenu.SUBMIT, 'fa fa-arrow-right me-2'));
@@ -56,11 +61,9 @@ export class CompanyMenu extends ListItems<IListItem> {
         item.action = (item, company) => transport.send(new CompanyRejectCommand(company.id));
         item.checkEnabled = (item, company) => CompanyUtil.isCanReject(company, permission.resources, false);
 
-        /*
-        item = this.add(new MenuItem('general.edit.edit', CompanyMenu.EDIT, 'fa fa-pen me-2'));
-        item.action = (item, company) => transport.send(new CompanyEditCommand(company.id));
-        // item.checkEnabled = (item, company) => permission.has(ResourcePermission.COMPANY_EDIT);
-        */
+        item = this.add(new MenuItem('coin.add.add', CompanyMenu.COIN_ADD, 'fa fa-coins me-2'));
+        item.action = (item, company) => transport.send(new CoinAddCommand());
+        item.checkEnabled = (item, company) => CompanyUtil.isCanCoinAdd(company, permission.resources, false);
 
         this.complete();
     }

@@ -16,6 +16,6 @@ export class CoinOpenCommand extends EntityObjectOpenCommand {
     // --------------------------------------------------------------------------
 
     constructor(request: IEntityObjectOpenDto) {
-        super(CoinOpenCommand.NAME, request);
+        super(request, CoinOpenCommand.NAME);
     }
 }

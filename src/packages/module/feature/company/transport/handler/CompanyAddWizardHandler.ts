@@ -36,7 +36,6 @@ export class CompanyAddWizardHandler extends TransportCommandHandler<void, Compa
 
         let config = new WindowConfig(true, false, 480);
         config.id = windowId;
-        config.isDisableClose = true;
 
         let content = this.portal.open(CompanyAddWizardComponent, config);
 

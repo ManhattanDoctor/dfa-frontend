@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Logger, Transport, TransportCommandAsyncHandler } from '@ts-core/common';
 import { Client } from '@common/platform/api';
-import { CompanySaveCommand, ICompanySaveDto } from '../CompanySaveCommand';
-import { Company } from '@common/platform/company';
+import { CoinSaveCommand, ICoinSaveDto } from '../CoinSaveCommand';
+import { Coin } from '@common/platform/coin';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class CompanySaveHandler extends TransportCommandAsyncHandler<ICompanySaveDto, Company, CompanySaveCommand> {
+export class CoinSaveHandler extends TransportCommandAsyncHandler<ICoinSaveDto, Coin, CoinSaveCommand> {
     // --------------------------------------------------------------------------
     //
     //  Constructor
@@ -14,7 +14,7 @@ export class CompanySaveHandler extends TransportCommandAsyncHandler<ICompanySav
     // --------------------------------------------------------------------------
 
     constructor(transport: Transport, logger: Logger, private api: Client) {
-        super(logger, transport, CompanySaveCommand.NAME);
+        super(logger, transport, CoinSaveCommand.NAME);
     }
 
     // --------------------------------------------------------------------------
@@ -23,7 +23,7 @@ export class CompanySaveHandler extends TransportCommandAsyncHandler<ICompanySav
     //
     // --------------------------------------------------------------------------
 
-    protected async execute(params: ICompanySaveDto): Promise<Company> {
-        return this.api.companyEdit(params);
+    protected async execute(params: ICoinSaveDto): Promise<Coin> {
+        return this.api.coinEdit(params);
     }
 }

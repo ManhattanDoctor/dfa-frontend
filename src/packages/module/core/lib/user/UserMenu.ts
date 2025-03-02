@@ -4,10 +4,11 @@ import { Injectable } from '@angular/core';
 import { PermissionService, RouterService, UserService } from '@core/service';
 import { User } from '@core/lib/user';
 import { Transport } from '@ts-core/common';
-import { UserEditCommand, UserOpenCommand } from '@feature/user/transport';
+import { UserEditCommand } from '@feature/user/transport';
 import { UserUtil } from '@common/platform/user';
 import { CompanyUtil } from '@common/platform/company';
-import { CompanyOpenCommand } from '@feature/company/transport';
+import { EntityObjectOpenCommand } from '@feature/entity/transport';
+import { EntityObjectType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -34,11 +35,11 @@ export class UserMenu extends ListItems<IListItem> {
         let item: IListItem = null;
 
         item = this.add(new MenuItem('user.user', UserMenu.OPEN, 'fa fa-user me-2'));
-        item.action = (item, user) => transport.send(new UserOpenCommand({ id: user.id, isBriefly: true }));
+        item.action = (item, user) => transport.send(new EntityObjectOpenCommand({ id: user.id, type: EntityObjectType.USER, isBriefly: true }));
         item.checkEnabled = (item, user) => !this.isPageOpen(user.id) && UserUtil.isCanRead(permission.resources, false);
 
         item = this.add(new MenuItem('company.company', UserMenu.COMPANY, 'fa fa-building me-2'));
-        item.action = (item, user) => transport.send(new CompanyOpenCommand({ id: user.companyId, isBriefly: true }));
+        item.action = (item, user) => transport.send(new EntityObjectOpenCommand({ id: user.companyId, type: EntityObjectType.COMPANY, isBriefly: true }));
         item.checkEnabled = (item, user) => !_.isNil(user.companyId) && CompanyUtil.isCanRead(permission.resources, false);
 
         item = this.add(new MenuItem('general.edit.edit', UserMenu.EDIT, 'fa fa-pen me-2'));

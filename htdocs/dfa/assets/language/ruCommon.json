@@ -1,7 +1,10 @@
 {
     "general": {
+        "id": "#",
         "all": "Все",
+        "type": "Тип",
         "name": "Название",
+        "status": "Статус",
         "filter": "Фильтр",
         "description": "Описание",
         "notifications": "Уведомления",

@@ -1,0 +1,59 @@
+<div class="d-flex flex-shrink-0 align-items-center surface-container-low p-2">
+    <p class="mx-1 title mat-headline-small font-family-brand text-one-line color-base flex-grow-1 mouse-disabled" vi-translate="coin.coin"></p>
+    <button class="flex-shrink-0" (click)="submit()" mat-flat-button [disabled]="isDisabled || form.invalid || form.pristine">
+        <span class="text-one-line flex-grow-1" vi-translate="general.add.add"></span>
+    </button>
+</div>
+
+<mat-progress-bar class="flex-shrink-0 border-line variant" [mode]="isDisabled ? 'indeterminate' : 'determinate'"></mat-progress-bar>
+
+<form class="flex-grow-1 px-3 pt-3 pb-2 row g-0 scroll-vertical" #form="ngForm" (keydown.enter)="$event.preventDefault()">
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <mat-select #typeInput="ngModel" name="type" [(ngModel)]="type">
+                <mat-option *ngFor="let item of types" [value]="item">
+                    <span [vi-translate]="'coin.type.' + item"></span>
+                </mat-option>
+            </mat-select>
+            <mat-label vi-translate="coin.type.type"></mat-label>
+            <mat-error *ngIf="!(typeInput.valid || !typeInput.touched)" [innerHTML]="typeInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <input
+                #nameInput="ngModel"
+                matInput
+                name="name"
+                [(ngModel)]="name"
+                type="text"
+                required
+                isNotEmpty
+                [minlength]="nameMinLength"
+                [maxlength]="nameMaxLength"
+                [disabled]="isDisabled"
+            />
+            <mat-label vi-translate="coin.name"></mat-label>
+            <mat-error *ngIf="!(nameInput.valid || !nameInput.touched)" [innerHTML]="nameInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12">
+        <mat-form-field class="d-block">
+            <input
+                #tickerInput="ngModel"
+                matInput
+                name="ticker"
+                [(ngModel)]="ticker"
+                type="text"
+                required
+                isNotEmpty
+                [pattern]="tickerPattern"
+                [minlength]="tickerMinLength"
+                [maxlength]="tickerMaxLength"
+                [disabled]="isDisabled"
+            />
+            <mat-label vi-translate="coin.ticker.ticker"></mat-label>
+            <mat-error *ngIf="!(tickerInput.valid || !tickerInput.touched)" [innerHTML]="tickerInput.errors | viNgModelError"></mat-error>
+        </mat-form-field>
+    </div>
+</form>

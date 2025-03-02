@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DestroyableContainer } from '@ts-core/common';
 import { Coin } from '@common/platform/coin';
-import { PrettifyPipe } from '@ts-core/angular';
 import * as _ from 'lodash';
 
 @Pipe({
@@ -16,8 +15,12 @@ export class CoinDescriptionPipe extends DestroyableContainer implements PipeTra
     // --------------------------------------------------------------------------
 
     public transform(item: Coin): string {
-        let value = item?.ticker;
-        return !_.isEmpty(value) ? value : PrettifyPipe.EMPTY_SYMBOL;
+        let { type, ticker, series } = item;
+        let value = `${ticker} (${type})`;
+        if (!_.isNil(series)) {
+            value += `${series.uid}.${series.index}`;
+        }
+        return value;
     }
 }
 

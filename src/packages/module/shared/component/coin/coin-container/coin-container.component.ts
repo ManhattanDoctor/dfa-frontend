@@ -16,6 +16,7 @@ import { CoinNamePipe } from '@shared/pipe/coin';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CoinBalancesComponent } from '@shared/component';
+import { EntityObjectType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -105,5 +106,15 @@ export class CoinContainerComponent extends EntityObjectComponent<Coin> {
     public async menuOpen(event: MouseEvent): Promise<void> {
         this.menu.refresh(this.item);
         this.trigger.openMenuOn(event.target);
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Public Properties
+    //
+    //--------------------------------------------------------------------------
+
+    public get type(): EntityObjectType {
+        return EntityObjectType.COIN;
     }
 }

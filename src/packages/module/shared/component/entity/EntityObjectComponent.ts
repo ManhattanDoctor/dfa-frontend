@@ -1,13 +1,13 @@
 import { Component, Input, ViewContainerRef } from '@angular/core';
 import { IWindowContent, WindowEvent } from '@ts-core/angular';
-import { Transport, ITransport } from '@ts-core/common';
-import { EntityObject, EntityObjectId } from '@feature/entity';
+import { Transport } from '@ts-core/common';
+import { EntityObject, EntityObjectId, EntityObjectType } from '@feature/entity';
 import { EntityObjectOpenCommand } from '@feature/entity/transport';
 import { filter, takeUntil } from 'rxjs';
 import * as _ from 'lodash';
 
 @Component({ selector: '', template: '' })
-export class EntityObjectComponent<U extends EntityObject> extends IWindowContent {
+export abstract class EntityObjectComponent<U extends EntityObject> extends IWindowContent {
 
     //--------------------------------------------------------------------------
     //
@@ -55,7 +55,7 @@ export class EntityObjectComponent<U extends EntityObject> extends IWindowConten
         super.commitWindowProperties();
         this.events.pipe(
             filter(item => item === WindowEvent.EXPAND),
-            takeUntil(this.destroyed)).subscribe(() => this.open(this.item, false));
+            takeUntil(this.destroyed)).subscribe(() => this.open(null, null, false));
     }
 
     //--------------------------------------------------------------------------
@@ -64,14 +64,17 @@ export class EntityObjectComponent<U extends EntityObject> extends IWindowConten
     //
     //--------------------------------------------------------------------------
 
-    public async open(item?: U, isBriefly?: boolean): Promise<void> {
+    public async open(item?: U, type?: EntityObjectType, isBriefly?: boolean): Promise<void> {
         if (_.isNil(item)) {
             item = this.item;
+        }
+        if (_.isNil(type)) {
+            type = this.type;
         }
         if (_.isNil(isBriefly)) {
             isBriefly = this.isOpenBriefly;
         }
-        this.transport.send(new EntityObjectOpenCommand(EntityObjectOpenCommand.NAME, { id: item.id, isBriefly }));
+        this.transport.send(new EntityObjectOpenCommand({ id: item.id, type, isBriefly }));
         if (this.isBriefly) {
             this.close();
         }
@@ -94,6 +97,8 @@ export class EntityObjectComponent<U extends EntityObject> extends IWindowConten
     public get uid(): EntityObjectId {
         return this.item.id;
     }
+
+    public abstract get type(): EntityObjectType;
 
     public get item(): U {
         return this._item;

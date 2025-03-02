@@ -6,7 +6,7 @@ import { Coin, ICoinAmount, CoinUtil as CoinUtilBase } from '@hlf-core/coin';
 import { Action, } from '@common/platform';
 import { CoinUtil } from '@common/hlf/coin';
 import { CoinBalance } from '@common/platform/coin';
-import { CoinIdPipe } from './CoinIdPipe';
+import { CoinTickerPipe } from './CoinTickerPipe';
 import * as _ from 'lodash';
 
 @Pipe({
@@ -19,7 +19,7 @@ export class CoinAmountPipe extends DestroyableContainer implements PipeTransfor
     //
     // --------------------------------------------------------------------------
 
-    private coinId: CoinIdPipe;
+    private coinId: CoinTickerPipe;
     private finance: FinancePipe;
 
     // --------------------------------------------------------------------------
@@ -30,7 +30,7 @@ export class CoinAmountPipe extends DestroyableContainer implements PipeTransfor
 
     constructor(language: LanguageService) {
         super();
-        this.coinId = new CoinIdPipe(language);
+        this.coinId = new CoinTickerPipe(language);
         this.finance = new FinancePipe();
     }
 

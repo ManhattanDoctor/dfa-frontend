@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PipeService } from '@core/service';
 import { SeoCommand } from '@core/transport';
 import { EntityObjectComponent } from '@shared/component';
+import { EntityObjectType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -14,7 +15,6 @@ import * as _ from 'lodash';
     standalone: false
 })
 export class UserPageComponent extends EntityObjectComponent<User> {
-
 
     //--------------------------------------------------------------------------
     //
@@ -37,5 +37,15 @@ export class UserPageComponent extends EntityObjectComponent<User> {
     protected async commitItemProperties(): Promise<void> {
         super.commitItemProperties();
         this.transport.send(new SeoCommand({ title: this.pipe.userName.transform(this.item), description: this.pipe.userDescription.transform(this.item), image: this.item.preferences.picture }));
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Public Properties
+    //
+    //--------------------------------------------------------------------------
+
+    public get type(): EntityObjectType {
+        return EntityObjectType.USER;
     }
 }

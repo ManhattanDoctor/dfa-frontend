@@ -4,9 +4,15 @@
         "coin": "Токен",
         "coins": "Токены",
         "amount": "Сумма",
-        "name": "⇛company.preferences.name",
+        "name": "⇛general.name",
         "created": "Создана",
         "hlfUid": "UID в блокчейне",
+        "description": "⇛general.description",
+        "series": {
+            "series": "Серия",
+            "uid": "Серия",
+            "index": "Номер"
+        },
         "balance": {
             "balance": "Баланс",
             "balances": "Балансы",
@@ -16,14 +22,22 @@
             "total": "Всего",
             "inUse": "Доступно"
         },
+        "type": {
+            "type": "⇛general.type",
+            "FT": "Взаимозаменяемый",
+            "NFT": "Невзаимозаменяемый"
+        },
         "status": {
-            "status": "⇛user.status.status",
+            "status": "⇛general.status",
             "DRAFT": "Черновик",
             "ACTIVE": "Активна",
             "VERIFIED": "Верифицирована",
             "REJECTED": "Отклонена",
             "NON_ACTIVE": "Не активна",
             "VERIFICATION_PROCESS": "В процессе верификации"
+        },
+        "add": {
+            "add": "Добавить токен"
         },
         "transfer": {
             "transfer": "Перевести токены",
@@ -49,8 +63,8 @@
             "confirmation": "Вы точно хотите отправить компанию на верификацию?",
             "notification": "Компания успешно отправлена на верификацию"
         },
-        "coinId": {
-            "coinId": "Тикер",
+        "ticker": {
+            "ticker": "Тикер",
             "RUB": "Руб"
         }
     }

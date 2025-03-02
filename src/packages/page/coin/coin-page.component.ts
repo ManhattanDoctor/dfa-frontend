@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PipeService } from '@core/service';
 import { SeoCommand } from '@core/transport';
 import { EntityObjectComponent } from '@shared/component';
+import { EntityObjectType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -35,5 +36,15 @@ export class CoinPageComponent extends EntityObjectComponent<Coin> {
     protected async commitItemProperties(): Promise<void> {
         super.commitItemProperties();
         this.transport.send(new SeoCommand({ title: this.pipe.coinName.transform(this.item), description: this.pipe.coinDescription.transform(this.item), image: this.item.picture }));
+    }
+
+    //--------------------------------------------------------------------------
+    //
+    // 	Public Properties
+    //
+    //--------------------------------------------------------------------------
+
+    public get type(): EntityObjectType {
+        return EntityObjectType.COIN;
     }
 }

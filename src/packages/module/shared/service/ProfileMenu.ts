@@ -1,9 +1,8 @@
 import { LanguageService } from '@ts-core/frontend';
 import { Injectable } from '@angular/core';
 import { WindowService, ListItems, IListItem, ListItem } from '@ts-core/angular';
-import { LoginService, UserService, EnvironmentService, PermissionService } from '@core/service';
+import { LoginService, UserService, PermissionService } from '@core/service';
 import { Transport } from '@ts-core/common';
-import { merge, takeUntil } from 'rxjs';
 import { UserEditCommand } from '@feature/user/transport';
 import { CompanyAddWizardCommand } from '@feature/company/transport';
 import { CompanyUtil } from '@common/platform/company';
@@ -16,6 +15,8 @@ export class ProfileMenu extends ListItems<IListItem> {
     //	Constants
     //
     // --------------------------------------------------------------------------
+
+    private static REFRESH = 10000;
 
     private static PROFILE = 20;
     private static COMPANY_WIZARD = 30;
@@ -43,14 +44,15 @@ export class ProfileMenu extends ListItems<IListItem> {
         item.checkEnabled = () => !login.isLoading;
         item.action = () => windows.question('login.logout.confirmation').yesNotPromise.then(() => login.logout());
 
+        item = this.add(new ListItem('general.refresh', ProfileMenu.REFRESH, null, 'fas fa-sync me-2'));
+        item.action = () => permission.refresh();
+
         item = this.add(new ListItem('general.edit.edit', ProfileMenu.PROFILE, null, 'fas fa fa-cog me-2'));
         item.action = () => transport.send(new UserEditCommand(user.id.toString()));
 
         item = this.add(new ListItem('company.add.wizard.wizard', ProfileMenu.COMPANY_WIZARD, null, 'fas fa fa-building me-2'));
         item.action = () => transport.send(new CompanyAddWizardCommand());
         item.checkEnabled = () => CompanyUtil.isCanAdd(permission.resources, false);
-
-        merge(user.logined, user.logouted).pipe(takeUntil(this.destroyed)).subscribe(() => this.refresh());
 
         this.complete();
         this.refresh();

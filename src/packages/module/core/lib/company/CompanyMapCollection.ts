@@ -81,6 +81,11 @@ export class CompanyTableSettings implements ICdkTableSettings<Company> {
             format: item => pipe.companyName.transform(item)
         });
         this.columns.push({
+            name: 'status',
+            headerId: 'company.status.status',
+            format: item => pipe.language.translate(`company.status.${item.status}`)
+        });
+        this.columns.push({
             name: 'description',
             headerId: 'company.preferences.description',
             format: item => pipe.companyDescription.transform(item)

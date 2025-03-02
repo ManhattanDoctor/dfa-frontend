@@ -7,4 +7,12 @@
         <input #status class="mouse-disabled" matInput [value]="'coin.status.' + item?.status | viTranslate" disabled />
         <mat-label vi-translate="coin.status.status"></mat-label>
     </mat-form-field>
+    <mat-form-field class="d-block" [vi-click-to-copy]="type">
+        <input #type class="mouse-disabled" matInput [value]="'coin.type.' + item?.type | viTranslate" disabled />
+        <mat-label vi-translate="coin.type.type"></mat-label>
+    </mat-form-field>
+    <mat-form-field class="d-block" [vi-click-to-copy]="ticker">
+        <input #ticker class="mouse-disabled" matInput [value]="item.ticker" disabled />
+        <mat-label vi-translate="coin.ticker.ticker"></mat-label>
+    </mat-form-field>
 </div>

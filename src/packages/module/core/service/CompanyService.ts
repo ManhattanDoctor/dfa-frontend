@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Loginable } from '@ts-core/angular';
 import { Company } from '@common/platform/company';
-import { ObjectUtil, ObservableData, TransformUtil } from '@ts-core/common';
+import { ObjectUtil, ObservableData, TransformUtil, Transport } from '@ts-core/common';
 import { filter, map, Observable, takeUntil } from 'rxjs';
 import { LoginService } from './LoginService';
 import { SocketService } from './SocketService';
@@ -25,7 +25,7 @@ export class CompanyService extends Loginable<LoginService, CompanyServiceEvent,
     //
     //--------------------------------------------------------------------------
 
-    constructor(login: LoginService, socket: SocketService, private permission: PermissionService) {
+    constructor(transport: Transport, login: LoginService, socket: SocketService, private permission: PermissionService) {
         super(login);
         this.initialize();
 
@@ -42,7 +42,6 @@ export class CompanyService extends Loginable<LoginService, CompanyServiceEvent,
                 takeUntil(this.destroyed)
             ).subscribe(async item => {
                 this.set(TransformUtil.toClass(Company, item));
-                await this.permission.refresh();
             });
     }
 

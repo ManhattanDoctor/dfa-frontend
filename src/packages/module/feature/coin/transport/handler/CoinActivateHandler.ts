@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Logger, Transport, TransportCommandHandler } from '@ts-core/common';
 import { Client } from '@common/platform/api';
-import { CompanyRejectCommand } from '../CompanyRejectCommand';
+import { CoinActivateCommand } from '../CoinActivateCommand';
 import { NotificationService, WindowService } from '@ts-core/angular';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class CompanyRejectHandler extends TransportCommandHandler<number, CompanyRejectCommand> {
+export class CoinActivateHandler extends TransportCommandHandler<number, CoinActivateCommand> {
     // --------------------------------------------------------------------------
     //
     //  Constructor
@@ -14,7 +14,7 @@ export class CompanyRejectHandler extends TransportCommandHandler<number, Compan
     // --------------------------------------------------------------------------
 
     constructor(transport: Transport, logger: Logger, private api: Client, private windows: WindowService, private notifications: NotificationService) {
-        super(logger, transport, CompanyRejectCommand.NAME);
+        super(logger, transport, CoinActivateCommand.NAME);
     }
 
     // --------------------------------------------------------------------------
@@ -24,8 +24,8 @@ export class CompanyRejectHandler extends TransportCommandHandler<number, Compan
     // --------------------------------------------------------------------------
 
     protected async execute(params: number): Promise<void> {
-        await this.windows.question('company.reject.confirmation').yesNotPromise;
-        await this.api.companyReject(params);
-        this.notifications.info('company.reject.notification');
+        await this.windows.question('coin.activate.confirmation').yesNotPromise;
+        await this.api.coinActivate(params);
+        this.notifications.info('coin.activate.notification');
     }
 }

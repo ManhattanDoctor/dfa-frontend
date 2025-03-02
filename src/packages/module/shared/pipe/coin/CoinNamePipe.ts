@@ -16,8 +16,7 @@ export class CoinNamePipe extends DestroyableContainer implements PipeTransform 
     // --------------------------------------------------------------------------
 
     public transform(item: Coin): string {
-        let value = item?.id.toString();
-        return !_.isEmpty(value) ? value : PrettifyPipe.EMPTY_SYMBOL;
+        return item.name;
     }
 }
 

@@ -23,7 +23,6 @@ export class CompanySaveCommand extends TransportCommandAsync<ICompanySaveDto, C
 
 export interface ICompanySaveDto {
     id: number;
-    status?: CompanyStatus;
     preferences?: Partial<CompanyPreferences>;
 }
 

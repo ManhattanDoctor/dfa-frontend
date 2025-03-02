@@ -80,5 +80,16 @@ export class CoinTableSettings implements ICdkTableSettings<Coin> {
             headerId: 'coin.name',
             format: item => pipe.coinName.transform(item)
         });
+        this.columns.push({
+            name: 'status',
+            headerId: 'coin.status.status',
+            format: item => pipe.language.translate(`coin.status.${item.status}`)
+        });
+        this.columns.push({
+            name: 'description',
+            headerId: 'coin.description',
+            isDisableSort: true,
+            format: item => pipe.coinDescription.transform(item)
+        });
     }
 }

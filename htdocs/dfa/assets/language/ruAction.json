@@ -5,7 +5,7 @@
         "actions": "События",
         "finances": "Финансы",
         "type": {
-            "type": "Тип",
+            "type": "⇛general.type",
             "description": {
                 "USER_ADDED": "Компания создана",
                 "COIN_ADDED": "Монета добавлена",

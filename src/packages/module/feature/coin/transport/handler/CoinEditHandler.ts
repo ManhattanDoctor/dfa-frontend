@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { NotificationService, WindowClosedError, WindowConfig, WindowEvent } from '@ts-core/angular';
 import { ExtendedError, Logger, PromiseHandler, Transport, TransportCommandAsyncHandler } from '@ts-core/common';
-import { CompanyEditCommand, ICompanyEditDtoResponse } from '../CompanyEditCommand';
+import { CoinEditCommand, ICoinEditDtoResponse } from '../CoinEditCommand';
 import { Client } from '@common/platform/api';
-import { CompanyService } from '@core/service';
-import { CompanySaveCommand } from '@feature/company/transport';
+import { CoinSaveCommand } from '@feature/coin/transport';
 import { PortalService } from '@ts-core/angular-material';
 import { takeUntil } from 'rxjs';
-import { CompanyEditComponent } from '@shared/component';
+// import { CoinEditComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class CompanyEditHandler extends TransportCommandAsyncHandler<number, ICompanyEditDtoResponse, CompanyEditCommand> {
+export class CoinEditHandler extends TransportCommandAsyncHandler<number, ICoinEditDtoResponse, CoinEditCommand> {
     // --------------------------------------------------------------------------
     //
     //  Constructor
@@ -19,7 +18,7 @@ export class CompanyEditHandler extends TransportCommandAsyncHandler<number, ICo
     // --------------------------------------------------------------------------
 
     constructor(transport: Transport, logger: Logger, private portal: PortalService, private notifications: NotificationService, private api: Client) {
-        super(logger, transport, CompanyEditCommand.NAME);
+        super(logger, transport, CoinEditCommand.NAME);
     }
 
     // --------------------------------------------------------------------------
@@ -28,27 +27,28 @@ export class CompanyEditHandler extends TransportCommandAsyncHandler<number, ICo
     //
     // --------------------------------------------------------------------------
 
-    protected async execute(params: number): Promise<ICompanyEditDtoResponse> {
-        let windowId = 'companyEdit' + params;
+    protected async execute(params: number): Promise<ICoinEditDtoResponse> {
+        let windowId = 'coinEdit' + params;
         if (this.portal.setOnTop(windowId)) {
             return Promise.reject('Already opened');
         }
 
-        let item = await this.api.companyGet(params);
+        let item = await this.api.coinGet(params);
         let config = new WindowConfig(true, false, 480);
         config.id = windowId;
 
-        let promise = PromiseHandler.create<ICompanyEditDtoResponse, ExtendedError>();
+        let promise = PromiseHandler.create<ICoinEditDtoResponse, ExtendedError>();
 
-        let content = this.portal.open(CompanyEditComponent, config);
-        content.company = item;
+        /*
+        let content = this.portal.open(CoinEditComponent, config);
+        content.coin = item;
 
         content.events.pipe(takeUntil(content.destroyed)).subscribe(async event => {
             switch (event) {
-                case CompanyEditComponent.EVENT_SUBMITTED:
+                case CoinEditComponent.EVENT_SUBMITTED:
                     content.isDisabled = true;
                     try {
-                        item = await this.transport.sendListen(new CompanySaveCommand(content.serialize()));
+                        item = await this.transport.sendListen(new CoinSaveCommand(content.serialize()));
                         this.notifications.info('general.save.notification');
                     }
                     finally {
@@ -62,6 +62,7 @@ export class CompanyEditHandler extends TransportCommandAsyncHandler<number, ICo
                     break;
             }
         });
+        */
         return promise.promise;
     }
 }

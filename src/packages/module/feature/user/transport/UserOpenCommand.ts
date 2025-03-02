@@ -1,6 +1,6 @@
-import { TransportCommand } from '@ts-core/common';
+import { EntityObjectOpenCommand, IEntityObjectOpenDto } from '@feature/entity/transport';
 
-export class UserOpenCommand extends TransportCommand<IUserOpenDto> {
+export class UserOpenCommand extends EntityObjectOpenCommand {
     // --------------------------------------------------------------------------
     //
     //   Constants
@@ -15,12 +15,7 @@ export class UserOpenCommand extends TransportCommand<IUserOpenDto> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: IUserOpenDto) {
-        super(UserOpenCommand.NAME, request);
+    constructor(request: IEntityObjectOpenDto) {
+        super(request, UserOpenCommand.NAME);
     }
-}
-
-export interface IUserOpenDto {
-    id: string;
-    isBriefly?: boolean;
 }

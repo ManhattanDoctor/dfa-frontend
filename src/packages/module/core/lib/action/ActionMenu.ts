@@ -6,6 +6,7 @@ import { Action } from '@common/platform';
 import { EntityObjectComponent } from '@shared/component';
 import { EntityObjectOpenCommand } from '@feature/entity/transport';
 import * as _ from 'lodash';
+import { EntityObjectType } from '../../../feature/entity';
 
 @Injectable({ providedIn: 'root' })
 export class ActionMenu extends ListItems<IListItem<void>> {
@@ -40,17 +41,17 @@ export class ActionMenu extends ListItems<IListItem<void>> {
 
         item = new MenuListItem('coin.coin', ActionMenu.COIN, null, 'fas fa fa-coins me-2');
         item.checkEnabled = (item, action) => !_.isNil(action.coinUid);
-        item.action = (item, action) => transport.send(new EntityObjectOpenCommand(EntityObjectOpenCommand.NAME, { id: action.coinUid, isBriefly: true }));
+        item.action = (item, action) => transport.send(new EntityObjectOpenCommand({ id: action.coinUid, type: EntityObjectType.COIN, isBriefly: true }));
         this.add(item);
 
         item = new MenuListItem('company.company', ActionMenu.COMPANY, null, 'fas fa fa-building me-2');
         item.checkEnabled = (item, action) => !_.isNil(action.userUid);
-        item.action = (item, action) => transport.send(new EntityObjectOpenCommand(EntityObjectOpenCommand.NAME, { id: action.userUid, isBriefly: true }));
+        item.action = (item, action) => transport.send(new EntityObjectOpenCommand({ id: action.userUid, type: EntityObjectType.COMPANY, isBriefly: true }));
         this.add(item);
 
         item = new MenuListItem('user.user', ActionMenu.USER, null, 'fas fa fa-user me-2');
         item.checkEnabled = (item, action) => !_.isNil(action.initiatorUid);
-        item.action = (item, action) => transport.send(new EntityObjectOpenCommand(EntityObjectOpenCommand.NAME, { id: action.initiatorUid, isBriefly: true }));
+        item.action = (item, action) => transport.send(new EntityObjectOpenCommand({ id: action.initiatorUid, type: EntityObjectType.USER, isBriefly: true }));
         this.add(item);
 
         this.complete();

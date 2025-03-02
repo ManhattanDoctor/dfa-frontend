@@ -16,6 +16,6 @@ export class CompanyOpenCommand extends EntityObjectOpenCommand {
     // --------------------------------------------------------------------------
 
     constructor(request: IEntityObjectOpenDto) {
-        super(CompanyOpenCommand.NAME, request);
+        super(request, CompanyOpenCommand.NAME);
     }
 }

@@ -5,9 +5,9 @@ import { CoinUtil } from '@common/hlf/coin';
 import * as _ from 'lodash';
 
 @Pipe({
-    name: 'coinId'
+    name: 'coinTicker'
 })
-export class CoinIdPipe extends DestroyableContainer implements PipeTransform {
+export class CoinTickerPipe extends DestroyableContainer implements PipeTransform {
 
     // --------------------------------------------------------------------------
     //
@@ -27,7 +27,7 @@ export class CoinIdPipe extends DestroyableContainer implements PipeTransform {
 
     public transform(coinUid: string): string {
         let { ticker } = CoinUtil.decomposeUid(coinUid);
-        return this.language.translate(`coin.coinId.${ticker}`);
+        return this.language.translate(`coin.ticker.${ticker}`);
     }
 
     public destroy(): void {

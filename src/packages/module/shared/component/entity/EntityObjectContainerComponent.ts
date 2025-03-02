@@ -6,7 +6,7 @@ import { EntityObject } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({ selector: '', template: '' })
-export class EntityObjectContainerComponent<U extends EntityObject, V = any> extends EntityObjectComponent<U> {
+export abstract class EntityObjectContainerComponent<U extends EntityObject, V = any> extends EntityObjectComponent<U> {
     //--------------------------------------------------------------------------
     //
     // 	Properties
@@ -52,7 +52,7 @@ export class EntityObjectContainerComponent<U extends EntityObject, V = any> ext
 
         if (this.isBriefly) {
             if (event.offsetY <= ViewUtil.getHeight(container) / 2) {
-                this.open(this.item, false);
+                this.open(null, null, false);
             } else {
                 this.close();
             }
@@ -75,7 +75,7 @@ export class EntityObjectContainerComponent<U extends EntityObject, V = any> ext
 
     public headerSwipeUpHandler(): void {
         if (this.isBriefly) {
-            this.open(this.item, false);
+            this.open(null, null, false);
         }
     }
 
