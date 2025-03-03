@@ -6,15 +6,15 @@ import { Company } from '@common/platform/company';
 import { ActivatedRoute } from '@angular/router';
 import { PipeService } from '@core/service';
 import { SeoCommand } from '@core/transport';
-import { EntityObjectComponent } from '@shared/component';
-import { EntityObjectType } from '@feature/entity';
+import { EntityComponent } from '@shared/component';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
     templateUrl: './company-page.component.html',
     standalone: false
 })
-export class CompanyPageComponent extends EntityObjectComponent<Company> {
+export class CompanyPageComponent extends EntityComponent<Company> {
     //--------------------------------------------------------------------------
     //
     // 	Constructor
@@ -44,7 +44,7 @@ export class CompanyPageComponent extends EntityObjectComponent<Company> {
     //
     //--------------------------------------------------------------------------
 
-    public get type(): EntityObjectType {
-        return EntityObjectType.COMPANY;
+    public get type(): EntityType {
+        return EntityType.COMPANY;
     }
 }

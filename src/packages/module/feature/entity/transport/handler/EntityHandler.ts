@@ -3,12 +3,12 @@ import { RouterService } from '@core/service';
 import { BottomSheetService, WindowService } from '@ts-core/angular';
 import { WindowConfig } from '@ts-core/angular';
 import { ComponentType } from '@angular/cdk/portal';
-import { EntityObject, EntityObjectId } from '../../EntityObject';
-import { EntityObjectContainerComponent } from '@shared/component';
-import { EntityObjectOpenCommand, IEntityObjectOpenDto } from '../EntityObjectOpenCommand';
+import { Entity, EntityId } from '../../Entity';
+import { EntityContainerComponent } from '@shared/component';
+import { EntityOpenCommand, IEntityOpenDto } from '../EntityOpenCommand';
 import * as _ from 'lodash';
 
-export abstract class EntityObjectHandler<U extends EntityObject, T extends EntityObjectId = EntityObjectId> extends TransportCommandHandler<IEntityObjectOpenDto<T>, EntityObjectOpenCommand<T>> {
+export abstract class EntityHandler<U extends Entity, T extends EntityId = EntityId> extends TransportCommandHandler<IEntityOpenDto<T>, EntityOpenCommand<T>> {
     //--------------------------------------------------------------------------
     //
     // 	Constructor
@@ -25,7 +25,7 @@ export abstract class EntityObjectHandler<U extends EntityObject, T extends Enti
     //
     //--------------------------------------------------------------------------
 
-    protected async execute(params: IEntityObjectOpenDto<T>): Promise<void> {
+    protected async execute(params: IEntityOpenDto<T>): Promise<void> {
         if (params.isBriefly) {
             await this.openObjectBrief(params.id, params.details);
         } else if (this.hasUrl(params.id)) {
@@ -38,7 +38,7 @@ export abstract class EntityObjectHandler<U extends EntityObject, T extends Enti
         this.router.navigate(this.getUrl(id));
     }
 
-    protected async openObjectBrief<V extends EntityObjectContainerComponent<U, K>, K = any>(id: T, details?: K): Promise<V> {
+    protected async openObjectBrief<V extends EntityContainerComponent<U, K>, K = any>(id: T, details?: K): Promise<V> {
         let item = await this.getItem(id);
         let config = this.getConfig(id, item);
         let content: V = null;
@@ -68,15 +68,15 @@ export abstract class EntityObjectHandler<U extends EntityObject, T extends Enti
     //
     //--------------------------------------------------------------------------
 
-    protected abstract getUrl(id: EntityObjectId): string;
+    protected abstract getUrl(id: EntityId): string;
 
-    protected abstract getItem(id: EntityObjectId): Promise<U>;
+    protected abstract getItem(id: EntityId): Promise<U>;
 
     protected abstract getPrefix(): string;
 
     protected abstract getComponent<T = any>(): ComponentType<T>;
 
-    protected getConfig(id: EntityObjectId, item: U): WindowConfig {
+    protected getConfig(id: EntityId, item: U): WindowConfig {
         let value = new WindowConfig(false, false, 800, 500);
         value.id = `${this.getPrefix()}${item.id}`;
         value.isExpandable = this.isExpandable(id);
@@ -89,11 +89,11 @@ export abstract class EntityObjectHandler<U extends EntityObject, T extends Enti
     //
     //--------------------------------------------------------------------------
 
-    protected hasUrl(id: EntityObjectId): boolean {
+    protected hasUrl(id: EntityId): boolean {
         return !_.isNil(this.getUrl(id));
     }
 
-    protected isExpandable(id: EntityObjectId): boolean {
+    protected isExpandable(id: EntityId): boolean {
         return this.hasUrl(id);
     }
 }

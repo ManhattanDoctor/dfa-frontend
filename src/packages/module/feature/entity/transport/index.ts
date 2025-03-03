@@ -1,1 +1,1 @@
-export * from './EntityObjectOpenCommand';
+export * from './EntityOpenCommand';

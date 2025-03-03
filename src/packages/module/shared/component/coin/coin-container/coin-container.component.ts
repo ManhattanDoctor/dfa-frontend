@@ -3,7 +3,7 @@ import { ISelectListItem, SelectListItem, SelectListItems, ViewUtil } from '@ts-
 import { LanguageService } from '@ts-core/frontend';
 import { ObjectUtil, Transport } from '@ts-core/common';
 import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
-import { ActionsComponent, CoinDetailsComponent, EntityObjectComponent, FinanceActionsComponent } from '@shared/component';
+import { ActionsComponent, CoinDetailsComponent, EntityComponent, FinanceActionsComponent } from '@shared/component';
 import { TransportSocket } from '@ts-core/socket-client';
 import { Coin } from '@common/platform/coin';
 import { CoinMenu } from '@core/lib/coin';
@@ -16,7 +16,7 @@ import { CoinNamePipe } from '@shared/pipe/coin';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CoinBalancesComponent } from '@shared/component';
-import { EntityObjectType } from '@feature/entity';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -35,7 +35,7 @@ import * as _ from 'lodash';
     selector: 'coin-container',
     templateUrl: 'coin-container.component.html'
 })
-export class CoinContainerComponent extends EntityObjectComponent<Coin> {
+export class CoinContainerComponent extends EntityComponent<Coin> {
 
     //--------------------------------------------------------------------------
     //
@@ -86,6 +86,7 @@ export class CoinContainerComponent extends EntityObjectComponent<Coin> {
     protected commitItemProperties(): void {
         super.commitItemProperties();
 
+        this.tabs.getByIndex(1).isEnabled = !_.isNil(this.item.hlfUid);
         this.tabs.getByIndex(2).isEnabled = !_.isNil(this.item.hlfUid);
     }
 
@@ -114,7 +115,7 @@ export class CoinContainerComponent extends EntityObjectComponent<Coin> {
     //
     //--------------------------------------------------------------------------
 
-    public get type(): EntityObjectType {
-        return EntityObjectType.COIN;
+    public get type(): EntityType {
+        return EntityType.COIN;
     }
 }

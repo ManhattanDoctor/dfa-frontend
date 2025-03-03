@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { TransportLazyModule } from '@ts-core/angular';
 import { Transport } from '@ts-core/common';
-import { EntityObjectOpenHandler } from './transport/handler';
-import { EntityObjectOpenCommand } from './transport';
+import { EntityOpenHandler } from './transport/handler';
+import { EntityOpenCommand } from './transport';
 
 //--------------------------------------------------------------------------
 //
@@ -35,7 +35,7 @@ export class EntityModule extends TransportLazyModule<EntityModule> {
     //--------------------------------------------------------------------------
 
     public static ID = 'EntityModule';
-    public static COMMANDS = [EntityObjectOpenCommand.NAME];
+    public static COMMANDS = [EntityOpenCommand.NAME];
 
     //--------------------------------------------------------------------------
     //
@@ -43,7 +43,7 @@ export class EntityModule extends TransportLazyModule<EntityModule> {
     //
     //--------------------------------------------------------------------------
 
-    constructor(reference: NgModuleRef<EntityModule>, transport: Transport, open: EntityObjectOpenHandler) {
+    constructor(reference: NgModuleRef<EntityModule>, transport: Transport, open: EntityOpenHandler) {
         super(reference, transport);
     }
 

@@ -2,7 +2,7 @@
 import { CdkTableColumnMenu, ICdkTableColumn, ICdkTableSettings } from '@ts-core/angular-material';
 import { IPagination, TransformUtil, PaginableDataSourceMapCollection } from '@ts-core/common';
 import { Client } from '@common/platform/api';
-import { EntityObjectService, PipeService } from '@core/service';
+import { EntityService, PipeService } from '@core/service';
 import { Injectable } from '@angular/core';
 import { Action, ActionType } from '@common/platform/';
 import { CoinUtil } from '@common/hlf/coin';
@@ -48,6 +48,7 @@ export class ActionTableSettings implements ICdkTableSettings<Action> {
     // --------------------------------------------------------------------------
 
     public columns: Array<ICdkTableColumn<Action>>;
+    public isInteractive: boolean = false;
 
     // --------------------------------------------------------------------------
     //
@@ -55,8 +56,9 @@ export class ActionTableSettings implements ICdkTableSettings<Action> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(protected pipe: PipeService, protected entityObject: EntityObjectService) {
+    constructor(protected pipe: PipeService, protected entity: EntityService) {
         this.columns = [CdkTableColumnMenu];
+
         this.columns.push({
             name: 'date',
             headerId: 'action.date',
@@ -159,17 +161,23 @@ export class ActionTableSettings implements ICdkTableSettings<Action> {
     protected async auctionAdd<T>(uid: string, translate: T): Promise<T> {
         return this.translationAdd(uid, 'auction', translate);
     }
-    protected async translationAdd<T>(uid: string, prefix: string, translate: T): Promise<T> {
-        let item = await this.entityObject.get(uid);
-        translate[`${prefix}Name`] = item.name;
-        translate[`${prefix}Picture`] = item.picture;
-        translate[`${prefix}Description`] = item.description;
-        return translate;
+    protected async translationAdd<T>(uid: string, prefix: string, translation: T): Promise<T> {
+        let item = await this.entity.get(uid);
+        translation[`${prefix}Name`] = item.name;
+        translation[`${prefix}Picture`] = item.picture;
+        translation[`${prefix}Description`] = item.description;
+        return translation;
     }
-
 }
 
 export class ActionFinanceTableSettings extends ActionTableSettings {
+    // --------------------------------------------------------------------------
+    //
+    // 	Properties
+    //
+    // --------------------------------------------------------------------------
+
+    public isInteractive: boolean = false;
 
     // --------------------------------------------------------------------------
     //
@@ -177,8 +185,8 @@ export class ActionFinanceTableSettings extends ActionTableSettings {
     //
     // --------------------------------------------------------------------------
 
-    constructor(pipe: PipeService, entityObject: EntityObjectService) {
-        super(pipe, entityObject);
+    constructor(pipe: PipeService, entity: EntityService) {
+        super(pipe, entity);
         this.columns = [CdkTableColumnMenu];
         this.columns.push({
             name: 'date',

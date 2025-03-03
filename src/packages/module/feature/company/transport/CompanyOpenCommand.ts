@@ -1,6 +1,6 @@
-import { EntityObjectOpenCommand, IEntityObjectOpenDto } from "@feature/entity/transport";
+import { EntityOpenCommand, IEntityOpenDto } from "@feature/entity/transport";
 
-export class CompanyOpenCommand extends EntityObjectOpenCommand {
+export class CompanyOpenCommand extends EntityOpenCommand {
     // --------------------------------------------------------------------------
     //
     //  Public Static Properties
@@ -15,7 +15,7 @@ export class CompanyOpenCommand extends EntityObjectOpenCommand {
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: IEntityObjectOpenDto) {
+    constructor(request: IEntityOpenDto) {
         super(request, CompanyOpenCommand.NAME);
     }
 }

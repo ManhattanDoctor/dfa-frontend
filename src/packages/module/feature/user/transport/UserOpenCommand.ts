@@ -1,6 +1,6 @@
-import { EntityObjectOpenCommand, IEntityObjectOpenDto } from '@feature/entity/transport';
+import { EntityOpenCommand, IEntityOpenDto } from '@feature/entity/transport';
 
-export class UserOpenCommand extends EntityObjectOpenCommand {
+export class UserOpenCommand extends EntityOpenCommand {
     // --------------------------------------------------------------------------
     //
     //   Constants
@@ -15,7 +15,7 @@ export class UserOpenCommand extends EntityObjectOpenCommand {
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: IEntityObjectOpenDto) {
+    constructor(request: IEntityOpenDto) {
         super(request, UserOpenCommand.NAME);
     }
 }

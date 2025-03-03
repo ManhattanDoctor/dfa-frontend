@@ -2,10 +2,10 @@ import { Component, ViewContainerRef, Input } from '@angular/core';
 import { ICdkTableRowEvent, ICdkTableSettings, VIMatModule } from '@ts-core/angular-material';
 import { Transport } from '@ts-core/common';
 import { CoinBalanceMapCollection, CoinBalanceObjectTableSettings, CoinBalanceTableSettings } from '@core/lib/coin';
-import { EntityObjectService, PipeService } from '@core/service';
+import { EntityService, PipeService } from '@core/service';
 import { ViewUtil } from '@ts-core/angular';
 import { TransportSocket } from '@ts-core/socket-client';
-import { filter, map, takeUntil } from 'rxjs';
+import { map, takeUntil } from 'rxjs';
 import { CoinBalanceChangedEvent } from '@common/platform/transport';
 import { CoinBalance } from '@common/platform/coin';
 import { getSocketCoinBalanceRoom } from '@common/platform';
@@ -13,7 +13,8 @@ import { UpdatableComponent } from '@shared/component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { CoinOpenCommand } from '@feature/coin/transport';
+import { EntityOpenCommand } from '@feature/entity/transport';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -46,7 +47,7 @@ export class CoinBalancesComponent extends UpdatableComponent<string> {
     //
     // --------------------------------------------------------------------------
 
-    constructor(element: ViewContainerRef, private pipe: PipeService, private transport: Transport, private entityObject: EntityObjectService, public items: CoinBalanceMapCollection, private socket: TransportSocket) {
+    constructor(element: ViewContainerRef, private pipe: PipeService, private transport: Transport, private entity: EntityService, public items: CoinBalanceMapCollection, private socket: TransportSocket) {
         super();
         ViewUtil.addClasses(element.element, 'd-flex');
 
@@ -68,7 +69,7 @@ export class CoinBalancesComponent extends UpdatableComponent<string> {
     // --------------------------------------------------------------------------
 
     private commitCoinUidProperties(): void {
-        this.settings = new CoinBalanceObjectTableSettings(this.pipe, this.entityObject);
+        this.settings = new CoinBalanceObjectTableSettings(this.pipe, this.entity);
         this.items.conditions.coinUid = this.coinUid;
         this.items.reload();
     }
@@ -87,7 +88,7 @@ export class CoinBalancesComponent extends UpdatableComponent<string> {
     // --------------------------------------------------------------------------
 
     public async rowClickedHandler(item: ICdkTableRowEvent<CoinBalance>): Promise<void> {
-        this.transport.send(new CoinOpenCommand({ id: item.data.coinUid, isBriefly: true }));
+        this.transport.send(new EntityOpenCommand({ id: item.data.coinUid, type: EntityType.COIN, isBriefly: true }));
     }
 
     protected itemOpenedHandler(item: string): void {

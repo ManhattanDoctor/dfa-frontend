@@ -6,15 +6,15 @@ import { Coin } from '@common/platform/coin';
 import { ActivatedRoute } from '@angular/router';
 import { PipeService } from '@core/service';
 import { SeoCommand } from '@core/transport';
-import { EntityObjectComponent } from '@shared/component';
-import { EntityObjectType } from '@feature/entity';
+import { EntityComponent } from '@shared/component';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
     templateUrl: './coin-page.component.html',
     standalone: false
 })
-export class CoinPageComponent extends EntityObjectComponent<Coin> {
+export class CoinPageComponent extends EntityComponent<Coin> {
     //--------------------------------------------------------------------------
     //
     // 	Constructor
@@ -44,7 +44,7 @@ export class CoinPageComponent extends EntityObjectComponent<Coin> {
     //
     //--------------------------------------------------------------------------
 
-    public get type(): EntityObjectType {
-        return EntityObjectType.COIN;
+    public get type(): EntityType {
+        return EntityType.COIN;
     }
 }

@@ -3,9 +3,10 @@ import { ViewUtil } from '@ts-core/angular';
 import { CDK_TABLE_COLUMN_MENU_NAME, ICdkTableCellEvent, MenuTriggerForDirective } from '@ts-core/angular-material';
 import { Transport, DestroyableContainer } from '@ts-core/common';
 import { PipeService } from '@core/service';
-import { CoinOpenCommand } from '@feature/coin/transport';
 import { CoinMapCollection, CoinMenu, CoinTableSettings } from '@core/lib/coin';
 import { Coin } from '@common/platform/coin';
+import { EntityOpenCommand } from '@feature/entity/transport';
+import { EntityType } from '@feature/entity';
 
 @Component({
     templateUrl: './coins-page.component.html',
@@ -46,7 +47,7 @@ export class CoinsPageComponent extends DestroyableContainer {
 
     public async cellClickedHandler(item: ICdkTableCellEvent<Coin>): Promise<void> {
         if (item.column !== CDK_TABLE_COLUMN_MENU_NAME) {
-            this.transport.send(new CoinOpenCommand({ id: item.data.id, isBriefly: true }));
+             this.transport.send(new EntityOpenCommand({ id: item.data.id, type: EntityType.COIN, isBriefly: true }));
         }
         else {
             this.menu.refresh(item.data);

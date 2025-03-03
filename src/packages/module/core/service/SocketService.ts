@@ -64,9 +64,7 @@ export class SocketService extends TransportSocket {
     }
 
     private async closeNotification(): Promise<void> {
-        if (this.isHasDisconnectNotification()) {
-            this.portal.close(this.disconnectNotificationId)
-        }
+        this.portal.close(this.disconnectNotificationId)
     }
 
     private isHasDisconnectNotification(): boolean {

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '@ts-core/common';
 import { Transport } from '@ts-core/common';
-import { EntityObjectService, RouterService } from '@core/service';
+import { EntityService, RouterService } from '@core/service';
 import { CompanyOpenCommand } from '../CompanyOpenCommand';
 import { Client } from '@common/platform/api';
 import { Company } from '@common/platform/company';
-import { EntityObjectHandler } from '@feature/entity/transport/handler';
+import { EntityHandler } from '@feature/entity/transport/handler';
 import { BottomSheetService, WindowService } from '@ts-core/angular';
 import { ComponentType } from '@angular/cdk/portal';
-import { EntityObjectId } from '@feature/entity';
+import { EntityId } from '@feature/entity';
 import { CompanyContainerComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class CompanyOpenHandler extends EntityObjectHandler<Company> {
+export class CompanyOpenHandler extends EntityHandler<Company> {
     // --------------------------------------------------------------------------
     //
     //  Constructor
@@ -21,7 +21,7 @@ export class CompanyOpenHandler extends EntityObjectHandler<Company> {
     // --------------------------------------------------------------------------
 
 
-    constructor(logger: Logger, transport: Transport, windows: WindowService, sheets: BottomSheetService, router: RouterService, private api: Client, private entityObject: EntityObjectService) {
+    constructor(logger: Logger, transport: Transport, windows: WindowService, sheets: BottomSheetService, router: RouterService, private api: Client, private entity: EntityService) {
         super(logger, transport, CompanyOpenCommand.NAME, windows, sheets, router);
     }
 
@@ -31,7 +31,7 @@ export class CompanyOpenHandler extends EntityObjectHandler<Company> {
     //
     // --------------------------------------------------------------------------
 
-    protected getUrl(id: EntityObjectId): string {
+    protected getUrl(id: EntityId): string {
         return `${RouterService.COMPANY_URL}/${id}`;
     }
 
@@ -43,9 +43,9 @@ export class CompanyOpenHandler extends EntityObjectHandler<Company> {
         return CompanyContainerComponent;
     }
 
-    protected async getItem(id: EntityObjectId): Promise<Company> {
+    protected async getItem(id: EntityId): Promise<Company> {
         if (_.isString(id)) {
-            id = await this.entityObject.id(id);
+            id = await this.entity.id(id);
         }
         return this.api.companyGet(Number(id));
     }

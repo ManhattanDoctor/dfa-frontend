@@ -7,8 +7,8 @@ import { UserService } from './UserService';
 import { CompanyUtil } from '@common/platform/company';
 import { SocketService } from './SocketService';
 import { CoinAddedEvent, CompanyAddedEvent } from '@common/platform/transport';
-import { EntityObjectOpenCommand } from '@feature/entity/transport';
-import { EntityObjectType } from '@feature/entity';
+import { EntityOpenCommand } from '@feature/entity/transport';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -35,7 +35,7 @@ export class ActionService extends Destroyable {
             map(item => item.data),
             takeUntil(this.destroyed)
         ).subscribe(async item => {
-            transport.send(new EntityObjectOpenCommand({ id: item.id, type: EntityObjectType.COMPANY, isBriefly: true }))
+            transport.send(new EntityOpenCommand({ id: item.id, type: EntityType.COMPANY, isBriefly: true }))
         });
     }
 

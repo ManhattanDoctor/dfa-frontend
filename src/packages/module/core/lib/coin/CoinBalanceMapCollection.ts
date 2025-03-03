@@ -1,7 +1,7 @@
 import { ICdkTableColumn, ICdkTableSettings } from '@ts-core/angular-material';
 import { IPagination, PaginableDataSourceMapCollection } from '@ts-core/common';
 import { Client } from '@common/platform/api';
-import { EntityObjectService, PipeService } from '@core/service';
+import { EntityService, PipeService } from '@core/service';
 import { Injectable } from '@angular/core';
 import { TransformUtil } from '@ts-core/common';
 import { CoinBalance } from '@common/platform/coin';
@@ -60,10 +60,10 @@ export class CoinBalanceTableSettings implements ICdkTableSettings<CoinBalance> 
     constructor(pipe: PipeService) {
         this.columns = [];
         this.columns.push({
-            name: 'coinId',
+            name: 'ticker',
             headerClassName: 'ps-3',
             className: 'ps-3',
-            headerId: 'coin.coinId.coinId',
+            headerId: 'coin.ticker.ticker',
             format: item => pipe.coinTicker.transform(item.coinUid)
         })
         this.columns.push({
@@ -101,7 +101,7 @@ export class CoinBalanceObjectTableSettings implements ICdkTableSettings<CoinBal
     //
     // --------------------------------------------------------------------------
 
-    constructor(pipe: PipeService, entityObject: EntityObjectService) {
+    constructor(pipe: PipeService, entity: EntityService) {
         this.columns = [];
 
         this.columns.push({
@@ -115,13 +115,13 @@ export class CoinBalanceObjectTableSettings implements ICdkTableSettings<CoinBal
                 return { width: '32px', height: '32px' };
             },
             cellClassName: 'border rounded my-2',
-            format: async item => await entityObject.picture(item.coinUid)
+            format: async item => await entity.picture(item.coinUid)
         })
         this.columns.push({
             name: 'uid',
             isAsync: true,
             headerId: 'coin.uid',
-            format: async item => await entityObject.name(item.objectUid)
+            format: async item => await entity.name(item.objectUid)
         })
         this.columns.push({
             name: 'inUse',

@@ -5,15 +5,15 @@ import { RouterService } from '@core/service';
 import { UserOpenCommand } from '../UserOpenCommand';
 import { Client } from '@common/platform/api';
 import { User } from '@common/platform/user';
-import { EntityObjectHandler } from '@feature/entity/transport/handler';
+import { EntityHandler } from '@feature/entity/transport/handler';
 import { BottomSheetService, WindowService } from '@ts-core/angular';
 import { ComponentType } from '@angular/cdk/portal';
-import { EntityObjectId } from '@feature/entity';
+import { EntityId } from '@feature/entity';
 import { UserContainerComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class UserOpenHandler extends EntityObjectHandler<User> {
+export class UserOpenHandler extends EntityHandler<User> {
     // --------------------------------------------------------------------------
     //
     //  Constructor
@@ -31,7 +31,7 @@ export class UserOpenHandler extends EntityObjectHandler<User> {
     //
     // --------------------------------------------------------------------------
 
-    protected getUrl(id: EntityObjectId): string {
+    protected getUrl(id: EntityId): string {
         return `${RouterService.USER_URL}/${id}`;
     }
 
@@ -43,7 +43,7 @@ export class UserOpenHandler extends EntityObjectHandler<User> {
         return UserContainerComponent;
     }
 
-    protected async getItem(id: EntityObjectId): Promise<User> {
+    protected async getItem(id: EntityId): Promise<User> {
         return this.api.userGet(id.toString());
     }
 }

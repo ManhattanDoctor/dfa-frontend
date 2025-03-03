@@ -1,2 +1,2 @@
-export * from './EntityObjectHandler';
-export * from './EntityObjectOpenHandler';
+export * from './EntityHandler';
+export * from './EntityOpenHandler';

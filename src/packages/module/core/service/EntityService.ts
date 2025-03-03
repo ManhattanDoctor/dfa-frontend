@@ -4,18 +4,18 @@ import { Assets } from '@ts-core/frontend';
 import { Injectable } from '@angular/core';
 import { PipeService } from './PipeService';
 import { getType } from '@common/hlf';
-import { IEntityObject } from '@common/platform/api/entity';
+import { IEntity } from '@common/platform/api/entity';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class EntityObjectService extends LoggerWrapper {
+export class EntityService extends LoggerWrapper {
     // --------------------------------------------------------------------------
     //
     // 	Properties
     //
     // --------------------------------------------------------------------------
 
-    private map: Map<string, Promise<IEntityObject>>;
+    private map: Map<string, Promise<IEntity>>;
 
     // --------------------------------------------------------------------------
     //
@@ -49,15 +49,15 @@ export class EntityObjectService extends LoggerWrapper {
         return name;
     }
 
-    public async get(item: UID): Promise<IEntityObject> {
+    public async get(item: UID): Promise<IEntity> {
         let uid = getUid(item);
         if (this.map.has(uid)) {
             return this.map.get(uid)
         }
-        let promise = new Promise<IEntityObject>(async resolve => {
+        let promise = new Promise<IEntity>(async resolve => {
             let item = null;
             try {
-                item = await this.api.entityObjectGet(uid);
+                item = await this.api.entityGet(uid);
             }
             catch (error) {
                 item = { id: null, name: this.pipe.language.translate('general.unknown'), type: getType(uid), picture: Assets.getIcon('72') };

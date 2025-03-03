@@ -3,11 +3,11 @@ import { LanguageService } from '@ts-core/frontend';
 import { Injectable } from '@angular/core';
 import { CompanyService, PermissionService, RouterService } from '@core/service';
 import { Transport } from '@ts-core/common';
-import { CoinActivateCommand, CoinEditCommand, CoinOpenCommand, CoinRejectCommand, CoinSubmitCommand, CoinVerifyCommand } from '@feature/coin/transport';
+import { CoinActivateCommand, CoinEditCommand, CoinRejectCommand, CoinSubmitCommand, CoinVerifyCommand } from '@feature/coin/transport';
 import { Coin, CoinUtil } from '@common/platform/coin';
 import { CompanyUtil } from '@common/platform/company';
-import { EntityObjectOpenCommand } from '@feature/entity/transport';
-import { EntityObjectType } from '@feature/entity';
+import { EntityOpenCommand } from '@feature/entity/transport';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -41,11 +41,11 @@ export class CoinMenu extends ListItems<IListItem> {
         item.checkEnabled = (item, coin) => CoinUtil.isCanEdit(company.company, coin, permission.resources, false);
 
         item = this.add(new MenuItem('company.company', CoinMenu.COMPANY, 'fa fa-building me-2'));
-        item.action = (item, coin) => transport.send(new EntityObjectOpenCommand({ id: coin.id, type: EntityObjectType.COMPANY, isBriefly: true }));
+        item.action = (item, coin) => transport.send(new EntityOpenCommand({ id: coin.id, type: EntityType.COMPANY, isBriefly: true }));
         item.checkEnabled = (item, coin) => !_.isNil(coin.companyId) && CompanyUtil.isCanRead(permission.resources, false);
 
         item = this.add(new MenuItem('coin.coin', CoinMenu.OPEN, 'fa fa-coins me-2'));
-        item.action = (item, coin) => transport.send(new CoinOpenCommand({ id: coin.id, isBriefly: true }));
+        item.action = (item, coin) => transport.send(new EntityOpenCommand({ id: coin.id, type: EntityType.COIN, isBriefly: true }));
         item.checkEnabled = (item, coin) => !this.isPageOpen(coin.id) && CoinUtil.isCanRead(permission.resources, false);
 
         item = this.add(new MenuItem('coin.submit.submit', CoinMenu.SUBMIT, 'fa fa-arrow-right me-2'));

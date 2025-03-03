@@ -3,9 +3,10 @@ import { ViewUtil } from '@ts-core/angular';
 import { CDK_TABLE_COLUMN_MENU_NAME, ICdkTableCellEvent, MenuTriggerForDirective } from '@ts-core/angular-material';
 import { Transport, DestroyableContainer } from '@ts-core/common';
 import { PipeService } from '@core/service';
-import { UserOpenCommand } from '@feature/user/transport';
 import { UserMapCollection, UserMenu, UserTableSettings } from '@core/lib/user';
 import { User } from '@common/platform/user';
+import { EntityOpenCommand } from '@feature/entity/transport';
+import { EntityType } from '@feature/entity';
 
 @Component({
     templateUrl: './users-page.component.html',
@@ -46,7 +47,7 @@ export class UsersPageComponent extends DestroyableContainer {
 
     public async cellClickedHandler(item: ICdkTableCellEvent<User>): Promise<void> {
         if (item.column !== CDK_TABLE_COLUMN_MENU_NAME) {
-            this.transport.send(new UserOpenCommand({ id: item.data.id, isBriefly: true }));
+            this.transport.send(new EntityOpenCommand({ id: item.data.id, type: EntityType.USER, isBriefly: true }));
         }
         else {
             this.menu.refresh(item.data);

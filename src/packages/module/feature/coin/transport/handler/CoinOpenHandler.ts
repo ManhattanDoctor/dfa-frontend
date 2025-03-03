@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '@ts-core/common';
 import { Transport } from '@ts-core/common';
-import { EntityObjectService, RouterService } from '@core/service';
+import { EntityService, RouterService } from '@core/service';
 import { CoinOpenCommand } from '../CoinOpenCommand';
 import { Client } from '@common/platform/api';
 import { Coin } from '@common/platform/coin';
-import { EntityObjectHandler } from '@feature/entity/transport/handler';
+import { EntityHandler } from '@feature/entity/transport/handler';
 import { BottomSheetService, WindowService } from '@ts-core/angular';
 import { ComponentType } from '@angular/cdk/portal';
-import { EntityObjectId } from '@feature/entity';
+import { EntityId } from '@feature/entity';
 import { CoinContainerComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
-export class CoinOpenHandler extends EntityObjectHandler<Coin> {
+export class CoinOpenHandler extends EntityHandler<Coin> {
     // --------------------------------------------------------------------------
     //
     //  Constructor
@@ -21,7 +21,7 @@ export class CoinOpenHandler extends EntityObjectHandler<Coin> {
     // --------------------------------------------------------------------------
 
 
-    constructor(logger: Logger, transport: Transport, windows: WindowService, sheets: BottomSheetService, router: RouterService, private api: Client, private entityObject: EntityObjectService) {
+    constructor(logger: Logger, transport: Transport, windows: WindowService, sheets: BottomSheetService, router: RouterService, private api: Client, private entity: EntityService) {
         super(logger, transport, CoinOpenCommand.NAME, windows, sheets, router);
     }
 
@@ -31,7 +31,7 @@ export class CoinOpenHandler extends EntityObjectHandler<Coin> {
     //
     // --------------------------------------------------------------------------
 
-    protected getUrl(id: EntityObjectId): string {
+    protected getUrl(id: EntityId): string {
         return `${RouterService.COIN_URL}/${id}`;
     }
 
@@ -43,9 +43,9 @@ export class CoinOpenHandler extends EntityObjectHandler<Coin> {
         return CoinContainerComponent;
     }
 
-    protected async getItem(id: EntityObjectId): Promise<Coin> {
+    protected async getItem(id: EntityId): Promise<Coin> {
         if (_.isString(id)) {
-            id = await this.entityObject.id(id);
+            id = await this.entity.id(id);
         }
         return this.api.coinGet(id);
     }

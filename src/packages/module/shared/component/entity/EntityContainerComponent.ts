@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output, ViewContainerRef } from '@angular/core';
 import { ViewUtil } from '@ts-core/angular';
 import { Transport } from '@ts-core/common';
-import { EntityObjectComponent } from './EntityObjectComponent';
-import { EntityObject } from '@feature/entity';
+import { EntityComponent } from './EntityComponent';
+import { Entity } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({ selector: '', template: '' })
-export abstract class EntityObjectContainerComponent<U extends EntityObject, V = any> extends EntityObjectComponent<U> {
+export abstract class EntityContainerComponent<U extends Entity, V = any> extends EntityComponent<U> {
     //--------------------------------------------------------------------------
     //
     // 	Properties

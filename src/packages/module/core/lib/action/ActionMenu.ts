@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { ListItems, IListItem, ListItem } from '@ts-core/angular';
 import { Transport } from '@ts-core/common';
 import { Action } from '@common/platform';
-import { EntityObjectComponent } from '@shared/component';
-import { EntityObjectOpenCommand } from '@feature/entity/transport';
+import { EntityComponent } from '@shared/component';
+import { EntityOpenCommand } from '@feature/entity/transport';
 import * as _ from 'lodash';
-import { EntityObjectType } from '../../../feature/entity';
+import { EntityType } from '../../../feature/entity';
 
 @Injectable({ providedIn: 'root' })
 export class ActionMenu extends ListItems<IListItem<void>> {
@@ -41,17 +41,17 @@ export class ActionMenu extends ListItems<IListItem<void>> {
 
         item = new MenuListItem('coin.coin', ActionMenu.COIN, null, 'fas fa fa-coins me-2');
         item.checkEnabled = (item, action) => !_.isNil(action.coinUid);
-        item.action = (item, action) => transport.send(new EntityObjectOpenCommand({ id: action.coinUid, type: EntityObjectType.COIN, isBriefly: true }));
+        item.action = (item, action) => transport.send(new EntityOpenCommand({ id: action.coinUid, type: EntityType.COIN, isBriefly: true }));
         this.add(item);
 
         item = new MenuListItem('company.company', ActionMenu.COMPANY, null, 'fas fa fa-building me-2');
         item.checkEnabled = (item, action) => !_.isNil(action.userUid);
-        item.action = (item, action) => transport.send(new EntityObjectOpenCommand({ id: action.userUid, type: EntityObjectType.COMPANY, isBriefly: true }));
+        item.action = (item, action) => transport.send(new EntityOpenCommand({ id: action.userUid, type: EntityType.COMPANY, isBriefly: true }));
         this.add(item);
 
         item = new MenuListItem('user.user', ActionMenu.USER, null, 'fas fa fa-user me-2');
         item.checkEnabled = (item, action) => !_.isNil(action.initiatorUid);
-        item.action = (item, action) => transport.send(new EntityObjectOpenCommand({ id: action.initiatorUid, type: EntityObjectType.USER, isBriefly: true }));
+        item.action = (item, action) => transport.send(new EntityOpenCommand({ id: action.initiatorUid, type: EntityType.USER, isBriefly: true }));
         this.add(item);
 
         this.complete();

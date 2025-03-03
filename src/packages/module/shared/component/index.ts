@@ -1,6 +1,6 @@
 //
-export * from './entity/EntityObjectComponent';
-export * from './entity/EntityObjectContainerComponent';
+export * from './entity/EntityComponent';
+export * from './entity/EntityContainerComponent';
 //
 export * from './common/page-header/page-header.component';
 export * from './common/socket-reconnect/socket-reconnect.component';

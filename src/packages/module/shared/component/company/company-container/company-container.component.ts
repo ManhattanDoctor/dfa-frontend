@@ -3,7 +3,7 @@ import { ISelectListItem, SelectListItem, SelectListItems, ViewUtil } from '@ts-
 import { LanguageService } from '@ts-core/frontend';
 import { ObjectUtil, Transport } from '@ts-core/common';
 import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
-import { ActionsComponent, CompanyDetailsComponent, CompanyPictureComponent, EntityObjectComponent, FinanceActionsComponent } from '@shared/component';
+import { ActionsComponent, CompanyDetailsComponent, CompanyPictureComponent, EntityComponent, FinanceActionsComponent } from '@shared/component';
 import { TransportSocket } from '@ts-core/socket-client';
 import { Company } from '@common/platform/company';
 import { CompanyMenu } from '@core/lib/company';
@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CoinBalancesComponent } from '@shared/component';
 import { PermissionService } from '@core/service';
-import { EntityObjectType } from '@feature/entity';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -38,7 +38,7 @@ import * as _ from 'lodash';
     selector: 'company-container',
     templateUrl: 'company-container.component.html'
 })
-export class CompanyContainerComponent extends EntityObjectComponent<Company> {
+export class CompanyContainerComponent extends EntityComponent<Company> {
 
     //--------------------------------------------------------------------------
     //
@@ -120,7 +120,7 @@ export class CompanyContainerComponent extends EntityObjectComponent<Company> {
     //
     //--------------------------------------------------------------------------
 
-    public get type(): EntityObjectType {
-        return EntityObjectType.COMPANY;
+    public get type(): EntityType {
+        return EntityType.COMPANY;
     }
 }

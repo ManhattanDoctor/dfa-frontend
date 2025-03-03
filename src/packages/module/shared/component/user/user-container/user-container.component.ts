@@ -3,7 +3,7 @@ import { ISelectListItem, SelectListItem, SelectListItems, ViewUtil } from '@ts-
 import { LanguageService } from '@ts-core/frontend';
 import { ObjectUtil, Transport } from '@ts-core/common';
 import { MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
-import { ActionsComponent, UserDetailsComponent, UserPictureComponent, EntityObjectComponent } from '@shared/component';
+import { ActionsComponent, UserDetailsComponent, UserPictureComponent, EntityComponent } from '@shared/component';
 import { TransportSocket } from '@ts-core/socket-client';
 import { User } from '@common/platform/user';
 import { UserMenu } from '@core/lib/user';
@@ -15,7 +15,7 @@ import { filter, map, takeUntil } from 'rxjs';
 import { UserNamePipe } from '@shared/pipe/user';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { EntityObjectType } from '@feature/entity';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
@@ -34,7 +34,7 @@ import * as _ from 'lodash';
     selector: 'user-container',
     templateUrl: 'user-container.component.html'
 })
-export class UserContainerComponent extends EntityObjectComponent<User> {
+export class UserContainerComponent extends EntityComponent<User> {
 
     //--------------------------------------------------------------------------
     //
@@ -106,7 +106,7 @@ export class UserContainerComponent extends EntityObjectComponent<User> {
     //
     //--------------------------------------------------------------------------
 
-    public get type(): EntityObjectType {
-        return EntityObjectType.USER;
+    public get type(): EntityType {
+        return EntityType.USER;
     }
 }

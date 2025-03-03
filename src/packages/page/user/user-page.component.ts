@@ -6,15 +6,15 @@ import { User } from '@common/platform/user';
 import { ActivatedRoute } from '@angular/router';
 import { PipeService } from '@core/service';
 import { SeoCommand } from '@core/transport';
-import { EntityObjectComponent } from '@shared/component';
-import { EntityObjectType } from '@feature/entity';
+import { EntityComponent } from '@shared/component';
+import { EntityType } from '@feature/entity';
 import * as _ from 'lodash';
 
 @Component({
     templateUrl: './user-page.component.html',
     standalone: false
 })
-export class UserPageComponent extends EntityObjectComponent<User> {
+export class UserPageComponent extends EntityComponent<User> {
 
     //--------------------------------------------------------------------------
     //
@@ -45,7 +45,7 @@ export class UserPageComponent extends EntityObjectComponent<User> {
     //
     //--------------------------------------------------------------------------
 
-    public get type(): EntityObjectType {
-        return EntityObjectType.USER;
+    public get type(): EntityType {
+        return EntityType.USER;
     }
 }

@@ -12,4 +12,4 @@ export * from './SocketService';
 export * from './PermissionService';
 export * from './CompanyService';
 export * from './OpenIdTokenService';
-export * from './EntityObjectService';
+export * from './EntityService';

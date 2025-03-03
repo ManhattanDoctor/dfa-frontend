@@ -1,15 +1,15 @@
 import { TransportCommand } from '@ts-core/common';
-import { EntityObjectId, EntityObjectType } from '../EntityObject';
+import { EntityId, EntityType } from '../Entity';
 import * as _ from 'lodash';
 
-export class EntityObjectOpenCommand<U = EntityObjectId, V = any> extends TransportCommand<IEntityObjectOpenDto<U>> {
+export class EntityOpenCommand<U = EntityId, V = any> extends TransportCommand<IEntityOpenDto<U>> {
     // --------------------------------------------------------------------------
     //
     //   Constants
     //
     // --------------------------------------------------------------------------
 
-    public static NAME = 'EntityObjectOpenCommand';
+    public static NAME = 'EntityOpenCommand';
 
     // --------------------------------------------------------------------------
     //
@@ -17,17 +17,17 @@ export class EntityObjectOpenCommand<U = EntityObjectId, V = any> extends Transp
     //
     // --------------------------------------------------------------------------
 
-    constructor(request: IEntityObjectOpenDto<U, V>, name?: string) {
-        super(EntityObjectOpenCommand.NAME, request);
+    constructor(request: IEntityOpenDto<U, V>, name?: string) {
+        super(EntityOpenCommand.NAME, request);
         if (!_.isNil(name)) {
             this.name = name;
         }
     }
 }
 
-export interface IEntityObjectOpenDto<U = EntityObjectId, V = any> {
+export interface IEntityOpenDto<U = EntityId, V = any> {
     id: U;
-    type?: EntityObjectType;
+    type: EntityType;
     details?: V;
     isBriefly?: boolean;
 }

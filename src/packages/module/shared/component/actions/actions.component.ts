@@ -2,7 +2,7 @@ import { Component, ViewContainerRef, Input, ViewChild } from '@angular/core';
 import { Transport, DestroyableContainer } from '@ts-core/common';
 import { CDK_TABLE_COLUMN_MENU_NAME, ICdkTableCellEvent, ICdkTableSettings, MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
 import { ActionMapCollection, ActionMenu, ActionTableSettings, } from '@core/lib/action';
-import { EntityObjectService, PipeService } from '@core/service';
+import { EntityService, PipeService } from '@core/service';
 import { Action } from '@common/platform';
 import { ViewUtil } from '@ts-core/angular';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,15 +43,14 @@ export class ActionsComponent extends DestroyableContainer {
 
     constructor(element: ViewContainerRef,
         pipe: PipeService,
-        entityObject: EntityObjectService,
-        private transport: Transport,
+        entity: EntityService,
         public items: ActionMapCollection,
         public menu: ActionMenu
     ) {
         super();
         ViewUtil.addClasses(element.element, 'd-flex');
 
-        this.settings = new ActionTableSettings(pipe, entityObject);
+        this.settings = new ActionTableSettings(pipe, entity);
     }
 
     // --------------------------------------------------------------------------
@@ -73,7 +72,7 @@ export class ActionsComponent extends DestroyableContainer {
 
     public async cellClickedHandler(item: ICdkTableCellEvent<Action>): Promise<void> {
         if (item.column !== CDK_TABLE_COLUMN_MENU_NAME) {
-            // this.transport.send(new EntityObjectOpenCommand({ id: item.data.objectUid, isBriefly: true }));
+            // this.transport.send(new EntityOpenCommand({ id: item.data.objectUid, isBriefly: true }));
         }
         else {
             this.menu.refresh(item.data);

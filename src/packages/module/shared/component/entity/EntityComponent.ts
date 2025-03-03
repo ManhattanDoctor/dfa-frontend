@@ -1,13 +1,13 @@
 import { Component, Input, ViewContainerRef } from '@angular/core';
 import { IWindowContent, WindowEvent } from '@ts-core/angular';
 import { Transport } from '@ts-core/common';
-import { EntityObject, EntityObjectId, EntityObjectType } from '@feature/entity';
-import { EntityObjectOpenCommand } from '@feature/entity/transport';
+import { Entity, EntityId, EntityType } from '@feature/entity';
+import { EntityOpenCommand } from '@feature/entity/transport';
 import { filter, takeUntil } from 'rxjs';
 import * as _ from 'lodash';
 
 @Component({ selector: '', template: '' })
-export abstract class EntityObjectComponent<U extends EntityObject> extends IWindowContent {
+export abstract class EntityComponent<U extends Entity> extends IWindowContent {
 
     //--------------------------------------------------------------------------
     //
@@ -64,7 +64,7 @@ export abstract class EntityObjectComponent<U extends EntityObject> extends IWin
     //
     //--------------------------------------------------------------------------
 
-    public async open(item?: U, type?: EntityObjectType, isBriefly?: boolean): Promise<void> {
+    public async open(item?: U, type?: EntityType, isBriefly?: boolean): Promise<void> {
         if (_.isNil(item)) {
             item = this.item;
         }
@@ -74,7 +74,7 @@ export abstract class EntityObjectComponent<U extends EntityObject> extends IWin
         if (_.isNil(isBriefly)) {
             isBriefly = this.isOpenBriefly;
         }
-        this.transport.send(new EntityObjectOpenCommand({ id: item.id, type, isBriefly }));
+        this.transport.send(new EntityOpenCommand({ id: item.id, type, isBriefly }));
         if (this.isBriefly) {
             this.close();
         }
@@ -94,11 +94,11 @@ export abstract class EntityObjectComponent<U extends EntityObject> extends IWin
     //
     //--------------------------------------------------------------------------
 
-    public get uid(): EntityObjectId {
+    public get uid(): EntityId {
         return this.item.id;
     }
 
-    public abstract get type(): EntityObjectType;
+    public abstract get type(): EntityType;
 
     public get item(): U {
         return this._item;
