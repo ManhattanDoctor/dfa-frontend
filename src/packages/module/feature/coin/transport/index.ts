@@ -4,4 +4,5 @@ export * from './CoinEditCommand';
 export * from './CoinVerifyCommand';
 export * from './CoinRejectCommand';
 export * from './CoinSubmitCommand';
+export * from './CoinRemoveCommand';
 export * from './CoinActivateCommand';

@@ -3,7 +3,7 @@ import { LanguageService } from '@ts-core/frontend';
 import { Injectable } from '@angular/core';
 import { CompanyService, PermissionService, RouterService } from '@core/service';
 import { Transport } from '@ts-core/common';
-import { CoinActivateCommand, CoinEditCommand, CoinRejectCommand, CoinSubmitCommand, CoinVerifyCommand } from '@feature/coin/transport';
+import { CoinActivateCommand, CoinEditCommand, CoinRejectCommand, CoinRemoveCommand, CoinSubmitCommand, CoinVerifyCommand } from '@feature/coin/transport';
 import { Coin, CoinUtil } from '@common/platform/coin';
 import { CompanyUtil } from '@common/platform/company';
 import { EntityOpenCommand } from '@feature/entity/transport';
@@ -21,6 +21,7 @@ export class CoinMenu extends ListItems<IListItem> {
     private static OPEN = 10;
     private static EDIT = 20;
     private static COMPANY = 30;
+    private static REMOVE = 999;
 
     private static SUBMIT = 0;
     private static VERIFY = 0;
@@ -56,6 +57,10 @@ export class CoinMenu extends ListItems<IListItem> {
         item = this.add(new MenuItem('coin.activate.activate', CoinMenu.VERIFY, 'fa fa-check me-2'));
         item.action = (item, coin) => transport.send(new CoinActivateCommand(coin.id));
         item.checkEnabled = (item, coin) => CoinUtil.isCanActivate(company.company, coin, permission.resources, false);
+
+        item = this.add(new MenuItem('coin.remove.remove', CoinMenu.REMOVE, 'fa fa-close me-2'));
+        item.action = (item, coin) => transport.send(new CoinRemoveCommand(coin.id));
+        item.checkEnabled = (item, coin) => CoinUtil.isCanRemove(company.company, coin, permission.resources, false);
 
         item = this.add(new MenuItem('coin.verify.verify', CoinMenu.VERIFY, 'fa fa-check me-2'));
         item.action = (item, coin) => transport.send(new CoinVerifyCommand(coin.id));
