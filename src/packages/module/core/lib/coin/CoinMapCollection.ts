@@ -5,9 +5,9 @@ import { Client } from '@common/platform/api';
 import { PipeService } from '@core/service';
 import { Injectable } from '@angular/core';
 import { Coin } from '@common/platform/coin';
-import { CoinAddedEvent } from '@common/platform/transport';
+import { CoinAddedEvent, CoinRemovedEvent } from '@common/platform/transport';
 import { TransportSocket } from '@ts-core/socket-client';
-import { takeUntil } from 'rxjs';
+import { map, takeUntil } from 'rxjs';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -22,6 +22,11 @@ export class CoinMapCollection extends PaginableDataSourceMapCollection<Coin, Co
         super('id');
         this.sort.created = false;
 
+        socket.getDispatcher<CoinRemovedEvent>(CoinRemovedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                takeUntil(this.destroyed)
+            ).subscribe(item => this.remove(item.toString()));
         socket.getDispatcher<CoinAddedEvent>(CoinAddedEvent.NAME)
             .pipe(
                 takeUntil(this.destroyed)

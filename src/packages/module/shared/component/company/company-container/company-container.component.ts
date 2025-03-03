@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { CompanyChangedEvent } from '@common/platform/transport';
 import { filter, map, takeUntil } from 'rxjs';
-import { CompanyNamePipe } from '@shared/pipe/company';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CoinBalancesComponent } from '@shared/component';
@@ -30,7 +29,6 @@ import * as _ from 'lodash';
         VIMatModule,
         ActionsComponent,
         FinanceActionsComponent,
-        CompanyNamePipe,
         CoinBalancesComponent,
         CompanyPictureComponent,
         CompanyDetailsComponent,
@@ -90,9 +88,7 @@ export class CompanyContainerComponent extends EntityComponent<Company> {
 
     protected commitItemProperties(): void {
         super.commitItemProperties();
-
-        this.tabs.getByIndex(2).isEnabled = !_.isNil(this.item.hlfUid);
-        this.tabs.getByIndex(3).isEnabled = !_.isNil(this.item.hlfUid);
+        this.tabs.getByIndex(2).isEnabled = this.tabs.getByIndex(3).isEnabled = !_.isNil(this.item.hlfUid);
     }
 
     protected itemOpenedHandler(item: Company): void {

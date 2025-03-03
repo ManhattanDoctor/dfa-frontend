@@ -3,8 +3,6 @@ import { NotificationService, WindowClosedError, WindowConfig, WindowEvent } fro
 import { ExtendedError, Logger, PromiseHandler, Transport, TransportCommandAsyncHandler } from '@ts-core/common';
 import { CompanyEditCommand, ICompanyEditDtoResponse } from '../CompanyEditCommand';
 import { Client } from '@common/platform/api';
-import { CompanyService } from '@core/service';
-import { CompanySaveCommand } from '@feature/company/transport';
 import { PortalService } from '@ts-core/angular-material';
 import { takeUntil } from 'rxjs';
 import { CompanyEditComponent } from '@shared/component';
@@ -48,7 +46,7 @@ export class CompanyEditHandler extends TransportCommandAsyncHandler<number, ICo
                 case CompanyEditComponent.EVENT_SUBMITTED:
                     content.isDisabled = true;
                     try {
-                        item = await this.transport.sendListen(new CompanySaveCommand(content.serialize()));
+                        item = await this.api.companyEdit(content.serialize());
                         this.notifications.info('general.save.notification');
                     }
                     finally {

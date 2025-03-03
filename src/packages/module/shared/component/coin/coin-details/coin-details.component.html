@@ -15,4 +15,20 @@
         <input #ticker class="mouse-disabled" matInput [value]="item.ticker" disabled />
         <mat-label vi-translate="coin.ticker.ticker"></mat-label>
     </mat-form-field>
+    <mat-form-field class="d-block" [vi-click-to-copy]="decimals">
+        <input #decimals class="mouse-disabled" matInput [value]="item.decimals" disabled />
+        <mat-label vi-translate="coin.decimals"></mat-label>
+    </mat-form-field>
+</div>
+<div class="col-6" *ngIf="item?.series">
+    <mat-form-field class="d-block" [vi-click-to-copy]="seriesUid">
+        <input #seriesUid class="mouse-disabled" matInput [value]="item.series.uid" disabled />
+        <mat-label vi-translate="coin.series.uid"></mat-label>
+    </mat-form-field>
+</div>
+<div class="col-6" *ngIf="item?.series">
+    <mat-form-field class="d-block" [vi-click-to-copy]="seriesIndex">
+        <input #seriesIndex class="mouse-disabled" matInput [value]="item.series.index" disabled />
+        <mat-label vi-translate="coin.series.index"></mat-label>
+    </mat-form-field>
 </div>

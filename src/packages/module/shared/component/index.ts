@@ -13,6 +13,7 @@ export * from './coin/coin-balances/coin-balances.component';
 export * from './coin/coin-details/coin-details.component';
 export * from './coin/coin-container/coin-container.component';
 export * from './coin/coin-add/coin-add.component';
+export * from './coin/coin-edit/coin-edit.component';
 //
 export * from './user/user-picture/user-picture.component';
 export * from './user/user-edit/user-edit.component';

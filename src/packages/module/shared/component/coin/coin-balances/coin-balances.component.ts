@@ -56,10 +56,7 @@ export class CoinBalancesComponent extends UpdatableComponent<string> {
                 map(item => item.data),
                 // filter(item => item.objectUid === this.item),
                 takeUntil(this.destroyed)
-            ).subscribe(() => {
-                console.log(123);
-                this.items.reload()
-            });
+            ).subscribe(() => this.items.reload());
     }
 
     // --------------------------------------------------------------------------

@@ -18,13 +18,13 @@ export class CompanyMenu extends ListItems<IListItem> {
     //
     // --------------------------------------------------------------------------
 
-    private static OPEN = 0;
-    private static EDIT = 10;
-    private static SUBMIT = 20;
-    private static VERIFY = 20;
-    private static REJECT = 20;
+    private static OPEN = 10;
+    private static EDIT = 20;
+    private static COIN_ADD = 30;
 
-    private static COIN_ADD = 40;
+    private static SUBMIT = 0;
+    private static VERIFY = 0;
+    private static REJECT = 0;
 
     // --------------------------------------------------------------------------
     //

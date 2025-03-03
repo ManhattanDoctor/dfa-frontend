@@ -1,10 +1,7 @@
 import { Component, Input, ViewContainerRef } from '@angular/core';
 import { WindowService, IWindowContent, ViewUtil } from '@ts-core/angular';
-import { EnvironmentService } from '@core/service';
-import { Company, CompanyPreferences, COMPANY_PREFERENCES_PHONE_MAX_LENGTH, COMPANY_PREFERENCES_EMAIL_MAX_LENGTH, COMPANY_PREFERENCES_ADDRESS_MAX_LENGTH, COMPANY_PREFERENCES_DESCRIPTION_MAX_LENGTH, COMPANY_PREFERENCES_WEBSITE_MAX_LENGTH } from '@common/platform/company';
+import { Company, CompanyPreferences, COMPANY_PREFERENCES_NAME_MIN_LENGTH, COMPANY_PREFERENCES_NAME_MAX_LENGTH, COMPANY_PREFERENCES_PHONE_MAX_LENGTH, COMPANY_PREFERENCES_EMAIL_MAX_LENGTH, COMPANY_PREFERENCES_ADDRESS_MAX_LENGTH, COMPANY_PREFERENCES_DESCRIPTION_MAX_LENGTH, COMPANY_PREFERENCES_WEBSITE_MAX_LENGTH } from '@common/platform/company';
 import { ISerializable } from '@ts-core/common';
-import { COMPANY_PREFERENCES_NAME_MIN_LENGTH, COMPANY_PREFERENCES_NAME_MAX_LENGTH } from '@common/platform/company';
-import { ICompanySaveDto } from '@feature/company/transport';
 import { VIMatModule } from '@ts-core/angular-material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -14,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { ICompanyEditDto } from '@common/platform/api/company';
 import * as _ from 'lodash';
 
 @Component({
@@ -32,7 +30,7 @@ import * as _ from 'lodash';
     selector: 'company-edit',
     templateUrl: 'company-edit.component.html',
 })
-export class CompanyEditComponent extends IWindowContent implements ISerializable<ICompanySaveDto> {
+export class CompanyEditComponent extends IWindowContent implements ISerializable<ICompanyEditDto> {
     //--------------------------------------------------------------------------
     //
     //  Constants
@@ -122,7 +120,7 @@ export class CompanyEditComponent extends IWindowContent implements ISerializabl
         this.emit(CompanyEditComponent.EVENT_SUBMITTED);
     }
 
-    public serialize(): ICompanySaveDto {
+    public serialize(): ICompanyEditDto {
         let preferences = {} as Partial<CompanyPreferences>;
         preferences.name = this.name;
         preferences.phone = this.phone;
@@ -130,7 +128,7 @@ export class CompanyEditComponent extends IWindowContent implements ISerializabl
         preferences.website = this.website;
         preferences.address = this.address;
         preferences.description = this.description;
-        return { id: this.company.id, preferences };
+        return { preferences };
     }
 
     //--------------------------------------------------------------------------

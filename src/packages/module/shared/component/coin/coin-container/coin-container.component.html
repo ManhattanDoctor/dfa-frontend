@@ -1,7 +1,5 @@
 <div class="d-flex flex-shrink-0 align-items-center surface-container-low p-2">
-    <!-- <img class="border rounded flex-shrink-0 me-3 ms-2" style="width: 52px; height: 52px" [src]="item?.preferences.picture" /> -->
-    <!-- <coin-picture #picture class="flex-shrink-0 size-0 me-2" [coin]="item"></coin-picture> -->
-    <p class="mx-1 title mat-headline-medium font-family-brand text-center text-one-line flex-grow-1 mouse-disabled" [innerHTML]="item | coinName"></p>
+    <p class="mx-1 title mat-headline-medium font-family-brand text-center text-one-line flex-grow-1 mouse-disabled" [innerHTML]="item?.name"></p>
     <button class="flex-shrink-0" mat-icon-button tabindex="-1" (click)="menuOpen($event)">
         <mat-icon fontSet="fas" fontIcon="fa-ellipsis-v"></mat-icon>
     </button>

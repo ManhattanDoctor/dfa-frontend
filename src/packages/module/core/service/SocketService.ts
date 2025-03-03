@@ -37,13 +37,13 @@ export class SocketService extends TransportSocket {
     protected async connectedHandler(): Promise<void> {
         await super.connectedHandler();
         this.closeNotification();
+        console.log('connectedHandler');
     }
 
     protected async disconnectedHandler(): Promise<void> {
         await super.disconnectedHandler();
-        if (!this.isHasDisconnectNotification()) {
-            this.openNotification();
-        }
+        this.openNotification();
+        console.log('disconnectedHandler');
     }
 
     //--------------------------------------------------------------------------
@@ -53,13 +53,9 @@ export class SocketService extends TransportSocket {
     //--------------------------------------------------------------------------
 
     private async openNotification(): Promise<void> {
-        if (this.isHasDisconnectNotification()) {
-            return;
-        }
         let config = new WindowConfig(true, false, 480);
         config.id = this.disconnectNotificationId;
         config.isDisableClose = true;
-
         this.portal.open(SocketReconnectComponent, config);
     }
 

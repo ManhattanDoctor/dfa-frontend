@@ -3,10 +3,9 @@ import { NotificationService, WindowClosedError, WindowConfig, WindowEvent } fro
 import { ExtendedError, Logger, PromiseHandler, Transport, TransportCommandAsyncHandler } from '@ts-core/common';
 import { CoinEditCommand, ICoinEditDtoResponse } from '../CoinEditCommand';
 import { Client } from '@common/platform/api';
-import { CoinSaveCommand } from '@feature/coin/transport';
 import { PortalService } from '@ts-core/angular-material';
 import { takeUntil } from 'rxjs';
-// import { CoinEditComponent } from '@shared/component';
+import { CoinEditComponent } from '@shared/component';
 import * as _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
@@ -39,7 +38,6 @@ export class CoinEditHandler extends TransportCommandAsyncHandler<number, ICoinE
 
         let promise = PromiseHandler.create<ICoinEditDtoResponse, ExtendedError>();
 
-        /*
         let content = this.portal.open(CoinEditComponent, config);
         content.coin = item;
 
@@ -48,7 +46,7 @@ export class CoinEditHandler extends TransportCommandAsyncHandler<number, ICoinE
                 case CoinEditComponent.EVENT_SUBMITTED:
                     content.isDisabled = true;
                     try {
-                        item = await this.transport.sendListen(new CoinSaveCommand(content.serialize()));
+                        item = await this.api.coinEdit(item.id, content.serialize());
                         this.notifications.info('general.save.notification');
                     }
                     finally {
@@ -62,7 +60,6 @@ export class CoinEditHandler extends TransportCommandAsyncHandler<number, ICoinE
                     break;
             }
         });
-        */
         return promise.promise;
     }
 }

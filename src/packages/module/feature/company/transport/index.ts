@@ -1,6 +1,5 @@
 export * from './CompanyAddCommand';
 export * from './CompanyOpenCommand';
-export * from './CompanySaveCommand';
 export * from './CompanyEditCommand';
 export * from './CompanyVerifyCommand';
 export * from './CompanyRejectCommand';

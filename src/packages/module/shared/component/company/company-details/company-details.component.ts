@@ -31,7 +31,7 @@ export class CompanyDetailsComponent extends UpdatableComponent<Company> {
 
     constructor(container: ViewContainerRef, private socket: TransportSocket) {
         super();
-        ViewUtil.addClasses(container, 'row g-0');
+        ViewUtil.addClasses(container, 'row gy-0 gx-3 align-self-start');
     }
 
     // --------------------------------------------------------------------------

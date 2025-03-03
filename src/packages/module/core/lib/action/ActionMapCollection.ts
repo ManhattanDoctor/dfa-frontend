@@ -48,7 +48,6 @@ export class ActionTableSettings implements ICdkTableSettings<Action> {
     // --------------------------------------------------------------------------
 
     public columns: Array<ICdkTableColumn<Action>>;
-    public isInteractive: boolean = false;
 
     // --------------------------------------------------------------------------
     //
@@ -171,14 +170,6 @@ export class ActionTableSettings implements ICdkTableSettings<Action> {
 }
 
 export class ActionFinanceTableSettings extends ActionTableSettings {
-    // --------------------------------------------------------------------------
-    //
-    // 	Properties
-    //
-    // --------------------------------------------------------------------------
-
-    public isInteractive: boolean = false;
-
     // --------------------------------------------------------------------------
     //
     // 	Constructor

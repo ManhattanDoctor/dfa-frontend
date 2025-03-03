@@ -28,15 +28,19 @@ export class ActionService extends Destroyable {
         super();
         merge(user.logined, permission.completed).pipe(takeUntil(this.destroyed)).subscribe(() => this.check());
 
-        merge(
-            socket.getDispatcher<CoinAddedEvent>(CoinAddedEvent.NAME),
-            socket.getDispatcher<CompanyAddedEvent>(CompanyAddedEvent.NAME)
-        ).pipe(
-            map(item => item.data),
-            takeUntil(this.destroyed)
-        ).subscribe(async item => {
-            transport.send(new EntityOpenCommand({ id: item.id, type: EntityType.COMPANY, isBriefly: true }))
-        });
+
+        socket.getDispatcher<CoinAddedEvent>(CoinAddedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                takeUntil(this.destroyed)
+            ).subscribe(async item => transport.send(new EntityOpenCommand({ id: item.id, type: EntityType.COIN, isBriefly: true })));
+
+        socket.getDispatcher<CompanyAddedEvent>(CompanyAddedEvent.NAME)
+            .pipe(
+                map(item => item.data),
+                takeUntil(this.destroyed)
+            ).subscribe(async item => transport.send(new EntityOpenCommand({ id: item.id, type: EntityType.COMPANY, isBriefly: true })));
+
     }
 
     //--------------------------------------------------------------------------

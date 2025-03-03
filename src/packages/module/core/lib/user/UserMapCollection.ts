@@ -74,11 +74,6 @@ export class UserTableSettings implements ICdkTableSettings<User> {
             },
             cellClassName: 'border rounded my-2',
             format: async item => await item.preferences.picture
-        })
-        this.columns.push({
-            name: 'login',
-            headerId: 'user.login',
-            format: item => item.login
         });
         this.columns.push({
             name: 'name',

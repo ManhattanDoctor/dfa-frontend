@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef, Input, ViewChild } from '@angular/core';
-import { Transport, DestroyableContainer } from '@ts-core/common';
-import { CDK_TABLE_COLUMN_MENU_NAME, ICdkTableCellEvent, ICdkTableSettings, MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
+import { DestroyableContainer } from '@ts-core/common';
+import { ICdkTableCellEvent, ICdkTableSettings, MenuTriggerForDirective, VIMatModule } from '@ts-core/angular-material';
 import { ActionMapCollection, ActionMenu, ActionTableSettings, } from '@core/lib/action';
 import { EntityService, PipeService } from '@core/service';
 import { Action } from '@common/platform';
@@ -71,13 +71,8 @@ export class ActionsComponent extends DestroyableContainer {
     // --------------------------------------------------------------------------
 
     public async cellClickedHandler(item: ICdkTableCellEvent<Action>): Promise<void> {
-        if (item.column !== CDK_TABLE_COLUMN_MENU_NAME) {
-            // this.transport.send(new EntityOpenCommand({ id: item.data.objectUid, isBriefly: true }));
-        }
-        else {
-            this.menu.refresh(item.data);
-            this.trigger.openMenuOn(item.event.target);
-        }
+        this.menu.refresh(item.data);
+        this.trigger.openMenuOn(item.event.target);
     }
 
     // --------------------------------------------------------------------------

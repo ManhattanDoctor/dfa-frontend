@@ -34,7 +34,7 @@ export class UserDetailsComponent extends UpdatableComponent<User> {
 
     constructor(container: ViewContainerRef, private socket: TransportSocket, private service: UserService) {
         super();
-        ViewUtil.addClasses(container, 'row g-0');
+        ViewUtil.addClasses(container, 'row gy-0 gx-3 align-self-start');
 
         socket.getDispatcher<UserChangedEvent>(UserChangedEvent.NAME)
             .pipe(

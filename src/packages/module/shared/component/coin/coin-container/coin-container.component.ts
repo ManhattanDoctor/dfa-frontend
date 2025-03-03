@@ -28,7 +28,6 @@ import * as _ from 'lodash';
 
         VIMatModule,
         ActionsComponent,
-        CoinNamePipe,
         CoinDetailsComponent,
         CoinBalancesComponent,
     ],
@@ -85,9 +84,7 @@ export class CoinContainerComponent extends EntityComponent<Coin> {
 
     protected commitItemProperties(): void {
         super.commitItemProperties();
-
-        this.tabs.getByIndex(1).isEnabled = !_.isNil(this.item.hlfUid);
-        this.tabs.getByIndex(2).isEnabled = !_.isNil(this.item.hlfUid);
+        this.tabs.getByIndex(1).isEnabled = this.tabs.getByIndex(2).isEnabled = !_.isNil(this.item.hlfUid);
     }
 
     protected itemOpenedHandler(item: Coin): void {
